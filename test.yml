@@ -39,6 +39,7 @@ stages:
       steps:
       - task: GitHubRelease@0
         displayName: "Remove Release"
+        continueOnError: true
         inputs:
           gitHubConnection: 'open-watcom-v2-releases'
           repositoryName: '$(Build.Repository.Name)'
@@ -46,7 +47,7 @@ stages:
           tag: '$(owtag)'
       - task: GitHubRelease@0
         displayName: "Add Release"
-        condition: always()
+        condition: succeededOrFailed()
         inputs:
           gitHubConnection: 'open-watcom-v2-releases'
           repositoryName: '$(Build.Repository.Name)'
