@@ -47,7 +47,6 @@ stages:
           tag: '$(owtag)'
       - task: GitHubRelease@0
         displayName: "Add Release"
-        condition: succeededOrFailed()
         inputs:
           gitHubConnection: 'open-watcom-v2-releases'
           repositoryName: '$(Build.Repository.Name)'
