@@ -28,30 +28,30 @@ stages:
   - stage: release
     displayName: "GitHub Release"
     jobs:
-      - job: release
-        displayName: "GitHub Release"
-        variables:
-          owarch: $(owarch_lnx)
-        pool:
-          vmImage: $(owimage_lnx)
-        steps:
-        - task: GitHubRelease@0
-          inputs:
-            gitHubConnection: open-watcom-v2-releases
-            repositoryName: '$(Build.Repository.Name)' 
-            action: 'create' # Options: create, edit, delete
-            target: 'Current-build' # Required when action == Create || Action == Edit
-            tagSource: 'auto' # Required when action == Create# Options: auto, manual
-#            #tagPattern: # Optional
-            tag: 'Current-build' # Required when action == Edit || Action == Delete || TagSource == Manual
-#            #title: # Optional
-#            #releaseNotesSource: 'file' # Optional. Options: file, input
-#            #releaseNotesFile: # Optional
-#            #releaseNotes: # Optional
-            assets: 'test.yml' # Optional
-            assetUploadMode: 'replace' # Optional. Options: delete, replace
-            isDraft: false # Optional
-            isPreRelease: true # Optional
-#            #addChangeLog: true # Optional
-#            #compareWith: 'lastFullRelease' # Required when addChangeLog == True. Options: lastFullRelease, lastRelease, lastReleaseByTag
-#            #releaseTag: # Required when compareWith == LastReleaseByTag
+    - job: release
+      displayName: "GitHub Release"
+      variables:
+        owarch: $(owarch_lnx)
+        owtag: Current-build
+        owtagstamp: ''
+      pool:
+        vmImage: $(owimage_lnx)
+      steps:
+      - task: GitHubRelease@0
+        inputs:
+          gitHubConnection: 'open-watcom-v2-releases'
+          repositoryName: '$(Build.Repository.Name)'
+          action: 'delete'
+          tag: '$(owtag)'
+      - task: GitHubRelease@0
+        inputs:
+          gitHubConnection: 'open-watcom-v2-releases'
+          repositoryName: '$(Build.Repository.Name)'
+          action: 'create'
+          target: '$(Build.SourceVersion)'
+          tagSource: 'manual'
+          tag: '$(owtag) $(owtagstamp)'
+          title: '$(owtag)'
+          assets: 'test.yml'
+          isPreRelease: true
+          addChangeLog: false
