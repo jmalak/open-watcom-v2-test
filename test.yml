@@ -27,7 +27,6 @@ trigger:
 stages:
   - stage: release
     displayName: "GitHub Release"
-    dependsOn: instal
     jobs:
       - job: release
         displayName: "GitHub Release"
