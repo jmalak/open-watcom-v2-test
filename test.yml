@@ -37,7 +37,7 @@ stages:
         steps:
         - task: GitHubRelease@0
           inputs:
-            gitHubConnection: open-watcom-v2
+            gitHubConnection: open-watcom-v2-releases
             repositoryName: '$(Build.Repository.Name)' 
             action: 'create' # Options: create, edit, delete
             target: 'Current-build' # Required when action == Create || Action == Edit
