@@ -38,12 +38,15 @@ stages:
         vmImage: $(owimage_lnx)
       steps:
       - task: GitHubRelease@0
+        displayName: "Remove Release"
         inputs:
           gitHubConnection: 'open-watcom-v2-releases'
           repositoryName: '$(Build.Repository.Name)'
           action: 'delete'
           tag: '$(owtag)'
       - task: GitHubRelease@0
+        displayName: "Add Release"
+        condition: always()
         inputs:
           gitHubConnection: 'open-watcom-v2-releases'
           repositoryName: '$(Build.Repository.Name)'
