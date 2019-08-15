@@ -33,7 +33,7 @@ stages:
       variables:
         owarch: $(owarch_lnx)
         owtag: Current-build
-        owtagstamp: $[format('{0:yyyy-MM-dd hh:mm:ss}', pipeline.startTime)]
+        owtagstamp: $[format('{0:yyyy-MM-dd}', pipeline.startTime)]
       pool:
         vmImage: $(owimage_lnx)
       steps:
