@@ -36,6 +36,7 @@ stages:
       pool:
         vmImage: $(owimage_lnx)
       steps:
+      - bash: echo "##vso[task.setvariable variable=owgitstamp;]`git ls-remote --tags . | sed -n -e "s:\([0-9a-z]*\) *refs/tags/${{ variables.owtag }}^{}:\1:p"`
       - bash: echo "##vso[task.setvariable variable=owtagstamp;]$(date +'%Y-%m-%d %H:%M:%S')"
       - task: GitHubRelease@0
         displayName: "Remove Release"
