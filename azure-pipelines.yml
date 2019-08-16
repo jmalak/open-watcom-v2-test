@@ -67,7 +67,7 @@ stages:
         - script: azure/$(owscript)
           displayName: "Bootstrap"
           env:
-            OWAZURE_STAGE_NAME: boot
+            OWBUILD_STAGE: boot
         - template: azure/artifsav.yml
   - stage: build
     displayName: "Build"
@@ -108,7 +108,7 @@ stages:
         - script: azure/$(owscript)
           displayName: "Build"
           env: 
-            OWAZURE_STAGE_NAME: build
+            OWBUILD_STAGE: build
         - template: azure/relsave.yml
         - template: azure/instsave.yml
   - stage: tests
@@ -176,7 +176,7 @@ stages:
         - script: azure/$(owscript_nt)
           displayName: "Documentation Build"
           env:
-            OWAZURE_STAGE_NAME: docs
+            OWBUILD_STAGE: docs
             OWDOCTARGET: $(target)
         - template: azure/relsave.yml
           parameters: {owobjdir: $(doctarget)}
@@ -253,7 +253,7 @@ stages:
         - script: azure/$(owscript)
           displayName: "Build Installers"
           env:
-            OWAZURE_STAGE_NAME: inst
+            OWBUILD_STAGE: inst
         - template: azure/distsave.yml
   - stage: release
     displayName: "GitHub Release"

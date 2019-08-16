@@ -59,7 +59,7 @@ build_proc()
     export SDL_DISKAUDIOFILE=/dev/null
     . ./cmnvars.sh
     cd $OWSRCDIR
-    case "$OWAZURE_STAGE_NAME" in
+    case "$OWBUILD_STAGE" in
         "boot")
             bootutil_proc
             if [ $RC -eq 0 ]; then

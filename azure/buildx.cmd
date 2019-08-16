@@ -19,7 +19,7 @@ set SDL_VIDEODRIVER=dummy
 set SDL_AUDIODRIVER=disk
 set SDL_DISKAUDIOFILE=NUL
 REM
-if "%OWAZURE_STAGE_NAME%" == "docs" (
+if "%OWBUILD_STAGE%" == "docs" (
     set OWGHOSTSCRIPTPATH=%OWROOT%\travis\gs927w64
     set OWWIN95HC=%OWROOT%\travis\hcw\hcrtf.exe
     set OWHHC=%OWROOT%\travis\hhc\hhc.exe
@@ -37,7 +37,7 @@ if "%OWDEBUG%" == "1" (
 REM ...
 set RC=0
 cd %OWSRCDIR%
-if "%OWAZURE_STAGE_NAME%" == "boot" (
+if "%OWBUILD_STAGE%" == "boot" (
     mkdir %OWBINDIR%
     cd %OWSRCDIR%
     cd wmake
@@ -60,22 +60,22 @@ if "%OWAZURE_STAGE_NAME%" == "boot" (
         )
     )
 )
-if "%OWAZURE_STAGE_NAME%" == "build" (
+if "%OWBUILD_STAGE%" == "build" (
     builder rel
     set RC=%ERRORLEVEL%
 )
-if "%OWAZURE_STAGE_NAME%" == "tests" (
+if "%OWBUILD_STAGE%" == "tests" (
 REM    builder rel
 REM    set RC=%ERRORLEVEL%
 )
-if "%OWAZURE_STAGE_NAME%" == "docs" (
+if "%OWBUILD_STAGE%" == "docs" (
     REM register all Help Compilers DLL's
     regsvr32 -u -s itcc.dll
     regsvr32 -s %OWROOT%\travis\hhc\itcc.dll
     builder docs %OWDOCTARGET%
     set RC=%ERRORLEVEL%
 )
-if "%OWAZURE_STAGE_NAME%" == "inst" (
+if "%OWBUILD_STAGE%" == "inst" (
     builder missing
     builder install os_nt cpu_x64
     set RC=%ERRORLEVEL%
