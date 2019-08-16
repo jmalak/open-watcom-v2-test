@@ -38,6 +38,7 @@ stages:
       steps:
       - bash: echo "##vso[task.setvariable variable=owgitstamp;]`git ls-remote --tags . | sed -n -e \"s:\([0-9a-z]*\) *refs/tags/${{ variables.owtag }}^{}:\1:p\"`"
       - bash: echo "##vso[task.setvariable variable=owtagstamp;]$(date +'%Y-%m-%d %H:%M:%S')"
+      - bash: echo "$OWGITSTAMP;$OWTAGSTAMP"
       - task: GitHubRelease@0
         displayName: "Remove Release"
         continueOnError: true
