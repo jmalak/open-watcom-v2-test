@@ -12,18 +12,18 @@ REM ...
 @echo %OWECHO%
 REM ...
 REM setup DOSBOX
-REM
+REM ...
 set OWDOSBOXPATH=%OWROOT%\travis\dosbox
 set OWDOSBOX=dosbox.exe
 set SDL_VIDEODRIVER=dummy
 set SDL_AUDIODRIVER=disk
 set SDL_DISKAUDIOFILE=NUL
-REM
-if "%OWBUILD_STAGE%" == "docs" (
-    set OWGHOSTSCRIPTPATH=%OWROOT%\travis\gs927w64
-    set OWWIN95HC=%OWROOT%\travis\hcw\hcrtf.exe
-    set OWHHC=%OWROOT%\travis\hhc\hhc.exe
-)
+REM ...
+REM setup Help Compilers
+REM ...
+set OWGHOSTSCRIPTPATH=%OWROOT%\travis\gs927w64
+set OWWIN95HC=%OWROOT%\travis\hcw\hcrtf.exe
+set OWHHC=%OWROOT%\travis\hhc\hhc.exe
 REM ...
 call cmnvars.bat
 REM ...

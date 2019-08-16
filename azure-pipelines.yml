@@ -288,10 +288,10 @@ stages:
         - script: git config --global user.name "Open Watcom Azure"
         - bash: >
             if [ ! "$OWGITSTAMP" = "$BUILD_SOURCEVERSION" ]; then
-              git tag -d $OWTAG; true;
-              git push --delete origin $OWTAG; true;
-              git tag -a -m "$OWTAGSTAMP" $OWTAG $BUILD_SOURCEVERSION; true;
-              git push origin $OWTAG; true;
+              git tag -d $OWTAG
+              git push --delete origin $OWTAG
+              git tag -a -m "$OWTAGSTAMP" $OWTAG $BUILD_SOURCEVERSION
+              git push origin $OWTAG
             else
               echo "##vso[task.setvariable variable=owtagstamp;]`git tag -l --format='%(contents)' $OWTAG`"
             fi
