@@ -69,8 +69,6 @@ stages:
           displayName: "Bootstrap"
           env:
             OWAZURE_STAGE_NAME: boot
-            OWOBJDIR: $(owobjdir)
-            OWTOOLS: $(owtools)
         - template: azure/artifsav.yml
   - stage: build
     displayName: "Build"
@@ -112,8 +110,6 @@ stages:
           displayName: "Build"
           env: 
             OWAZURE_STAGE_NAME: build
-            OWOBJDIR: $(owobjdir)
-            OWTOOLS: $(owtools)
         - template: azure/relsave.yml
         - template: azure/instsave.yml
   - stage: tests
@@ -183,8 +179,6 @@ stages:
           env:
             OWAZURE_STAGE_NAME: docs
             OWDOCTARGET: $(target)
-            OWOBJDIR: $(owobjdir)
-            OWTOOLS: $(owtools)
         - template: azure/relsave.yml
           parameters: {owobjdir: $(doctarget)}
   - stage: update
@@ -261,8 +255,6 @@ stages:
           displayName: "Build Installers"
           env:
             OWAZURE_STAGE_NAME: inst
-            OWOBJDIR: $(owobjdir)
-            OWTOOLS: $(owtools)
         - template: azure/distsave.yml
   - stage: release
     displayName: "GitHub Release"
