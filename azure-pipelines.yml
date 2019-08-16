@@ -316,5 +316,6 @@ stages:
             releaseNotesSource: 'input'
             releaseNotes: 'Last updated $(owtagstamp)'
             assets: 'distrib/ow/bin/open-watcom-*'
+            assetUploadMode: replace
             isPreRelease: true
             addChangeLog: false
