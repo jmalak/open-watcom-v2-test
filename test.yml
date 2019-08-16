@@ -55,6 +55,8 @@ stages:
           tagSource: 'manual'
           tag: '$(owtag) $(owtagstamp)'
           title: '$(owtag)'
+          releaseNotesSource: 'input'
+          releaseNotes: 'Update $(owtagstamp)'
           assets: 'test.yml'
           isPreRelease: true
           addChangeLog: false
