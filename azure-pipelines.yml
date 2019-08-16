@@ -4,7 +4,6 @@
 # https://aka.ms/yaml
 
 variables: 
-  System.Debug: true
   owimage_lnx:  'ubuntu-latest'
   owimage_nt:   'vs2017-win2016'
   owimage_osx:  'macOS-latest'
@@ -284,7 +283,7 @@ stages:
         - bash: echo "##vso[task.setvariable variable=owtagstamp;]$(date +'%Y-%m-%d %H:%M:%S')"
           displayName: "Get current timestamp"
         - bash: echo "##vso[task.setvariable variable=owgitstamp;]`git ls-remote --tags . | sed -n -e \"s:\([0-9a-z]*\) *refs/tags/${{ variables.owtag }}^{}:\1:p\"`"
-          displayName: "Get commit of 'Current-build' tag"
+          displayName: "Get 'Current-build' tag commit"
         - script: git config --global user.email "openwatcomazure@gmail.com"
         - script: git config --global user.name "Open Watcom Azure"
         - bash: >
