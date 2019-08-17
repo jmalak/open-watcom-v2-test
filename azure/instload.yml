@@ -7,7 +7,6 @@ steps:
       inputs: 
         buildType: 'current'
         artifactName: bld-setupgui-${{ parameters.owobjdir }}
-        targetPath: $(owartifact)
     - template: archivel.yml
       parameters: 
         owfilepath: bld/setupgui

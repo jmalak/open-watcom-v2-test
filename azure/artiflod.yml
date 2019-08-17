@@ -7,7 +7,6 @@ steps:
       inputs:
         buildType: 'current'
         artifactName: build-${{ parameters.owobjdir }}
-        targetPath: $(owartifact)
     - template: archivel.yml
       parameters: 
         owfilepath: build/${{ parameters.owobjdir }}
@@ -16,7 +15,6 @@ steps:
       inputs:
         buildType: 'current'
         artifactName: bld-watcom-${{ parameters.owobjdir }}
-        targetPath: $(owartifact)
     - template: archivel.yml
       parameters: 
         owfilepath: bld/watcom/${{ parameters.owobjdir }}

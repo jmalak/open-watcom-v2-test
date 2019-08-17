@@ -19,7 +19,7 @@ variables:
   owarch_lnx:   lnx
   owarch_nt:    nt
   owarch_osx:   osx
-  owartifact:   owartifact.tar.gz
+  owartifact:   'owartifact.tar.gz'
 
 stages:
   - stage: boot
