@@ -20,6 +20,7 @@ variables:
   owarch_nt:    nt
   owarch_osx:   osx
   owartifact:   $(Pipeline.Workspace)/owartifact.tar.gz
+  owartifact7z: owartifact.tar
 
 stages:
   - stage: boot

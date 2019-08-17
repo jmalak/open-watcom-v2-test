@@ -4,10 +4,24 @@ parameters:
 
 steps:
     # extract full binary archive
+    - script: 7z x $(owartifact) *.tar
+      displayName: ${{ parameters.owtitle }}
+      conditions: in(variables.owarch, variables.owarch_nt)
+    - task: ExtractFiles@1
+      displayName: ${{ parameters.owtitle }}
+      inputs:
+        archiveFilePatterns: $(owartifact7z)
+        destinationFolder: ${{ parameters.owfilepath }}
+        cleanDestinationFolder: false
+      conditions: in(variables.owarch, variables.owarch_nt)
+    - bash: rm -f $(owartifact7z)
+      displayName: Remove tar file
+      conditions: in(variables.owarch, variables.owarch_nt)
     - task: ExtractFiles@1
       displayName: ${{ parameters.owtitle }}
       inputs:
         archiveFilePatterns: $(owartifact)
         destinationFolder: ${{ parameters.owfilepath }}
         cleanDestinationFolder: false
+      conditions: in(variables.owarch, variables.owarch_lnx, variables.owarch_osx)
     - template: archiver.yml
