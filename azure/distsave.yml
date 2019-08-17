@@ -7,9 +7,8 @@ steps:
         owfilepath: distrib/ow/bin
         owtitle: Archive Artifact distrib-${{ parameters.owobjdir }}
     - task: PublishPipelineArtifact@1
-      displayName: Save Artifact distrib-${{ parameters.owobjdir }}
+      displayName: Save Archive distrib-${{ parameters.owobjdir }}
       inputs: 
         artifactName: distrib-${{ parameters.owobjdir }}
         targetPath: $(owartifact)
-    - bash: rm -f $(owartifact)
-      displayName: Remove Archive
+    - template: archiver.yml

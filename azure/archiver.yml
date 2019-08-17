@@ -1,0 +1,3 @@
+steps:
+    - bash: rm -f $(owartifact)
+      displayName: Remove Archive

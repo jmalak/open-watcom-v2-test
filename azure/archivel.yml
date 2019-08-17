@@ -10,5 +10,4 @@ steps:
         archiveFilePatterns: $(owartifact)
         destinationFolder: ${{ parameters.owfilepath }}
         cleanDestinationFolder: false
-    - bash: rm -f $(owartifact)
-      displayName: Remove Archive
+    - template: archiver.yml

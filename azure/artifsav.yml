@@ -7,20 +7,18 @@ steps:
         owfilepath: build/${{ parameters.owobjdir }}
         owtitle: Archive Artifact build-${{ parameters.owobjdir }}
     - task: PublishPipelineArtifact@1
-      displayName: Save Artifact build-${{ parameters.owobjdir }}
+      displayName: Save Archive build-${{ parameters.owobjdir }}
       inputs: 
         artifactName: build-${{ parameters.owobjdir }}
         targetPath: $(owartifact)
-    - bash: rm -f $(owartifact)
-      displayName: Remove Artifact
+    - template: archiver.yml
     - template: archives.yml
       parameters:
         owfilepath: bld/watcom/${{ parameters.owobjdir }}
         owtitle: Archive Artifact bld-watcom-${{ parameters.owobjdir }}
     - task: PublishPipelineArtifact@1
-      displayName: Save Artifact bld-watcom-${{ parameters.owobjdir }}
+      displayName: Save Archive bld-watcom-${{ parameters.owobjdir }}
       inputs:
         artifactName: bld-watcom-${{ parameters.owobjdir }}
         targetPath: $(owartifact)
-    - bash: rm -f $(owartifact)
-      displayName: Remove Artifact
+    - template: archiver.yml

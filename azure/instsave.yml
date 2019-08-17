@@ -7,7 +7,7 @@ steps:
         owfilepath: bld/setupgui
         owtitle: Archive Artifact bld-setupgui-${{ parameters.owobjdir }}
     - task: PublishPipelineArtifact@1
-      displayName: Save Artifacts bld-setupgui-${{ parameters.owobjdir }}
+      displayName: Save Archive bld-setupgui-${{ parameters.owobjdir }}
       inputs: 
         artifactName: bld-setupgui-${{ parameters.owobjdir }}
         targetPath: $(owartifact)
@@ -15,5 +15,4 @@ steps:
         and(succeeded(), 
           in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI', 'Schedule'), 
           in(variables.owarch, variables.owarch_lnx, variables.owarch_nt))
-    - bash: rm -f $(owartifact)
-      displayName: Remove Archive
+    - template: archiver.yml

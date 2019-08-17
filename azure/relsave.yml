@@ -7,7 +7,7 @@ steps:
         owfilepath: rel
         owtitle: Archive Artifact rel-${{ parameters.owobjdir }}
     - task: PublishPipelineArtifact@1
-      displayName: Save Artifact rel-${{ parameters.owobjdir }}
+      displayName: Save Archive rel-${{ parameters.owobjdir }}
       inputs: 
         artifactName: rel-${{ parameters.owobjdir }}
         targetPath: $(owartifact)
@@ -15,5 +15,4 @@ steps:
         and(succeeded(), 
           in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI', 'Schedule'), 
           in(variables.owarch, variables.owarch_lnx, variables.owarch_nt))
-    - bash: rm -f $(owartifact)
-      displayName: Remove Archive
+    - template: archiver.yml
