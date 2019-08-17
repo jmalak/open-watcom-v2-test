@@ -96,7 +96,11 @@ stages:
           env: 
             OWBUILD_STAGE: build
         - template: azure/relsave.yml
+          parameters:
+            owcond: in( variables.owarch, variables.owarch_lnx, variables.owarch_nt )
         - template: azure/instsave.yml
+          parameters:
+            owcond: in( variables.owarch, variables.owarch_lnx, variables.owarch_nt )
   - stage: tests
     displayName: "Tests"
     dependsOn: build

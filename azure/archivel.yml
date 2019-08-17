@@ -1,6 +1,7 @@
 parameters:
   owfilepath: ''
   owtitle: ''
+  owcond: 'true'
 
 steps:
     # extract full binary archive

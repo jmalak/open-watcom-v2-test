@@ -1,6 +1,7 @@
 parameters:
   owfilepath: ''
   owtitle: ''
+  owcond: 'true'
 
 steps:
     - task: ArchiveFiles@2
@@ -11,3 +12,4 @@ steps:
         archiveType: 'tar'
         archiveFile: $(owartifact)
         replaceExistingArchive: true
+      condition: ${{ parameters.owcond }}

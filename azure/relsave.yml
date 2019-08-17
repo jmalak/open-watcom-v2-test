@@ -1,18 +1,19 @@
 parameters:
   owobjdir: $(owobjdir)
+  owcond: 'true'
 
 steps:
     - template: archives.yml
       parameters: 
         owfilepath: rel
         owtitle: Archive Artifact rel-${{ parameters.owobjdir }}
+        owcond: ${{ parameters.owcond }}
     - task: PublishPipelineArtifact@1
       displayName: Save Archive rel-${{ parameters.owobjdir }}
       inputs: 
         artifactName: rel-${{ parameters.owobjdir }}
         targetPath: $(owartifact)
-      condition: >
-        and(succeeded(), 
-          in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI', 'Schedule'), 
-          in(variables.owarch, variables.owarch_lnx, variables.owarch_nt))
+      condition: ${{ parameters.owcond }}
     - template: archiver.yml
+      parameters:
+        owcond: ${{ parameters.owcond }}

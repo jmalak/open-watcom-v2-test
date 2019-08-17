@@ -1,18 +1,19 @@
 parameters:
   owobjdir: $(owobjdir)
+  owcond: 'true'
 
 steps:
     - template: archives.yml
       parameters: 
         owfilepath: bld/setupgui
         owtitle: Archive Artifact bld-setupgui-${{ parameters.owobjdir }}
+        owcond: ${{ parameters.owcond }}
     - task: PublishPipelineArtifact@1
       displayName: Save Archive bld-setupgui-${{ parameters.owobjdir }}
       inputs: 
         artifactName: bld-setupgui-${{ parameters.owobjdir }}
         targetPath: $(owartifact)
-      condition: >
-        and(succeeded(), 
-          in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI', 'Schedule'), 
-          in(variables.owarch, variables.owarch_lnx, variables.owarch_nt))
+      condition: ${{ parameters.owcond }}
     - template: archiver.yml
+      parameters: 
+        owcond: ${{ parameters.owcond }}
