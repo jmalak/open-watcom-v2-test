@@ -254,6 +254,16 @@ stages:
           displayName: "Build Installers"
           env:
             OWBUILD_STAGE: inst
+        # create full binary archive
+        - task: ArchiveFiles@2
+          condition: in( variables.owarch, variables.owarch_lnx )
+          inputs:
+            rootFolderOrFile: 'rel'
+            includeRootFolder: false
+            archiveType: 'tar'
+            archiveFile: 'distrib/ow/bin'
+            replaceExistingArchive: true
+        # save all artifacts for distribution
         - template: azure/distsave.yml
   - stage: release
     displayName: "GitHub Release"
