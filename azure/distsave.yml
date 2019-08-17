@@ -3,7 +3,8 @@ parameters:
 
 steps:
     - template: archives.yml
-      parameters: distrib/ow/bin
+      parameters: 
+        owfilepath: distrib/ow/bin
     - task: PublishPipelineArtifact@1
       displayName: Save Artifact distrib-${{ parameters.owobjdir }}
       inputs: 

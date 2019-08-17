@@ -9,7 +9,8 @@ steps:
         artifactName: build-${{ parameters.owobjdir }}
         targetPath: $(owartifact)
     - template: archivel.yml
-      parameters: build/${{ parameters.owobjdir }}
+      parameters: 
+        owfilepath: build/${{ parameters.owobjdir }}
     - task: DownloadPipelineArtifact@2
       displayName: Load Artifact bld-watcom-${{ parameters.owobjdir }}
       inputs:
@@ -17,4 +18,5 @@ steps:
         artifactName: bld-watcom-${{ parameters.owobjdir }}
         targetPath: $(owartifact)
     - template: archivel.yml
-      parameters: bld/watcom/${{ parameters.owobjdir }}
+      parameters: 
+        owfilepath: bld/watcom/${{ parameters.owobjdir }}

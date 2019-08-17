@@ -3,7 +3,8 @@ parameters:
 
 steps:
     - template: archives.yml
-      parameters: bld/setupgui
+      parameters: 
+        owfilepath: bld/setupgui
     - task: PublishPipelineArtifact@1
       displayName: Save Artifacts bld-setupgui-${{ parameters.owobjdir }}
       inputs: 

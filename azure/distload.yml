@@ -9,4 +9,5 @@ steps:
         artifactName: distrib-${{ parameters.owobjdir }}
         targetPath: $(owartifact)
     - template: archivel.yml
-      parameters: distrib/ow/bin
+      parameters:
+        owfilepath: distrib/ow/bin

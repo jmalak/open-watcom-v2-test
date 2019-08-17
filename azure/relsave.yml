@@ -3,7 +3,8 @@ parameters:
 
 steps:
     - template: archives.yml
-      parameters: rel
+      parameters: 
+        owfilepath: rel
     - task: PublishPipelineArtifact@1
       displayName: Save Artifact rel-${{ parameters.owobjdir }}
       inputs: 

@@ -9,4 +9,5 @@ steps:
         artifactName: bld-setupgui-${{ parameters.owobjdir }}
         targetPath: $(owartifact)
     - template: archivel.yml
-      parameters: bld/setupgui
+      parameters: 
+        owfilepath: bld/setupgui

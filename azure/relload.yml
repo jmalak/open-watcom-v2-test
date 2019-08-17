@@ -9,4 +9,5 @@ steps:
         artifactName: rel-${{ parameters.owobjdir }}
         targetPath: $(owartifact)
     - template: archivel.yml
-      parameters: rel
+      parameters: 
+        owfilepath: rel
