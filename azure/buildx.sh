@@ -79,7 +79,6 @@ build_proc()
             ;;
         "inst")
             export OWVERBOSE=1
-            builder missing
             builder install
             RC=$?
             ;;

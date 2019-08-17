@@ -76,7 +76,6 @@ if "%OWBUILD_STAGE%" == "docs" (
     set RC=%ERRORLEVEL%
 )
 if "%OWBUILD_STAGE%" == "inst" (
-    builder missing
     builder install os_nt cpu_x64
     set RC=%ERRORLEVEL%
 )
