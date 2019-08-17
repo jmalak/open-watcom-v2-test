@@ -320,13 +320,16 @@ stages:
           condition: succeededOrFailed()
           inputs:
             gitHubConnection: 'open-watcom-v2-releases'
+            repositoryName: '$(Build.Repository.Name)'
             action: 'create'
+            target: '$(Build.SourceVersion)'
             tagSource: 'manual'
             tag: '$(owtag)'
             title: '$(owtag)'
             releaseNotesSource: 'input'
             releaseNotes: 'Last updated $(owtagstamp)'
-            assets: 'distrib/ow/bin/open-watcom-*'
-            assetUploadMode: replace
+            assets: |
+              distrib/ow/bin/open-watcom-*
+              distrib/ow/bin/ow-snapshot.tar.gz
             isPreRelease: true
             addChangeLog: false
