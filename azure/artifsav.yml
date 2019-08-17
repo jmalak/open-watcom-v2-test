@@ -3,7 +3,7 @@ parameters:
 
 steps:
     - template: archives.yml
-      parameters: build/${{ parameters.owobjdir }}
+      parameters: 'build/${{ parameters.owobjdir }}'
     - task: PublishPipelineArtifact@1
       displayName: Save Artifact build-${{ parameters.owobjdir }}
       inputs: 
@@ -11,7 +11,7 @@ steps:
         targetPath: $(owartifact)
     - bash: rm -f $(owartifact)
     - template: archives.yml
-      parameters: bld/watcom/${{ parameters.owobjdir }}
+      parameters: 'bld/watcom/${{ parameters.owobjdir }}'
     - task: PublishPipelineArtifact@1
       displayName: Save Artifact bld-watcom-${{ parameters.owobjdir }}
       inputs:

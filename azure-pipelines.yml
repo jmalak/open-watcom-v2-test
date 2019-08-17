@@ -21,21 +21,6 @@ variables:
   owarch_osx:   osx
   owartifact:   owartifact.tar.gz
 
-schedules:
-- cron: "0 1 * * *"
-  displayName: Daily build
-  branches:
-    include:
-    - master
-
-trigger:
-- master
-
-pr:
-  branches:
-    include: 
-    - master
-
 stages:
   - stage: boot
     displayName: "Bootstrap"
