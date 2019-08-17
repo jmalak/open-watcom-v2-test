@@ -10,3 +10,4 @@ steps:
     - template: archivel.yml
       parameters: 
         owfilepath: bld/setupgui
+        owtitle: Extract Artifacts bld-setupgui-${{ parameters.owobjdir }}

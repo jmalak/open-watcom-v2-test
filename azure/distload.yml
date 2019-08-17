@@ -10,3 +10,4 @@ steps:
     - template: archivel.yml
       parameters:
         owfilepath: distrib/ow/bin
+        owtitle: Extract Artifact distrib-${{ parameters.owobjdir }}

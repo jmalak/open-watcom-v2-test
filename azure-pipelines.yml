@@ -49,7 +49,8 @@ stages:
         pool:
           vmImage: $(owimage)
         steps:
-        - script: echo Build Reason = $(Build.Reason)
+        - script:
+          displayName: "Build Reason = $(Build.Reason)"
         - script: azure/$(owscript)
           displayName: "Bootstrap"
           env:

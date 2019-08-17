@@ -10,3 +10,4 @@ steps:
     - template: archivel.yml
       parameters: 
         owfilepath: rel
+        owtitle: Extract Artifact rel-${{ parameters.owobjdir }}

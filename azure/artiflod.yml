@@ -10,6 +10,7 @@ steps:
     - template: archivel.yml
       parameters: 
         owfilepath: build/${{ parameters.owobjdir }}
+        owtitle: Extract Artifact build-${{ parameters.owobjdir }}
     - task: DownloadPipelineArtifact@2
       displayName: Load Artifact bld-watcom-${{ parameters.owobjdir }}
       inputs:
@@ -18,3 +19,4 @@ steps:
     - template: archivel.yml
       parameters: 
         owfilepath: bld/watcom/${{ parameters.owobjdir }}
+        owtitle: Extract Artifact bld-watcom-${{ parameters.owobjdir }}

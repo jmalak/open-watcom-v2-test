@@ -1,11 +1,14 @@
 parameters:
   owfilepath: ''
+  owtitle: ''
 
 steps:
     # extract full binary archive
     - task: ExtractFiles@1
+      displayName: ${{ parameters.owtitle }}
       inputs:
         archiveFilePatterns: $(owartifact)
         destinationFolder: ${{ parameters.owfilepath }}
         cleanDestinationFolder: false
     - bash: rm -f $(owartifact)
+      displayName: Remove Archive

@@ -1,8 +1,10 @@
 parameters:
   owfilepath: ''
+  owtitle: ''
 
 steps:
     - task: ArchiveFiles@2
+      displayName: ${{ parameters.owtitle }}
       inputs:
         rootFolderOrFile: ${{ parameters.owfilepath }}
         includeRootFolder: false
