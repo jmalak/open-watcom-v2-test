@@ -1,0 +1,11 @@
+parameters:
+  owfilepath: ''
+
+steps:
+    # extract full binary archive
+    - task: ExtractFiles@1
+      inputs:
+        archiveFilePatterns: $(owartifact)
+        destinationFolder: ${{ parameters.owfilepath }}
+        cleanDestinationFolder: false
+    - bash: rm -f $(owartifact)

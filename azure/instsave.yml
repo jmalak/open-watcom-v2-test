@@ -2,12 +2,15 @@ parameters:
   owobjdir: $(owobjdir)
 
 steps:
+    - template: archives.yml
+      parameters: bld/setupgui
     - task: PublishPipelineArtifact@1
       displayName: Save Artifacts bld-setupgui-${{ parameters.owobjdir }}
       inputs: 
         artifactName: bld-setupgui-${{ parameters.owobjdir }}
-        targetPath: bld/setupgui
+        targetPath: $(owartifact)
       condition: >
         and(succeeded(), 
           in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI', 'Schedule'), 
           in(variables.owarch, variables.owarch_lnx, variables.owarch_nt))
+    - bash: rm -f $(owartifact)

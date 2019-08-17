@@ -7,5 +7,6 @@ steps:
       inputs: 
         buildType: 'current'
         artifactName: rel-${{ parameters.owobjdir }}
-        targetPath: rel
-
+        targetPath: $(owartifact)
+    - template: archivel.yml
+      parameters: rel

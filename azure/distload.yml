@@ -7,5 +7,6 @@ steps:
       inputs: 
         buildType: 'current'
         artifactName: distrib-${{ parameters.owobjdir }}
-        targetPath: distrib/ow/bin
-
+        targetPath: $(owartifact)
+    - template: archivel.yml
+      parameters: distrib/ow/bin

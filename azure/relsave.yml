@@ -2,12 +2,15 @@ parameters:
   owobjdir: $(owobjdir)
 
 steps:
+    - template: archives.yml
+      parameters: rel
     - task: PublishPipelineArtifact@1
       displayName: Save Artifact rel-${{ parameters.owobjdir }}
       inputs: 
         artifactName: rel-${{ parameters.owobjdir }}
-        targetPath: rel
+        targetPath: $(owartifact)
       condition: >
         and(succeeded(), 
           in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI', 'Schedule'), 
           in(variables.owarch, variables.owarch_lnx, variables.owarch_nt))
+    - bash: rm -f $(owartifact)

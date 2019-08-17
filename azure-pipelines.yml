@@ -19,6 +19,7 @@ variables:
   owarch_lnx:   lnx
   owarch_nt:    nt
   owarch_osx:   osx
+  owartifact:   owartifact.tar.gz
 
 schedules:
 - cron: "0 1 * * *"
@@ -198,9 +199,9 @@ stages:
         steps:
         # consolidate binaries
         - template: azure/relload.yml
-          parameters: {owobjdir: $(owobjdir_lnx)}
-        - template: azure/relload.yml
           parameters: {owobjdir: $(owobjdir_nt)}
+        - template: azure/relload.yml
+          parameters: {owobjdir: $(owobjdir_lnx)}
         # consolidate documentation
         - template: azure/relload.yml
           parameters: {owobjdir: docdos}
@@ -245,9 +246,9 @@ stages:
         steps:
         - template: azure/artiflod.yml
         - template: azure/instload.yml
-          parameters: {owobjdir: $(owobjdir_lnx)}
-        - template: azure/instload.yml
           parameters: {owobjdir: $(owobjdir_nt)}
+        - template: azure/instload.yml
+          parameters: {owobjdir: $(owobjdir_lnx)}
         - template: azure/relload.yml
           parameters: {owobjdir: binall}
         - script: azure/$(owscript)
@@ -285,9 +286,9 @@ stages:
         - template: azure/artiflod.yml
           parameters: {owobjdir: $(owobjdir_lnx)}
         - template: azure/distload.yml
-          parameters: {owobjdir: $(owobjdir_lnx)}
-        - template: azure/distload.yml
           parameters: {owobjdir: $(owobjdir_nt)}
+        - template: azure/distload.yml
+          parameters: {owobjdir: $(owobjdir_lnx)}
         - template: azure/distsave.yml
           parameters: {owobjdir: binall}
         - bash: echo "##vso[task.setvariable variable=owtagstamp;]$(date +'%Y-%m-%d %H:%M:%S')"

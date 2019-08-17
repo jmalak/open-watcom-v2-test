@@ -2,8 +2,11 @@ parameters:
   owobjdir: $(owobjdir)
 
 steps:
+    - template: archives.yml
+      parameters: distrib/ow/bin
     - task: PublishPipelineArtifact@1
       displayName: Save Artifact distrib-${{ parameters.owobjdir }}
       inputs: 
         artifactName: distrib-${{ parameters.owobjdir }}
-        targetPath: distrib/ow/bin
+        targetPath: $(owartifact)
+    - bash: rm -f $(owartifact)

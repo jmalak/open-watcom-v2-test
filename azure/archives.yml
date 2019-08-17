@@ -1,0 +1,11 @@
+parameters:
+  owfilepath: ''
+
+steps:
+    - task: ArchiveFiles@2
+      inputs:
+        rootFolderOrFile: ${{ parameters.owfilepath }}
+        includeRootFolder: false
+        archiveType: 'tar'
+        archiveFile: $(owartifact)
+        replaceExistingArchive: true
