@@ -261,7 +261,7 @@ stages:
             rootFolderOrFile: 'rel'
             includeRootFolder: false
             archiveType: 'tar'
-            archiveFile: 'distrib/ow/bin'
+            archiveFile: 'distrib/ow/bin/ow-snapshot.tar.gz'
             replaceExistingArchive: true
         # save all artifacts for distribution
         - template: azure/distsave.yml
