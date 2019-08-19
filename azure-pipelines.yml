@@ -85,7 +85,14 @@ stages:
         timeoutInMinutes: 90
         steps:
         - template: azure/artiflod.yml
-        - script: sudo apt-get install -y dosbox
+        - script: |
+            for i in {1..10}
+            do
+              sudo apt-get install -y dosbox
+              if [ $? = 0 ]; then
+                break
+              fi
+            done
           displayName: "Install DOSBOX Linux"
           condition: in( variables.owarch, variables.owarch_lnx )
         - script: brew install dosbox
