@@ -39,8 +39,8 @@ cdsay <PROJDIR>
     <CCCMD> htmlhelp/*.chm  <OWRELROOT>/binnt/help/
     <CCCMD> pdf/*.pdf       <OWRELROOT>/docs/
 
-[ BLOCK <BLDRULE> cpwebdocs ]
-#============================
+[ BLOCK <BLDRULE> webdocs cpwebdocs ]
+#====================================
     <CCCMD> pdf/*.pdf           <OWRELROOT>/
     <CCCMD> html/*.bmp          <OWRELROOT>/
     <CCCMD> html/c_readme.htm   <OWRELROOT>/c_readme.html
