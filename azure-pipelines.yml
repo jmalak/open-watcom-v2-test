@@ -3,6 +3,13 @@
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
 
+schedules:
+- cron: "10 1 * * *"
+  displayName: Daily midnight build
+  branches:
+    include:
+    - master
+
 variables: 
   owimage_lnx:  'ubuntu-latest'
   owimage_nt:   'vs2017-win2016'
