@@ -74,7 +74,9 @@ stages:
         - template: azure/artifsav.yml
   - stage: build
     displayName: "Build"
-    dependsOn: boot
+    dependsOn:
+      - boot
+      - mirror
     jobs:
       - job: Build
         strategy:
@@ -201,7 +203,6 @@ stages:
     dependsOn: 
       - docs
       - tests
-      - mirror
     condition: >
       and(succeeded(), 
         in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI', 'Schedule'))
