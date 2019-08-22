@@ -55,21 +55,6 @@ jobs:
     - os: windows
   include:
     #################################
-    - stage: Mirror
-      name: "Mirror master branch commits to SF"
-      if: type = push
-      git:
-        depth: false
-      cache: false
-      before_install:
-        # configure Git client
-        - git config --global user.email "openwatcomtravis@gmail.com"
-        - git config --global user.name "Open Watcom Travis"
-        - git config --global push.default simple
-      script:
-        # update SF mirror
-        - $OWTRAVISDIR/gitusf.sh
-    #################################
     - stage: Bootstrap
       name: "Build minimal set of build tools Linux"
       before_install:
