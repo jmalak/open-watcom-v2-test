@@ -30,8 +30,16 @@ variables:
   owartifact7z: owartifact.tar
 
 stages:
+  - stage: start
+    displayName: "Start"
+  - stage: mirror
+    displayName: "Mirror to SF"
+    dependsOn: start
+    jobs:
+      - job: mirror
   - stage: boot
     displayName: "Bootstrap"
+    dependsOn: start
     jobs:
       - job: Bootstrap
         strategy:
@@ -117,7 +125,9 @@ stages:
             owcond: in( variables.owarch, variables.owarch_lnx, variables.owarch_nt )
   - stage: tests
     displayName: "Tests"
-    dependsOn: build
+    dependsOn: 
+      - build
+      - mirror
     condition: >
       and(succeeded(), 
         in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI', 'Schedule'))
@@ -143,7 +153,9 @@ stages:
         - template: azure/artiflod.yml
   - stage: docs
     displayName: "Documentation Build"
-    dependsOn: boot
+    dependsOn: 
+      - boot
+      - mirror
     condition: >
       and(succeeded(), 
         in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI', 'Schedule'))
