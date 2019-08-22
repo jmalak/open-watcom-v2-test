@@ -38,7 +38,8 @@ stages:
         - checkout: none
   - stage: mirror
     displayName: "Mirror to SF"
-    dependsOn: start
+    dependsOn:
+      - start
     condition: >
       and(succeeded(), 
         in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI'))
@@ -46,7 +47,8 @@ stages:
       - job: mirror
   - stage: boot
     displayName: "Bootstrap"
-    dependsOn: start
+    dependsOn:
+      - start
     jobs:
       - job: Bootstrap
         strategy:
@@ -133,7 +135,7 @@ stages:
             owcond: in( variables.owarch, variables.owarch_lnx, variables.owarch_nt )
   - stage: tests
     displayName: "Tests"
-    dependsOn: 
+    dependsOn:
       - build
     condition: >
       and(succeeded(), 
@@ -160,7 +162,7 @@ stages:
         - template: azure/artiflod.yml
   - stage: docs
     displayName: "Documentation Build"
-    dependsOn: 
+    dependsOn:
       - boot
     condition: >
       and(succeeded(), 
@@ -204,7 +206,7 @@ stages:
           parameters: {owobjdir: $(doctarget)}
   - stage: update
     displayName: "Build Consolidation"
-    dependsOn: 
+    dependsOn:
       - docs
       - tests
     condition: >
@@ -242,7 +244,8 @@ stages:
           parameters: {owobjdir: binall}
   - stage: instal
     displayName: "Installers Build"
-    dependsOn: update
+    dependsOn:
+      - update
     condition: >
       and(succeeded(), 
         in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI', 'Schedule'))
@@ -290,7 +293,8 @@ stages:
         - template: azure/distsave.yml
   - stage: release
     displayName: "GitHub Release"
-    dependsOn: instal
+    dependsOn:
+      - instal
     condition: >
       and(succeeded(), 
         in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI', 'Schedule'))
