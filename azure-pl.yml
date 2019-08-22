@@ -129,7 +129,6 @@ stages:
     displayName: "Tests"
     dependsOn: 
       - build
-      - mirror
     condition: >
       and(succeeded(), 
         in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI', 'Schedule'))
@@ -157,7 +156,6 @@ stages:
     displayName: "Documentation Build"
     dependsOn: 
       - boot
-      - mirror
     condition: >
       and(succeeded(), 
         in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI', 'Schedule'))
@@ -203,6 +201,7 @@ stages:
     dependsOn: 
       - docs
       - tests
+      - mirror
     condition: >
       and(succeeded(), 
         in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI', 'Schedule'))
