@@ -48,7 +48,8 @@ stages:
         steps:
         - script: |
             set -x
-            ssh-keyscan git.code.sf.net >> ~/.ssh/known_hosts
+            mkdir ~/.ssh
+            ssh-keyscan git.code.sf.net > ~/.ssh/known_hosts
             export DISPLAY=:0
             export SSH_PASSWORD=$(sftoken2)
             export SSH_ASKPASS=azure/askpass.sh
