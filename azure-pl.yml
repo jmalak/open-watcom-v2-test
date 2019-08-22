@@ -76,7 +76,6 @@ stages:
     displayName: "Build"
     dependsOn:
       - boot
-      - mirror
     jobs:
       - job: Build
         strategy:
