@@ -34,6 +34,8 @@ stages:
     displayName: "Start"
     jobs:
       - job: start
+        steps:
+        - checkout: none
   - stage: mirror
     displayName: "Mirror to SF"
     dependsOn: start
