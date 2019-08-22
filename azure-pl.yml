@@ -39,6 +39,9 @@ stages:
   - stage: mirror
     displayName: "Mirror to SF"
     dependsOn: start
+    condition: >
+      and(succeeded(), 
+        in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI'))
     jobs:
       - job: mirror
   - stage: boot
