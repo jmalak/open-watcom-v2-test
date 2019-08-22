@@ -50,11 +50,11 @@ stages:
             set -x
             ssh-keyscan git.code.sf.net >> ~/.ssh/known_hosts
             export DISPLAY=:0
-            export SSH_PASSWORD=${SF_TOKEN2}
+            export SSH_PASSWORD=$(sftoken2)
             export SSH_ASKPASS=azure/askpass.sh
             export GIT_ASKPASS=azure/askpass.sh
             export GIT_SSH_COMMAND="setsid ssh"
-            git remote set-url --push origin ssh://${SF_TOKEN1}@git.code.sf.net/p/openwatcom/open-watcom-v2
+            git remote set-url --push origin ssh://(sftoken1)@git.code.sf.net/p/openwatcom/open-watcom-v2
             git checkout master
             git push -v
           displayName: "Mirror to SF"
