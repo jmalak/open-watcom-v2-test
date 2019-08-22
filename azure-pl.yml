@@ -215,6 +215,7 @@ stages:
         pool:
           vmImage: $(owimage_lnx)
         steps:
+        - checkout: none
         # consolidate binaries
         - template: azure/relload.yml
           parameters: {owobjdir: $(owobjdir_nt)}
