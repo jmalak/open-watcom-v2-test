@@ -32,6 +32,8 @@ variables:
 stages:
   - stage: start
     displayName: "Start"
+    jobs:
+      - job: start
   - stage: mirror
     displayName: "Mirror to SF"
     dependsOn: start
