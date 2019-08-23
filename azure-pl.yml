@@ -151,9 +151,6 @@ stages:
     displayName: "Tests"
     dependsOn:
       - build
-    condition: >
-      and(succeeded(), 
-        in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI', 'Schedule'))
     jobs:
       - job: Tests
         strategy:
@@ -215,48 +212,11 @@ stages:
             OWDOCTARGET: $(target)
         - template: azure/relsave.yml
           parameters: {owobjdir: $(doctarget)}
-  - stage: update
-    displayName: "Build Consolidation"
-    dependsOn:
-      - docs
-      - tests
-    condition: >
-      and(succeeded(), 
-        in(variables['Build.Reason'], 'Schedule'))
-    jobs:
-      - job: update
-        displayName: "Build Consolidation"
-        variables:
-          owarch: $(owarch_lnx)
-        pool:
-          vmImage: $(owimage_lnx)
-        steps:
-        - checkout: none
-        # consolidate binaries
-        - template: azure/relload.yml
-          parameters: {owobjdir: $(owobjdir_nt)}
-        - template: azure/relload.yml
-          parameters: {owobjdir: $(owobjdir_lnx)}
-        # consolidate documentation
-        - template: azure/relload.yml
-          parameters: {owobjdir: docdos}
-        - template: azure/relload.yml
-          parameters: {owobjdir: dochtml}
-        - template: azure/relload.yml
-          parameters: {owobjdir: docnt}
-        - template: azure/relload.yml
-          parameters: {owobjdir: docos2}
-        - template: azure/relload.yml
-          parameters: {owobjdir: docpdf}
-        - template: azure/relload.yml
-          parameters: {owobjdir: docwin}
-        # complete OW release artifact
-        - template: azure/relsave.yml
-          parameters: {owobjdir: binall}
   - stage: instal
     displayName: "Installers Build"
     dependsOn:
-      - update
+      - docs
+      - tests
     condition: >
       and(succeeded(), 
         in(variables['Build.Reason'], 'Schedule'))
@@ -285,8 +245,25 @@ stages:
           parameters: {owobjdir: $(owobjdir_nt)}
         - template: azure/instload.yml
           parameters: {owobjdir: $(owobjdir_lnx)}
+        # consolidate binaries
         - template: azure/relload.yml
-          parameters: {owobjdir: binall}
+          parameters: {owobjdir: $(owobjdir_nt)}
+        - template: azure/relload.yml
+          parameters: {owobjdir: $(owobjdir_lnx)}
+        # consolidate documentation
+        - template: azure/relload.yml
+          parameters: {owobjdir: docdos}
+        - template: azure/relload.yml
+          parameters: {owobjdir: dochtml}
+        - template: azure/relload.yml
+          parameters: {owobjdir: docnt}
+        - template: azure/relload.yml
+          parameters: {owobjdir: docos2}
+        - template: azure/relload.yml
+          parameters: {owobjdir: docpdf}
+        - template: azure/relload.yml
+          parameters: {owobjdir: docwin}
+        # run build script
         - script: azure/$(owscript)
           displayName: "Build Installers"
           env:
@@ -326,8 +303,6 @@ stages:
           parameters: {owobjdir: $(owobjdir_nt)}
         - template: azure/distload.yml
           parameters: {owobjdir: $(owobjdir_lnx)}
-        - template: azure/distsave.yml
-          parameters: {owobjdir: binall}
         - bash: echo "##vso[task.setvariable variable=owtagstamp;]$(date +'%Y-%m-%d %H:%M:%S')"
           displayName: "Get current timestamp"
         - bash: echo "##vso[task.setvariable variable=owgitstamp;]`git ls-remote --tags . | sed -n -e \"s:\([0-9a-z]*\) *refs/tags/${{ variables.owtag }}^{}:\1:p\"`"
