@@ -196,9 +196,9 @@ stages:
             WIN:
               owdoctarget: docwin
             Wiki Html:
-              owdoctarget: wikihtml -- -- docset=wikihtml
+              owdoctarget: wikihtml .and wikihtml .or -- -- docset=wikihtml
             Wiki PDF:
-              owdoctarget: wikipdf -- -- docset=wikipdf
+              owdoctarget: wikipdf .and wikihtml .or -- -- docset=wikipdf
         pool:
           vmImage: $(owimage_nt)
         steps:
@@ -211,7 +211,7 @@ stages:
         - template: azure/relsave.yml
           parameters:
             owobjdir: "$(owdoctarget)"
-            owcond: not(startsWith(variables['owdoctarget'], 'wiki'))
+            owcond: not(startsWith(variables['owdoctarget'], 'all'))
         - template: azure/wikisave.yml
   - stage: instal
     displayName: "Installers Build"
