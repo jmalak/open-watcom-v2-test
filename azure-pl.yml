@@ -353,7 +353,6 @@ stages:
     displayName: "Wiki Documentation Update"
     dependsOn:
       - docs
-      - tests
     condition: >
       and(succeeded(), 
         in(variables['Build.Reason'], 'Schedule'))
