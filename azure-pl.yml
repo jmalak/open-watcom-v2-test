@@ -340,17 +340,17 @@ stages:
     displayName: "Wiki Documentation Update"
     dependsOn:
       - docs
-    condition: >
-      and(succeeded(), 
-        in(variables['Build.Reason'], 'Schedule'))
+    #condition: >
+    #  and(succeeded(), 
+    #    in(variables['Build.Reason'], 'Schedule'))
     jobs:
       - template: azure/wiki.yml
   - stage: scan
     displayName: "Coverity Scan"
     dependsOn:
       - tests
-    condition: >
-      and(succeeded(), 
-        in(variables['Build.Reason'], 'Schedule'))
+    #condition: >
+    #  and(succeeded(), 
+    #    in(variables['Build.Reason'], 'Schedule'))
     jobs:
       - template: azure/coverity.yml
