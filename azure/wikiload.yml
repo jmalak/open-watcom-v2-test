@@ -5,7 +5,7 @@ steps:
         buildType:    'current'
         artifactName: wikihtml
         targetPath:   docs
-        itemPattern:
+        itemPattern: |
           '*.bmp'
           '*.html'
     - task: DownloadPipelineArtifact@2
@@ -14,5 +14,5 @@ steps:
         buildType:    'current'
         artifactName: wikipdf
         targetPath:   docs
-        itemPattern:
+        itemPattern: |
           '*.pdf'
