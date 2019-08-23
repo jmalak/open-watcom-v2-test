@@ -210,7 +210,7 @@ stages:
             #OWDOCTARGET: variables['owdoctarget']
         - template: azure/relsave.yml
           parameters:
-            owobjdir: variables.owdoctarget
+            owobjdir: ${{ variables['owdoctarget'] }}
             owcond: not(startsWith(variables['owdoctarget'], 'wiki'))
         - template: azure/wikisave.yml
   - stage: instal
