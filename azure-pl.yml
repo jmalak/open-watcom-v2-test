@@ -186,7 +186,7 @@ stages:
             DOS:
               owdoctarget: docdos
             Html:
-              owdoctarget: dochtml
+              owdoctarget: dochtmlhelp
             NT:
               owdoctarget: docnt
             OS2:
@@ -196,9 +196,9 @@ stages:
             WIN:
               owdoctarget: docwin
             Wiki Html:
-              owdoctarget: wikihtml -- docset=wikihtml
+              owdoctarget: wikihtml -- -- docset=wikihtml
             Wiki PDF:
-              owdoctarget: wikipdf -- docset=wikipdf
+              owdoctarget: wikipdf -- -- docset=wikipdf
         pool:
           vmImage: $(owimage_nt)
         steps:
