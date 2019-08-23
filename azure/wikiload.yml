@@ -6,8 +6,8 @@ steps:
         artifactName: wikihtml
         targetPath:   docs
         itemPattern:
-          *.bmp
-          *.html
+          '*.bmp'
+          '*.html'
     - task: DownloadPipelineArtifact@2
       displayName: Load Artifact wikipdf
       inputs: 
@@ -15,4 +15,4 @@ steps:
         artifactName: wikipdf
         targetPath:   docs
         itemPattern:
-          *.pdf
+          '*.pdf'
