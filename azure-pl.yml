@@ -211,7 +211,7 @@ stages:
         - template: azure/relsave.yml
           parameters:
             owobjdir: "$(owdoctarget)"
-            owcond: not(startsWith(variables['owdoctarget'], 'all'))
+            owcond: not(startsWith(variables['owdoctarget'], 'wiki'))
         - template: azure/wikisave.yml
   - stage: instal
     displayName: "Installers Build"
