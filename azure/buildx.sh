@@ -76,7 +76,7 @@ build_proc()
             ;;
         "docs")
             export OWVERBOSE=1
-            builder docs $OWDOCTARGET
+            builder docs $OWDOCTARGET $OWDOCARGS
             RC=$?
             ;;
         "inst")

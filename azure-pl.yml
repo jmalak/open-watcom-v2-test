@@ -196,9 +196,11 @@ stages:
             WIN:
               owdoctarget: docwin
             Wiki Html:
-              owdoctarget: wikihtml .and wikihtml .or -- -- docset=wikihtml
+              owdoctarget: wikihtml
+              owdocargs: .and wikihtml .or -- -- docset=wikihtml
             Wiki PDF:
-              owdoctarget: wikipdf .and wikihtml .or -- -- docset=wikipdf
+              owdoctarget: wikipdf
+              owdocargs: .and wikipdf .or -- -- docset=wikipdf
         pool:
           vmImage: $(owimage_nt)
         steps:
@@ -207,7 +209,6 @@ stages:
           displayName: "Documentation Build"
           env:
             OWBUILD_STAGE: docs
-            #OWDOCTARGET: variables['owdoctarget']
         - template: azure/relsave.yml
           parameters:
             owobjdir: "$(owdoctarget)"
