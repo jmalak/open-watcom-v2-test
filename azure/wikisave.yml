@@ -1,15 +1,21 @@
 steps:
-    - script: ren docs\html\*.htm *.html
+    - script: |
+        xcopy docs\html\*.htm $(Build.ArtifactStagingDirectory)\
+        xcopy docs\html\*.bmp $(Build.ArtifactStagingDirectory)\
+        ren $(Build.ArtifactStagingDirectory)\*.htm *.html
+      condition: startsWith(variables.owdoctarget, 'wikihtml')
+    - script: |
+        xcopy docs\html\*.pdf $(Build.ArtifactStagingDirectory)\
+      condition: startsWith(variables.owdoctarget, 'wikipdf')
+    - task: PublishPipelineArtifact@1
+      displayName: Save Archive wiki-dochtml
+      inputs: 
+        artifactName: wiki-dochtml
+        targetPath: $(Build.ArtifactStagingDirectory)
       condition: startsWith(variables.owdoctarget, 'wikihtml')
     - task: PublishPipelineArtifact@1
-      displayName: Save Archive wikihtml
+      displayName: Save Archive wiki-docpdf
       inputs: 
-        artifactName: wikihtml
-        targetPath: docs\html
-      condition: startsWith(variables.owdoctarget, 'wikihtml')
-    - task: PublishPipelineArtifact@1
-      displayName: Save Archive wikipdf
-      inputs: 
-        artifactName: wikipdf
-        targetPath: docs\pdf
+        artifactName: wiki-docpdf
+        targetPath: $(Build.ArtifactStagingDirectory)
       condition: startsWith(variables.owdoctarget, 'wikipdf')
