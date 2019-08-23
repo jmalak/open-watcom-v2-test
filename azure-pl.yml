@@ -346,7 +346,7 @@ stages:
     jobs:
       - template: azure/wiki.yml
   - stage: scan
-    displayName: "Wiki Documentation Update"
+    displayName: "Coverity Scan"
     dependsOn:
       - tests
     condition: >
