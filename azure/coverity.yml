@@ -32,7 +32,7 @@ jobs:
     pool:
       vmImage: '$(owimage)'
     steps:
-    - template: azure/dosbox.yml
+    - template: dosbox.yml
     - script: |
         curl -s -o $(owcoverity.tool.archive) https://scan.coverity.com/download/cxx/$(owcoverity.tool.src) -d "project=$(owcoverity.project)&token=$(owcoverity.token)"
         mkdir $(owcoverity.tool.base)

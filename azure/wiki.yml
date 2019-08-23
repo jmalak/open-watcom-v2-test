@@ -19,7 +19,7 @@ jobs:
         git clone --depth=1 --branch=master https://github.com/$(owwikiproject).git $(owwikiroot)
         cd $(owwikiroot)
       displayName: "Wiki Documentation repository clone"
-    - template: azure/wikiload.yml
+    - template: wikiload.yml
     - script: |
         git add -v -f .
         if [ -n "$(git status -uno --porcelain)" ]; then
