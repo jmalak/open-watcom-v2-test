@@ -178,9 +178,6 @@ stages:
     displayName: "Documentation Build"
     dependsOn:
       - boot
-    condition: >
-      and(succeeded(), 
-        in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI', 'Schedule'))
     jobs:
       - job: Documentation
         variables:
@@ -225,7 +222,7 @@ stages:
       - tests
     condition: >
       and(succeeded(), 
-        in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI', 'Schedule'))
+        in(variables['Build.Reason'], 'Schedule'))
     jobs:
       - job: update
         displayName: "Build Consolidation"
@@ -262,7 +259,7 @@ stages:
       - update
     condition: >
       and(succeeded(), 
-        in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI', 'Schedule'))
+        in(variables['Build.Reason'], 'Schedule'))
     jobs:
       - job: instal
         displayName: "Installers Build"
@@ -311,7 +308,7 @@ stages:
       - instal
     condition: >
       and(succeeded(), 
-        in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI', 'Schedule'))
+        in(variables['Build.Reason'], 'Schedule'))
     jobs:
       - job: release
         displayName: "GitHub Release"
