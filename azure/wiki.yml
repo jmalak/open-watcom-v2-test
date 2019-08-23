@@ -1,0 +1,42 @@
+jobs:
+  - job: wiki
+    displayName: "Wiki Documentation Update"
+    variables:
+      owwiki_depth:  10
+      owwikiproject: open-watcom/open-watcom-v2-webdocs
+      owwikiroot:    $(Pipeline.Workspace)/wiki
+      owpattern:     ${{ 'Azure Pipelines build' }}
+    pool:
+      vmImage: $(owimage_lnx)
+    steps:
+    - checkout: self
+      persistCredentials: true
+    - script: |
+        # configure Git client
+        git config --global user.email "openwatcomazure@gmail.com"
+        git config --global user.name "Open Watcom Azure"
+        # get latest OW sources
+        git clone --depth=1 --branch=master https://github.com/$(owwikiproject).git $(owwikiroot)
+        cd $(owwikiroot)
+      displayName: "Wiki Documentation repository clone"
+    - template: azure/wikiload.yml
+    - script: |
+        git add -v -f .
+        if [ -n "$(git status -uno --porcelain)" ]; then
+          git commit -v -m "$(owpattern) $(Build.BuildNumber)"
+          git checkout -b temp
+          #git checkout -B master temp
+          git checkout master
+          git merge temp
+          git branch -d temp
+          if [ `git rev-list HEAD --count` -gt $(owwiki_depth) ]; then
+            echo "start repository compression"
+            git checkout --orphan temp
+            git add -v -A
+            git commit -v -am "$(owpattern) $(Build.BuildNumber)"
+            git branch -v -D master
+            git branch -v -m master
+            echo "end repository compression"
+          fi
+          git push -v -f origin master
+        fi
