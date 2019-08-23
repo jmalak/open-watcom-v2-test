@@ -184,21 +184,21 @@ stages:
         strategy:
           matrix:
             DOS:
-              doctarget: docdos
+              owdoctarget: docdos
             Html:
-              doctarget: dochtml
+              owdoctarget: dochtml
             NT:
-              doctarget: docnt
+              owdoctarget: docnt
             OS2:
-              doctarget: docos2
+              owdoctarget: docos2
             PDF:
-              doctarget: docpdf
+              owdoctarget: docpdf
             WIN:
-              doctarget: docwin
+              owdoctarget: docwin
             Wiki Html:
-              doctarget: wikihtml -- docset=wikihtml
+              owdoctarget: wikihtml -- docset=wikihtml
             Wiki PDF:
-              doctarget: wikipdf -- docset=wikipdf
+              owdoctarget: wikipdf -- docset=wikipdf
         pool:
           vmImage: $(owimage_nt)
         steps:
@@ -207,14 +207,12 @@ stages:
           displayName: "Documentation Build"
           env:
             OWBUILD_STAGE: docs
-            OWDOCTARGET: variables['doctarget']
+            #OWDOCTARGET: variables['owdoctarget']
         - template: azure/relsave.yml
           parameters:
-            owobjdir: $(doctarget)
-            owcond: not(startsWith(variables['doctarget'], 'wiki'))
+            owobjdir: variables.owdoctarget
+            owcond: not(startsWith(variables['owdoctarget'], 'wiki'))
         - template: azure/wikisave.yml
-          parameters:
-            owobjdir: $(doctarget)
   - stage: instal
     displayName: "Installers Build"
     dependsOn:

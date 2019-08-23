@@ -9,6 +9,8 @@
 #
 set -x
 
+env | sort
+
 bootutil_proc()
 {
     #
