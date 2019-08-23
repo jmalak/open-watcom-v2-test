@@ -184,23 +184,21 @@ stages:
         strategy:
           matrix:
             DOS:
-              target: dos
               doctarget: docdos
             Html:
-              target: htmlhelp
               doctarget: dochtml
             NT:
-              target: nt
               doctarget: docnt
             OS2:
-              target: os2
               doctarget: docos2
             PDF:
-              target: pdf
               doctarget: docpdf
             WIN:
-              target: win
               doctarget: docwin
+            Wiki Html:
+              doctarget: wikihtml -- docset=wikihtml
+            Wiki PDF:
+              doctarget: wikipdf -- docset=wikipdf
         pool:
           vmImage: $(owimage_nt)
         steps:
@@ -209,9 +207,14 @@ stages:
           displayName: "Documentation Build"
           env:
             OWBUILD_STAGE: docs
-            OWDOCTARGET: $(target)
+            OWDOCTARGET: $(doctarget)
         - template: azure/relsave.yml
-          parameters: {owobjdir: $(doctarget)}
+          parameters:
+            owobjdir: $(doctarget)
+            owcond: not(startsWith(variables['doctarget'], 'wiki'))
+        - template: azure/wikisave.yml
+          parameters:
+            owobjdir: $(doctarget)
   - stage: instal
     displayName: "Installers Build"
     dependsOn:
@@ -346,3 +349,18 @@ stages:
               distrib/ow/bin/ow-snapshot.tar.gz
             isPreRelease: true
             addChangeLog: false
+  - stage: Wiki
+    displayName: "Wiki Documentation Update"
+    dependsOn:
+      - docs
+      - tests
+    condition: >
+      and(succeeded(), 
+        in(variables['Build.Reason'], 'Schedule'))
+    jobs:
+      - job: wiki
+        displayName: "Wiki Documentation Update"
+        pool:
+          vmImage: $(owimage_lnx)
+        steps:
+        - template: azure/wikiload.yml

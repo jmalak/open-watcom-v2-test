@@ -1,0 +1,18 @@
+steps:
+    - task: DownloadPipelineArtifact@2
+      displayName: Load Artifact wikihtml
+      inputs: 
+        buildType:    'current'
+        artifactName: wikihtml
+        targetPath:   docs
+        itemPattern:
+          *.bmp
+          *.html
+    - task: DownloadPipelineArtifact@2
+      displayName: Load Artifact wikipdf
+      inputs: 
+        buildType:    'current'
+        artifactName: wikipdf
+        targetPath:   docs
+        itemPattern:
+          *.pdf

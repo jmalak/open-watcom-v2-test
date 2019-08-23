@@ -1,4 +1,4 @@
-#pmake: build docs os_dos dos
+#pmake: build docs os_dos docdos
 
 dotarget=dos
 
