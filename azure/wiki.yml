@@ -18,25 +18,17 @@ jobs:
         # get latest OW sources
         git clone --depth=1 --branch=master https://github.com/$(owwikiproject).git $(owwikiroot)
         cd $(owwikiroot)
-      displayName: "Wiki Documentation repository clone"
+      displayName: "Wiki Docs clone"
     - template: wikiload.yml
     - script: |
+        cd $(owwikiroot)
         git add -v -f .
         if [ -n "$(git status -uno --porcelain)" ]; then
           git commit -v -m "$(owpattern) $(Build.BuildNumber)"
           git checkout -b temp
-          #git checkout -B master temp
           git checkout master
           git merge temp
           git branch -d temp
-          if [ `git rev-list HEAD --count` -gt $(owwiki_depth) ]; then
-            echo "start repository compression"
-            git checkout --orphan temp
-            git add -v -A
-            git commit -v -am "$(owpattern) $(Build.BuildNumber)"
-            git branch -v -D master
-            git branch -v -m master
-            echo "end repository compression"
-          fi
-          git push -v -f origin master
+          git push -v
         fi
+      displayName: "Wiki Docs update"

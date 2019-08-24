@@ -4,10 +4,10 @@ steps:
       inputs: 
         buildType:    'current'
         artifactName: wiki-dochtml
-        targetPath:   docs
+        targetPath:   $(owwikiroot)\docs
     - task: DownloadPipelineArtifact@2
       displayName: Load Artifact wiki-docpdf
       inputs: 
         buildType:    'current'
         artifactName: wiki-docpdf
-        targetPath:   docs
+        targetPath:   $(owwikiroot)\docs
