@@ -1,0 +1,20 @@
+steps:
+  - task: PublishPipelineArtifact@1
+    displayName: "Save Artifact rel-$(owdoctarget)"
+    inputs: 
+      artifactName: "rel-$(owdoctarget)"
+      targetPath: rel
+    condition: not(startsWith(variables['owdoctarget'], 'wiki'))
+  - script: |
+      xcopy docs\html\*.htm $(Build.ArtifactStagingDirectory)\
+      xcopy docs\html\*.bmp $(Build.ArtifactStagingDirectory)\
+      ren $(Build.ArtifactStagingDirectory)\*.htm *.html
+      xcopy docs\pdf\*.pdf $(Build.ArtifactStagingDirectory)\
+    displayName: "Copy Artifact Wiki files"
+    condition: startsWith(variables['owdoctarget'], 'wiki')
+  - task: PublishPipelineArtifact@1
+    displayName: "Save Artifact wiki-$(owdoctarget)"
+    inputs: 
+      artifactName: "wiki-$(owdoctarget)"
+      targetPath: $(Build.ArtifactStagingDirectory)
+    condition: startsWith(variables['owdoctarget'], 'wiki')

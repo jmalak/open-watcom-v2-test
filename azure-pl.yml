@@ -11,23 +11,7 @@ schedules:
     - master
 
 variables: 
-  owimage_lnx:  'ubuntu-latest'
-  owimage_nt:   'vs2017-win2016'
-  owimage_osx:  'macOS-latest'
-  owobjdir_lnx: binlnx
-  owobjdir_nt:  binnt
-  owobjdir_osx: binosx
-  owtools_lnx:  GCC
-  owtools_nt:   VISUALC
-  owtools_osx:  CLANG
-  owscript_lnx: buildx.sh
-  owscript_nt:  buildx.cmd
-  owscript_osx: buildx.sh
-  owarch_lnx:   lnx
-  owarch_nt:    nt
-  owarch_osx:   osx
-  owartifact:   $(Pipeline.Workspace)/owartifact.tar.gz
-  owartifact7z: owartifact.tar
+  template:     azure/globalva.yml
 
 stages:
   - stage: start
@@ -37,28 +21,14 @@ stages:
         steps:
         - checkout: none
   - stage: mirror
-    displayName: "Mirror to SF"
+    displayName: "Mirror OW repository"
     dependsOn:
       - start
     condition: >
       and(succeeded(), 
         in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI'))
     jobs:
-      - job: mirror
-        steps:
-        - script: |
-            set -x
-            mkdir ~/.ssh
-            ssh-keyscan git.code.sf.net > ~/.ssh/known_hosts
-            export DISPLAY=:0
-            export SSH_PASSWORD=$(sftoken2)
-            export SSH_ASKPASS=azure/askpass.sh
-            export GIT_ASKPASS=azure/askpass.sh
-            export GIT_SSH_COMMAND="setsid ssh"
-            git remote set-url --push origin ssh://$(sftoken1)@git.code.sf.net/p/openwatcom/open-watcom-v2
-            git checkout master
-            git push -v
-          displayName: "Mirror to SF"
+      - template: azure/mirror.yml
   - stage: boot
     displayName: "Bootstrap"
     dependsOn:
@@ -92,7 +62,7 @@ stages:
           displayName: "Bootstrap"
           env:
             OWBUILD_STAGE: boot
-        - template: azure/artifsav.yml
+        - template: azure/bootsave.yml
   - stage: build
     displayName: "Build"
     dependsOn:
@@ -123,18 +93,16 @@ stages:
           vmImage: $(owimage)
         timeoutInMinutes: 90
         steps:
-        - template: azure/artiflod.yml
         - template: azure/dosbox.yml
+        - template: azure/bootload.yml
         - script: azure/$(owscript)
           displayName: "Build"
           env: 
             OWBUILD_STAGE: build
         - template: azure/relsave.yml
-          parameters:
-            owcond: in( variables.owarch, variables.owarch_lnx, variables.owarch_nt )
+          parameters: {owcond: in( variables.owarch, variables.owarch_lnx, variables.owarch_nt )}
         - template: azure/instsave.yml
-          parameters:
-            owcond: in( variables.owarch, variables.owarch_lnx, variables.owarch_nt )
+          parameters: {owcond: in( variables.owarch, variables.owarch_lnx, variables.owarch_nt )}
   - stage: tests
     displayName: "Tests"
     dependsOn:
@@ -158,7 +126,7 @@ stages:
         pool:
           vmImage: $(owimage)
         steps:
-        - template: azure/artiflod.yml
+        - template: azure/bootload.yml
   - stage: docs
     displayName: "Documentation Build"
     dependsOn:
@@ -192,16 +160,12 @@ stages:
         pool:
           vmImage: $(owimage_nt)
         steps:
-        - template: azure/artiflod.yml
+        - template: azure/bootload.yml
         - script: azure/$(owscript_nt)
           displayName: "Documentation Build"
           env:
             OWBUILD_STAGE: docs
-        - template: azure/relsave.yml
-          parameters:
-            owobjdir: "$(owdoctarget)"
-            owcond: not(startsWith(variables['owdoctarget'], 'wiki'))
-        - template: azure/wikisave.yml
+        - template: azure/docsave.yml
   - stage: instal
     displayName: "Installers Build"
     dependsOn:
@@ -230,7 +194,7 @@ stages:
         pool:
           vmImage: $(owimage)
         steps:
-        - template: azure/artiflod.yml
+        - template: azure/bootload.yml
         - template: azure/instload.yml
           parameters: {owobjdir: $(owobjdir_nt)}
         - template: azure/instload.yml
@@ -241,18 +205,18 @@ stages:
         - template: azure/relload.yml
           parameters: {owobjdir: $(owobjdir_lnx)}
         # consolidate documentation
-        - template: azure/relload.yml
-          parameters: {owobjdir: docdos}
-        - template: azure/relload.yml
-          parameters: {owobjdir: dochtml}
-        - template: azure/relload.yml
-          parameters: {owobjdir: docnt}
-        - template: azure/relload.yml
-          parameters: {owobjdir: docos2}
-        - template: azure/relload.yml
-          parameters: {owobjdir: docpdf}
-        - template: azure/relload.yml
-          parameters: {owobjdir: docwin}
+        - template: azure/docload.yml
+          parameters: {owdoctarget: docdos}
+        - template: azure/docload.yml
+          parameters: {owdoctarget: dochtml}
+        - template: azure/docload.yml
+          parameters: {owdoctarget: docnt}
+        - template: azure/docload.yml
+          parameters: {owdoctarget: docos2}
+        - template: azure/docload.yml
+          parameters: {owdoctarget: docpdf}
+        - template: azure/docload.yml
+          parameters: {owdoctarget: docwin}
         # run build script
         - script: azure/$(owscript)
           displayName: "Build Installers"
@@ -287,7 +251,7 @@ stages:
         steps:
         - checkout: self
           persistCredentials: true
-        - template: azure/artiflod.yml
+        - template: azure/bootload.yml
           parameters: {owobjdir: $(owobjdir_lnx)}
         - template: azure/distload.yml
           parameters: {owobjdir: $(owobjdir_nt)}
