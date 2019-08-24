@@ -228,17 +228,17 @@ stages:
           parameters: {owobjdir: $(owobjdir_lnx)}
         # consolidate documentation
         - template: ci/docload.yml
-          parameters: {owartifname: rel-docdos}
+          parameters: {owdoctarget: docdos}
         - template: ci/docload.yml
-          parameters: {owartifname: rel-dochtml}
+          parameters: {owdoctarget: dochtmlhelp}
         - template: ci/docload.yml
-          parameters: {owartifname: rel-docnt}
+          parameters: {owdoctarget: docnt}
         - template: ci/docload.yml
-          parameters: {owartifname: rel-docos2}
+          parameters: {owdoctarget: docos2}
         - template: ci/docload.yml
-          parameters: {owartifname: rel-docpdf}
+          parameters: {owdoctarget: docpdf}
         - template: ci/docload.yml
-          parameters: {owartifname: rel-docwin}
+          parameters: {owdoctarget: docwin}
         # run build script
         - script: ci/$(owscript)
           displayName: "Build Installers"

@@ -22,13 +22,13 @@ jobs:
       inputs: 
         buildType:    'current'
         artifactName: "wiki-dochtml"
-        targetPath:   variables['owwikiroot']\docs
+        targetPath:   $(owwikiroot)\docs
     - task: DownloadPipelineArtifact@2
       displayName: "Load Artifact wiki-docpdf"
       inputs: 
         buildType:    'current'
         artifactName: "wiki-docpdf"
-        targetPath:   variables['owwikiroot']\docs
+        targetPath:   $(owwikiroot)\docs
     - script: |
         cd $(owwikiroot)
         git add -v -f .
