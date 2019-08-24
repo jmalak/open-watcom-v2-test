@@ -319,7 +319,6 @@ stages:
     #  )
     jobs:
       - template: azure/wiki.yml
-stages:
   - stage: scan
     displayName: "Coverity Scan"
     dependsOn:
