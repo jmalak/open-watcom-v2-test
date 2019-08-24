@@ -82,7 +82,8 @@
 *ytab.*
 
 /*/
-!/azure/
+!/ci/
+!/ci/**
 !/bld/
 !/build/
 !/contrib/

@@ -50,11 +50,6 @@ bootutil_proc()
 build_proc()
 {
     RC=0
-    if [ `uname` = Linux ]; then
-        export OWROOT=$(realpath `pwd`)
-    else
-        export OWROOT=`pwd`
-    fi
     export OWDOSBOX=dosbox
     export SDL_VIDEODRIVER=dummy
     export SDL_AUDIODRIVER=disk

@@ -12,22 +12,22 @@ jobs:
           owobjdir: ${{ variables.owobjdir_lnx }}
           owimage:  ${{ variables.owimage_lnx }}
           owtools:  ${{ variables.owtools_lnx }}
-          owscript: $(Build.SourcesDirectory)/azure/coverity.sh
+          owscript: $(Build.SourcesDirectory)/ci/coverity.sh
           owcoverity.tool.src: linux64
           owcoverity.tool.archive: /tmp/cov-analysis-linux.tgz
           owcoverity.tool.base: /tmp/coverity-scan-analysis
-          owcoverity.script: $(Build.SourcesDirectory)/azure/covbuild.sh
+          owcoverity.script: $(Build.SourcesDirectory)/ci/covbuild.sh
           owcoverity.results.archive: open-watcom-v2.tgz
         #Windows:
           #owarch:   ${{ variables.owarch_nt }}
           #owobjdir: ${{ variables.owobjdir_nt }}
           #owimage:  ${{ variables.owimage_nt }}
           #owtools:  ${{ variables.owtools_nt }}
-          #owscript: $(Build.SourcesDirectory)\azure\coverity.cmd
+          #owscript: $(Build.SourcesDirectory)\ci\coverity.cmd
           #owcoverity.tool.src: win64
           #owcoverity.tool.archive: $(TEMP)\cov-analysis-windows.zip
           #owcoverity.tool.base: $(TEMP)\coverity-scan-analysis
-          #owcoverity.script: $(Build.SourcesDirectory)\azure\covbuild.cmd
+          #owcoverity.script: $(Build.SourcesDirectory)\ci\covbuild.cmd
           #owcoverity.results.archive: open-watcom-v2.zip
     pool:
       vmImage: '$(owimage)'
@@ -58,7 +58,7 @@ jobs:
       condition: in( variables.owarch, variables.owarch_lnx )
     - script: |
         7z a $(owcoverity.results.archive) cov-int
-        $(Build.SourcesDirectory)\azure\slash.cmd $(owcoverity.results.archive) > lst.txt
+        $(Build.SourcesDirectory)\ci\slash.cmd $(owcoverity.results.archive) > lst.txt
         7z rn $(owcoverity.results.archive) @lst.txt
         del lst.txt
       displayName: "Archive Coverity data Windows"

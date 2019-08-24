@@ -28,6 +28,8 @@ variables:
   owarch_osx:   osx
   owartifact:   $(Pipeline.Workspace)/owartifact.tar.gz
   owartifact7z: owartifact.tar
+  owroot:       $(Build.SourcesDirectory)
+  owcibin64:    $(Build.SourcesDirectory)\ci\bin64
 
 stages:
   - stage: start
@@ -46,7 +48,7 @@ stages:
         in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI')
       )
     jobs:
-      - template: azure/mirror.yml
+      - template: .ci/mirror.yml
   - stage: boot
     displayName: "Bootstrap"
     dependsOn:
@@ -76,11 +78,11 @@ stages:
         pool:
           vmImage: $(owimage)
         steps:
-        - script: azure/$(owscript)
+        - script: .ci/$(owscript)
           displayName: "Bootstrap"
           env:
             OWBUILD_STAGE: boot
-        - template: azure/bootsave.yml
+        - template: .ci/bootsave.yml
   - stage: build
     displayName: "Build"
     dependsOn:
@@ -111,16 +113,16 @@ stages:
           vmImage: $(owimage)
         timeoutInMinutes: 90
         steps:
-        - template: azure/dosbox.yml
-        - template: azure/bootload.yml
-        - script: azure/$(owscript)
+        - template: .ci/dosbox.yml
+        - template: .ci/bootload.yml
+        - script: .ci/$(owscript)
           displayName: "Build"
           env: 
             OWBUILD_STAGE: build
-        - template: azure/relsave.yml
+        - template: .ci/relsave.yml
           parameters:
             owcond: in( variables.owarch, variables.owarch_lnx, variables.owarch_nt )
-        - template: azure/instsave.yml
+        - template: .ci/instsave.yml
           parameters:
             owcond: in( variables.owarch, variables.owarch_lnx, variables.owarch_nt )
   - stage: tests
@@ -146,7 +148,7 @@ stages:
         pool:
           vmImage: $(owimage)
         steps:
-        - template: azure/bootload.yml
+        - template: .ci/bootload.yml
   - stage: docs
     displayName: "Documentation Build"
     dependsOn:
@@ -180,12 +182,12 @@ stages:
         pool:
           vmImage: $(owimage_nt)
         steps:
-        - template: azure/bootload.yml
-        - script: azure/$(owscript_nt)
+        - template: .ci/bootload.yml
+        - script: .ci/$(owscript_nt)
           displayName: "Documentation Build"
           env:
             OWBUILD_STAGE: docs
-        - template: azure/docsave.yml
+        - template: .ci/docsave.yml
   - stage: instal
     displayName: "Installers Build"
     dependsOn:
@@ -216,31 +218,31 @@ stages:
         pool:
           vmImage: $(owimage)
         steps:
-        - template: azure/bootload.yml
-        - template: azure/instload.yml
+        - template: .ci/bootload.yml
+        - template: .ci/instload.yml
           parameters: {owobjdir: $(owobjdir_nt)}
-        - template: azure/instload.yml
+        - template: .ci/instload.yml
           parameters: {owobjdir: $(owobjdir_lnx)}
         # consolidate binaries
-        - template: azure/relload.yml
+        - template: .ci/relload.yml
           parameters: {owobjdir: $(owobjdir_nt)}
-        - template: azure/relload.yml
+        - template: .ci/relload.yml
           parameters: {owobjdir: $(owobjdir_lnx)}
         # consolidate documentation
-        - template: azure/docload.yml
+        - template: .ci/docload.yml
           parameters: {owdoctarget: docdos}
-        - template: azure/docload.yml
+        - template: .ci/docload.yml
           parameters: {owdoctarget: dochtml}
-        - template: azure/docload.yml
+        - template: .ci/docload.yml
           parameters: {owdoctarget: docnt}
-        - template: azure/docload.yml
+        - template: .ci/docload.yml
           parameters: {owdoctarget: docos2}
-        - template: azure/docload.yml
+        - template: .ci/docload.yml
           parameters: {owdoctarget: docpdf}
-        - template: azure/docload.yml
+        - template: .ci/docload.yml
           parameters: {owdoctarget: docwin}
         # run build script
-        - script: azure/$(owscript)
+        - script: .ci/$(owscript)
           displayName: "Build Installers"
           env:
             OWBUILD_STAGE: inst
@@ -254,7 +256,7 @@ stages:
             archiveFile: 'distrib/ow/bin/ow-snapshot.tar.gz'
             replaceExistingArchive: true
         # save all artifacts for distribution
-        - template: azure/distsave.yml
+        - template: .ci/distsave.yml
   - stage: release
     displayName: "GitHub Release"
     dependsOn:
@@ -275,11 +277,11 @@ stages:
         steps:
         - checkout: self
           persistCredentials: true
-        - template: azure/bootload.yml
+        - template: .ci/bootload.yml
           parameters: {owobjdir: $(owobjdir_lnx)}
-        - template: azure/distload.yml
+        - template: .ci/distload.yml
           parameters: {owobjdir: $(owobjdir_nt)}
-        - template: azure/distload.yml
+        - template: .ci/distload.yml
           parameters: {owobjdir: $(owobjdir_lnx)}
         - bash: echo "##vso[task.setvariable variable=owtagstamp;]$(date +'%Y-%m-%d %H:%M:%S')"
           displayName: "Get current timestamp"
@@ -334,7 +336,7 @@ stages:
     #    in(variables['Build.Reason'], 'Schedule')
     #  )
     jobs:
-      - template: azure/wiki.yml
+      - template: .ci/wiki.yml
   - stage: scan
     displayName: "Coverity Scan"
     dependsOn:
@@ -343,4 +345,4 @@ stages:
     #  and(succeeded(), 
     #    in(variables['Build.Reason'], 'Schedule'))
     jobs:
-      - template: azure/coverity.yml
+      - template: .ci/coverity.yml

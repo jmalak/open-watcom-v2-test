@@ -6,15 +6,13 @@ SETLOCAL EnableExtensions
 REM Script to build the Open Watcom bootstrap tools
 REM By Microsoft Visual Studio
 REM ...
-set OWROOT=%CD%
-REM ...
 call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" amd64
 REM ...
 @echo %OWECHO%
 REM ...
 REM setup DOSBOX
 REM ...
-set OWDOSBOXPATH=%OWROOT%\travis\dosbox
+set OWDOSBOXPATH=%OWCIBIN64%
 set OWDOSBOX=dosbox.exe
 set SDL_VIDEODRIVER=dummy
 set SDL_AUDIODRIVER=disk
@@ -22,9 +20,9 @@ set SDL_DISKAUDIOFILE=NUL
 REM ...
 REM setup Help Compilers
 REM ...
-set OWGHOSTSCRIPTPATH=%OWROOT%\travis\gs927w64
-set OWWIN95HC=%OWROOT%\travis\hcw\hcrtf.exe
-set OWHHC=%OWROOT%\travis\hhc\hhc.exe
+set OWGHOSTSCRIPTPATH=%OWCIBIN64%
+set OWWIN95HC=%OWCIBIN64%\hcrtf.exe
+set OWHHC=%OWCIBIN64%\hhc.exe
 REM ...
 call cmnvars.bat
 REM ...
@@ -72,7 +70,7 @@ REM    set RC=%ERRORLEVEL%
 if "%OWBUILD_STAGE%" == "docs" (
     REM register all Help Compilers DLL's
     regsvr32 -u -s itcc.dll
-    regsvr32 -s %OWROOT%\travis\hhc\itcc.dll
+    regsvr32 -s %OWCIBIN64%\itcc.dll
     builder docs %OWDOCTARGET% %OWDOCARGS%
     set RC=%ERRORLEVEL%
 )
