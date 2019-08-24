@@ -309,12 +309,4 @@ stages:
     #    in(variables['Build.Reason'], 'Schedule'))
     jobs:
       - template: azure/wiki.yml
-  - stage: scan
-    displayName: "Coverity Scan"
-    dependsOn:
-      - tests
-    #condition: >
-    #  and(succeeded(), 
-    #    in(variables['Build.Reason'], 'Schedule'))
-    jobs:
-      - template: azure/coverity.yml
+  - template: azure/coverity.yml
