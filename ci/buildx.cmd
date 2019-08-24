@@ -1,7 +1,6 @@
 @set OWECHO=off
 @if "%OWDEBUG%" == "1" set OWECHO=on
 @echo %OWECHO%
-set
 SETLOCAL EnableExtensions
 REM Script to build the Open Watcom bootstrap tools
 REM By Microsoft Visual Studio

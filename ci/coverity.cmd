@@ -10,7 +10,5 @@ set SDL_DISKAUDIOFILE=NUL
 
 call %OWROOT%\cmnvars.bat
 
-set
-
 echo on
 %OWCOVERITY_TOOL_CMD% --dir cov-int %OWCOVERITY_SCRIPT%

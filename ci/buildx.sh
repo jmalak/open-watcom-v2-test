@@ -7,9 +7,6 @@
 #   - POSIX tools
 #   - correct setup for all OW build environment variables
 #
-set -x
-
-env | sort
 
 bootutil_proc()
 {
