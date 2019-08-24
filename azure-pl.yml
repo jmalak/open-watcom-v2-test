@@ -380,38 +380,37 @@ stages:
     #  and(succeeded(), 
     #    in(variables['Build.Reason'], 'Schedule'))
     jobs:
-jobs:
-  - job: scan
-    displayName: "Coverity Scan"
-    timeoutInMinutes: 240
-    variables:
-      owcoverity.project:  open-watcom/open-watcom-v2
-      owcoverity.tool.cmd: ''
-    strategy:
-      matrix:
-        Linux:
-          owarch:   ${{ variables.owarch_lnx }}
-          owobjdir: ${{ variables.owobjdir_lnx }}
-          owimage:  ${{ variables.owimage_lnx }}
-          owtools:  ${{ variables.owtools_lnx }}
-          owscript: $(Build.SourcesDirectory)/ci/coverity.sh
-          owcoverity.tool.src: linux64
-          owcoverity.tool.archive: /tmp/cov-analysis-linux.tgz
-          owcoverity.tool.base: /tmp/coverity-scan-analysis
-          owcoverity.script: $(Build.SourcesDirectory)/ci/covbuild.sh
-          owcoverity.results.archive: open-watcom-v2.tgz
-        #Windows:
-          #owarch:   ${{ variables.owarch_nt }}
-          #owobjdir: ${{ variables.owobjdir_nt }}
-          #owimage:  ${{ variables.owimage_nt }}
-          #owtools:  ${{ variables.owtools_nt }}
-          #owscript: $(Build.SourcesDirectory)\ci\coverity.cmd
-          #owcoverity.tool.src: win64
-          #owcoverity.tool.archive: $(TEMP)\cov-analysis-windows.zip
-          #owcoverity.tool.base: $(TEMP)\coverity-scan-analysis
-          #owcoverity.script: $(Build.SourcesDirectory)\ci\covbuild.cmd
-          #owcoverity.results.archive: open-watcom-v2.zip
-    pool:
-      vmImage: '$(owimage)'
-    steps:
-      - template: ci/coverity.yml
+      - job: scan
+        displayName: "Coverity Scan"
+        timeoutInMinutes: 240
+        variables:
+          owcoverity.project:  open-watcom/open-watcom-v2
+          owcoverity.tool.cmd: ''
+        strategy:
+          matrix:
+            Linux:
+              owarch:   ${{ variables.owarch_lnx }}
+              owobjdir: ${{ variables.owobjdir_lnx }}
+              owimage:  ${{ variables.owimage_lnx }}
+              owtools:  ${{ variables.owtools_lnx }}
+              owscript: $(Build.SourcesDirectory)/ci/coverity.sh
+              owcoverity.tool.src: linux64
+              owcoverity.tool.archive: /tmp/cov-analysis-linux.tgz
+              owcoverity.tool.base: /tmp/coverity-scan-analysis
+              owcoverity.script: $(Build.SourcesDirectory)/ci/covbuild.sh
+              owcoverity.results.archive: open-watcom-v2.tgz
+            #Windows:
+              #owarch:   ${{ variables.owarch_nt }}
+              #owobjdir: ${{ variables.owobjdir_nt }}
+              #owimage:  ${{ variables.owimage_nt }}
+              #owtools:  ${{ variables.owtools_nt }}
+              #owscript: $(Build.SourcesDirectory)\ci\coverity.cmd
+              #owcoverity.tool.src: win64
+              #owcoverity.tool.archive: $(TEMP)\cov-analysis-windows.zip
+              #owcoverity.tool.base: $(TEMP)\coverity-scan-analysis
+              #owcoverity.script: $(Build.SourcesDirectory)\ci\covbuild.cmd
+              #owcoverity.results.archive: open-watcom-v2.zip
+        pool:
+          vmImage: '$(owimage)'
+        steps:
+          - template: ci/coverity.yml
