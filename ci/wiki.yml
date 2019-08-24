@@ -11,14 +11,11 @@ jobs:
     - checkout: self
       persistCredentials: true
     - script: |
-        pwd
         # configure Git client
         git config --global user.email "openwatcomazure@gmail.com"
         git config --global user.name "Open Watcom Azure"
         # get latest OW sources
         git clone --depth=1 --branch=master https://github.com/$(owwikiproject).git $(owwikiroot)
-        pwd
-        cd $(owwikiroot)
       displayName: "Wiki Docs clone"
     - task: DownloadPipelineArtifact@2
       displayName: "Load Artifact wiki-dochtml"
@@ -33,7 +30,6 @@ jobs:
         artifactName: "wiki-docpdf"
         targetPath:   variables['owwikiroot']\docs
     - script: |
-        pwd
         cd $(owwikiroot)
         git add -v -f .
         if [ -n "$(git status -uno --porcelain)" ]; then
@@ -44,5 +40,4 @@ jobs:
           git branch -d temp
           git push -v
         fi
-        pwd
       displayName: "Wiki Docs update"
