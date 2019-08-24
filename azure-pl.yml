@@ -11,7 +11,7 @@ schedules:
     - master
 
 variables: 
-  template:     azure/globalva.yml
+  template: azure/globalva.yml
 
 stages:
   - stage: start
