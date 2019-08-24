@@ -4,10 +4,10 @@ jobs:
     strategy:
       matrix:
         Linux:
-          owarch:   $(owarch_lnx)
-          owobjdir: $(owobjdir_lnx)
-          owimage:  $(owimage_lnx)
-          owtools:  $(owtools_lnx)
+          owarch:   ${{ variables['owarch_lnx'] }}
+          owobjdir: ${{ variables['owobjdir_lnx'] }}
+          owimage:  ${{ variables['owimage_lnx'] }}
+          owtools:  ${{ variables['owtools_lnx'] }}
           owscript: $(Build.SourcesDirectory)/ci/coverity.sh
           owcoverity.tool.src: linux64
           owcoverity.tool.archive: /tmp/cov-analysis-linux.tgz
@@ -15,10 +15,10 @@ jobs:
           owcoverity.script: $(Build.SourcesDirectory)/ci/covbuild.sh
           owcoverity.results.archive: open-watcom-v2.tgz
         #Windows:
-          #owarch:   ${{ variables.owarch_nt }}
-          #owobjdir: ${{ variables.owobjdir_nt }}
-          #owimage:  ${{ variables.owimage_nt }}
-          #owtools:  ${{ variables.owtools_nt }}
+          #owarch:   variables['owarch_nt']
+          #owobjdir: variables['owobjdir_nt']
+          #owimage:  variables['owimage_nt']
+          #owtools:  variables['owtools_nt']
           #owscript: $(Build.SourcesDirectory)\ci\coverity.cmd
           #owcoverity.tool.src: win64
           #owcoverity.tool.archive: $(TEMP)\cov-analysis-windows.zip
