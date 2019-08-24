@@ -102,9 +102,11 @@ stages:
           env: 
             OWBUILD_STAGE: build
         - template: azure/relsave.yml
-          parameters: {owcond: in( variables.owarch, variables.owarch_lnx, variables.owarch_nt )}
+          parameters:
+            owcond: in( variables.owarch, variables.owarch_lnx, variables.owarch_nt )
         - template: azure/instsave.yml
-          parameters: {owcond: in( variables.owarch, variables.owarch_lnx, variables.owarch_nt )}
+          parameters:
+            owcond: in( variables.owarch, variables.owarch_lnx, variables.owarch_nt )
   - stage: tests
     displayName: "Tests"
     dependsOn:
@@ -317,4 +319,13 @@ stages:
     #  )
     jobs:
       - template: azure/wiki.yml
-  - template: azure/coverity.yml
+stages:
+  - stage: scan
+    displayName: "Coverity Scan"
+    dependsOn:
+      - tests
+    #condition: >
+    #  and(succeeded(), 
+    #    in(variables['Build.Reason'], 'Schedule'))
+    jobs:
+      - template: azure/coverity.yml
