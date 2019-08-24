@@ -5,7 +5,7 @@ parameters:
 steps:
     # extract full binary archive
     - script: 7z x $(owartifact) *.tar
-      displayName: 7-ZIP ${{ parameters.owtitle }}
+      displayName: 7-ZIP TAR ${{ parameters.owtitle }}
       condition: in(variables.owarch, variables.owarch_nt)
     - script: 7z x $(owartifact7z) -aoa -o${{ parameters.owfilepath }}
       displayName: 7-ZIP ${{ parameters.owtitle }}
@@ -17,7 +17,7 @@ steps:
         destinationFolder: ${{ parameters.owfilepath }}
         cleanDestinationFolder: false
       condition: in(variables.owarch, variables.owarch_lnx, variables.owarch_osx)
-    - bash: rm -f $(owartifact7z)
+    - script: del $(owartifact7z)
       displayName: 7-ZIP Remove tar file
       condition: in(variables.owarch, variables.owarch_nt)
     - template: archiver.yml

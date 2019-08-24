@@ -173,12 +173,6 @@ stages:
               owdoctarget: docpdf
             WIN:
               owdoctarget: docwin
-            Wiki Html:
-              owdoctarget: wikihtml
-              owdocargs: .and wikihtml .or -- -- docset=wikihtml
-            Wiki PDF:
-              owdoctarget: wikipdf
-              owdocargs: .and wikipdf .or -- -- docset=wikipdf
         pool:
           vmImage: $(owimage_nt)
         steps:
@@ -187,7 +181,11 @@ stages:
           displayName: "Documentation Build"
           env:
             OWBUILD_STAGE: docs
-        - template: ci/docsave.yml
+        - task: PublishPipelineArtifact@1
+          displayName: "Save Artifact rel-$(owdoctarget)"
+          inputs: 
+            artifactName: "rel-$(owdoctarget)"
+            targetPath: rel
   - stage: instal
     displayName: "Installers Build"
     dependsOn:
@@ -230,17 +228,17 @@ stages:
           parameters: {owobjdir: $(owobjdir_lnx)}
         # consolidate documentation
         - template: ci/docload.yml
-          parameters: {owdoctarget: docdos}
+          parameters: {owartifname: rel-docdos}
         - template: ci/docload.yml
-          parameters: {owdoctarget: dochtml}
+          parameters: {owartifname: rel-dochtml}
         - template: ci/docload.yml
-          parameters: {owdoctarget: docnt}
+          parameters: {owartifname: rel-docnt}
         - template: ci/docload.yml
-          parameters: {owdoctarget: docos2}
+          parameters: {owartifname: rel-docos2}
         - template: ci/docload.yml
-          parameters: {owdoctarget: docpdf}
+          parameters: {owartifname: rel-docpdf}
         - template: ci/docload.yml
-          parameters: {owdoctarget: docwin}
+          parameters: {owartifname: rel-docwin}
         # run build script
         - script: ci/$(owscript)
           displayName: "Build Installers"
@@ -326,10 +324,47 @@ stages:
               distrib/ow/bin/ow-snapshot.tar.gz
             isPreRelease: true
             addChangeLog: false
-  - stage: Wiki
-    displayName: "Wiki Documentation Update"
+  - stage: wikidocs
+    displayName: "Wiki Docs Build"
     dependsOn:
       - docs
+    jobs:
+      - job: WikiDocs
+        variables:
+          owarch: $(owarch_nt)
+          owobjdir: ${{ variables.owobjdir_nt }}
+          owtools: ${{ variables.owtools_nt }}
+        strategy:
+          matrix:
+            Wiki Html:
+              owdoctarget: wikihtml .and wikihtml .or -- -- docset=wikihtml
+              owartifname: wiki-dochtml
+            Wiki PDF:
+              owdoctarget: wikipdf .and wikipdf .or -- -- docset=wikipdf
+              owartifname: wiki-docpdf
+        pool:
+          vmImage: $(owimage_nt)
+        steps:
+        - template: ci/bootload.yml
+        - script: ci/$(owscript_nt)
+          displayName: "Documentation Build"
+          env:
+            OWBUILD_STAGE: docs
+        - script: |
+            xcopy docs\html\*.htm $(Build.ArtifactStagingDirectory)\
+            xcopy docs\html\*.bmp $(Build.ArtifactStagingDirectory)\
+            ren $(Build.ArtifactStagingDirectory)\*.htm *.html
+            xcopy docs\pdf\*.pdf $(Build.ArtifactStagingDirectory)\
+          displayName: "Copy Artifact Wiki files"
+        - task: PublishPipelineArtifact@1
+          displayName: "Save Artifact $(owartifname)"
+          inputs: 
+            artifactName: "$(owartifname)"
+            targetPath: $(Build.ArtifactStagingDirectory)
+  - stage: Wiki
+    displayName: "Wiki Docs Update"
+    dependsOn:
+      - wikidocs
     #condition: >
     #  and(
     #    succeeded(), 

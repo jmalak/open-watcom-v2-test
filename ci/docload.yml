@@ -1,10 +1,10 @@
 parameters:
-  owdoctarget: ''
+  owartifname: ''
 
 steps:
     - task: DownloadPipelineArtifact@2
-      displayName: "Load Artifact rel-${{ parameters.owdoctarget }}"
+      displayName: "Load Artifact ${{ parameters.owartifname }}"
       inputs: 
         buildType:    'current'
-        artifactName: "rel-${{ parameters.owdoctarget }}"
+        artifactName: "${{ parameters.owartifname }}"
         targetPath:   rel

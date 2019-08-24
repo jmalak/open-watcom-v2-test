@@ -71,7 +71,7 @@ if "%OWBUILD_STAGE%" == "docs" (
     REM register all Help Compilers DLL's
     regsvr32 -u -s itcc.dll
     regsvr32 -s %OWCIBIN64%\itcc.dll
-    builder docs %OWDOCTARGET% %OWDOCARGS%
+    builder docs %OWDOCTARGET%
     set RC=%ERRORLEVEL%
 )
 if "%OWBUILD_STAGE%" == "inst" (
