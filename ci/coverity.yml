@@ -1,17 +1,13 @@
 jobs:
   - job: scan
     displayName: "Coverity Scan"
-    timeoutInMinutes: 240
-    variables:
-      owcoverity.project:  open-watcom/open-watcom-v2
-      owcoverity.tool.cmd: ''
     strategy:
       matrix:
         Linux:
-          owarch:   ${{ variables.owarch_lnx }}
-          owobjdir: ${{ variables.owobjdir_lnx }}
-          owimage:  ${{ variables.owimage_lnx }}
-          owtools:  ${{ variables.owtools_lnx }}
+          owarch:   $(owarch_lnx)
+          owobjdir: $(owobjdir_lnx)
+          owimage:  $(owimage_lnx)
+          owtools:  $(owtools_lnx)
           owscript: $(Build.SourcesDirectory)/ci/coverity.sh
           owcoverity.tool.src: linux64
           owcoverity.tool.archive: /tmp/cov-analysis-linux.tgz
@@ -29,6 +25,10 @@ jobs:
           #owcoverity.tool.base: $(TEMP)\coverity-scan-analysis
           #owcoverity.script: $(Build.SourcesDirectory)\ci\covbuild.cmd
           #owcoverity.results.archive: open-watcom-v2.zip
+    timeoutInMinutes: 240
+    variables:
+      owcoverity.project:  open-watcom/open-watcom-v2
+      owcoverity.tool.cmd: ''
     pool:
       vmImage: '$(owimage)'
     steps:
