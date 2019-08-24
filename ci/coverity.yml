@@ -5,9 +5,10 @@ jobs:
       matrix:
         Linux:
           owarch:   $(owarch_lnx)
-          owobjdir: $(owobjdir_lnx)
+          owobjdir: variables['owobjdir_lnx']
           owimage:  variables.owimage_lnx
-          owtools:  variables.owtools_lnx
+          owtools:  ${{ variables.owtools_lnx }}
+          owscr:    ${{ variables['owscript_lnx'] }}
           owscript: $(Build.SourcesDirectory)/ci/coverity.sh
           owcoverity.tool.src: linux64
           owcoverity.tool.archive: /tmp/cov-analysis-linux.tgz
