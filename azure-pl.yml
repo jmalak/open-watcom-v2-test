@@ -48,7 +48,7 @@ stages:
         in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI')
       )
     jobs:
-      - template: .ci/mirror.yml
+      - template: ci/mirror.yml
   - stage: boot
     displayName: "Bootstrap"
     dependsOn:
@@ -78,11 +78,11 @@ stages:
         pool:
           vmImage: $(owimage)
         steps:
-        - script: .ci/$(owscript)
+        - script: ci/$(owscript)
           displayName: "Bootstrap"
           env:
             OWBUILD_STAGE: boot
-        - template: .ci/bootsave.yml
+        - template: ci/bootsave.yml
   - stage: build
     displayName: "Build"
     dependsOn:
@@ -113,16 +113,16 @@ stages:
           vmImage: $(owimage)
         timeoutInMinutes: 90
         steps:
-        - template: .ci/dosbox.yml
-        - template: .ci/bootload.yml
-        - script: .ci/$(owscript)
+        - template: ci/dosbox.yml
+        - template: ci/bootload.yml
+        - script: ci/$(owscript)
           displayName: "Build"
           env: 
             OWBUILD_STAGE: build
-        - template: .ci/relsave.yml
+        - template: ci/relsave.yml
           parameters:
             owcond: in( variables.owarch, variables.owarch_lnx, variables.owarch_nt )
-        - template: .ci/instsave.yml
+        - template: ci/instsave.yml
           parameters:
             owcond: in( variables.owarch, variables.owarch_lnx, variables.owarch_nt )
   - stage: tests
@@ -148,7 +148,7 @@ stages:
         pool:
           vmImage: $(owimage)
         steps:
-        - template: .ci/bootload.yml
+        - template: ci/bootload.yml
   - stage: docs
     displayName: "Documentation Build"
     dependsOn:
@@ -182,12 +182,12 @@ stages:
         pool:
           vmImage: $(owimage_nt)
         steps:
-        - template: .ci/bootload.yml
-        - script: .ci/$(owscript_nt)
+        - template: ci/bootload.yml
+        - script: ci/$(owscript_nt)
           displayName: "Documentation Build"
           env:
             OWBUILD_STAGE: docs
-        - template: .ci/docsave.yml
+        - template: ci/docsave.yml
   - stage: instal
     displayName: "Installers Build"
     dependsOn:
@@ -218,31 +218,31 @@ stages:
         pool:
           vmImage: $(owimage)
         steps:
-        - template: .ci/bootload.yml
-        - template: .ci/instload.yml
+        - template: ci/bootload.yml
+        - template: ci/instload.yml
           parameters: {owobjdir: $(owobjdir_nt)}
-        - template: .ci/instload.yml
+        - template: ci/instload.yml
           parameters: {owobjdir: $(owobjdir_lnx)}
         # consolidate binaries
-        - template: .ci/relload.yml
+        - template: ci/relload.yml
           parameters: {owobjdir: $(owobjdir_nt)}
-        - template: .ci/relload.yml
+        - template: ci/relload.yml
           parameters: {owobjdir: $(owobjdir_lnx)}
         # consolidate documentation
-        - template: .ci/docload.yml
+        - template: ci/docload.yml
           parameters: {owdoctarget: docdos}
-        - template: .ci/docload.yml
+        - template: ci/docload.yml
           parameters: {owdoctarget: dochtml}
-        - template: .ci/docload.yml
+        - template: ci/docload.yml
           parameters: {owdoctarget: docnt}
-        - template: .ci/docload.yml
+        - template: ci/docload.yml
           parameters: {owdoctarget: docos2}
-        - template: .ci/docload.yml
+        - template: ci/docload.yml
           parameters: {owdoctarget: docpdf}
-        - template: .ci/docload.yml
+        - template: ci/docload.yml
           parameters: {owdoctarget: docwin}
         # run build script
-        - script: .ci/$(owscript)
+        - script: ci/$(owscript)
           displayName: "Build Installers"
           env:
             OWBUILD_STAGE: inst
@@ -256,7 +256,7 @@ stages:
             archiveFile: 'distrib/ow/bin/ow-snapshot.tar.gz'
             replaceExistingArchive: true
         # save all artifacts for distribution
-        - template: .ci/distsave.yml
+        - template: ci/distsave.yml
   - stage: release
     displayName: "GitHub Release"
     dependsOn:
@@ -277,11 +277,11 @@ stages:
         steps:
         - checkout: self
           persistCredentials: true
-        - template: .ci/bootload.yml
+        - template: ci/bootload.yml
           parameters: {owobjdir: $(owobjdir_lnx)}
-        - template: .ci/distload.yml
+        - template: ci/distload.yml
           parameters: {owobjdir: $(owobjdir_nt)}
-        - template: .ci/distload.yml
+        - template: ci/distload.yml
           parameters: {owobjdir: $(owobjdir_lnx)}
         - bash: echo "##vso[task.setvariable variable=owtagstamp;]$(date +'%Y-%m-%d %H:%M:%S')"
           displayName: "Get current timestamp"
@@ -336,7 +336,7 @@ stages:
     #    in(variables['Build.Reason'], 'Schedule')
     #  )
     jobs:
-      - template: .ci/wiki.yml
+      - template: ci/wiki.yml
   - stage: scan
     displayName: "Coverity Scan"
     dependsOn:
@@ -345,4 +345,4 @@ stages:
     #  and(succeeded(), 
     #    in(variables['Build.Reason'], 'Schedule'))
     jobs:
-      - template: .ci/coverity.yml
+      - template: ci/coverity.yml
