@@ -191,11 +191,11 @@ stages:
     dependsOn:
       - docs
       - tests
-    condition: >
-      and(
-        succeeded(), 
-        in(variables['Build.Reason'], 'Schedule')
-      )
+    #condition: >
+    #  and(
+    #    succeeded(), 
+    #    in(variables['Build.Reason'], 'Schedule')
+    #  )
     jobs:
       - job: instal
         displayName: "Installers Build"
