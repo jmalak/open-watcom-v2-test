@@ -259,11 +259,11 @@ stages:
     displayName: "GitHub Release"
     dependsOn:
       - instal
-    condition: >
-      and(
-        succeeded(), 
-        in(variables['Build.Reason'], 'Schedule')
-      )
+    #condition: >
+    #  and(
+    #    succeeded(), 
+    #    in(variables['Build.Reason'], 'Schedule')
+    #  )
     jobs:
       - job: release
         displayName: "GitHub Release"
