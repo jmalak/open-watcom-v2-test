@@ -177,6 +177,7 @@ stages:
           owarch:           ${{ variables.owarch_nt }}
           owimage:          ${{ variables.owimage_nt }}
           owtools:          ${{ variables.owtools_nt }}
+          owscript:         ${{ variables.owscript_nt }}
           owbuild.stage:    docs
         strategy:
           matrix:
@@ -199,7 +200,7 @@ stages:
           parameters:
             path:       build/$(owobjdir)
             prefix:     build
-        - script: ci/$(owscript_nt)
+        - script: ci/$(owscript)
           displayName: "Documentation Build"
         - task: PublishPipelineArtifact@1
           displayName: "Save Artifact rel-$(owdoctarget)"
@@ -414,8 +415,4 @@ stages:
         steps:
           - template: ci/coverity.yml
   - template: ci/wiki.yml
-    parameters:
-      arch:         $(owarch_nt)
-      tools:        $(owtools_nt)
-      image:        $(owimage_nt)
-      scriptname:   $(owscript_nt)
+

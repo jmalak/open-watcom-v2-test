@@ -1,9 +1,3 @@
-parameters:
-  arch:         ''
-  tools:        ''
-  image:        ''
-  scriptname:   ''
-
 stages:
   - stage: wikidocs
     displayName: "Wiki Docs Build"
@@ -14,7 +8,10 @@ stages:
         displayName: "Wiki Documentation Build"
         variables:
           owbuild.stage:    docs
-          owtools:          ${{ parameters.tools }}
+          owarch:           ${{ variables.owarch_nt }}
+          owimage:          ${{ variables.owimage_nt }}
+          owtools:          ${{ variables.owtools_nt }}
+          owscript:         ${{ variables.owscript_nt }}
         strategy:
           matrix:
             Html:
@@ -24,14 +21,13 @@ stages:
               owdoctarget:  wikipdf .and wikipdf .or -- -- docset=wikipdf
               owartifname:  wiki-docpdf
         pool:
-          vmImage: ${{ parameters.image }}
+          vmImage: $(owimage)
         steps:
         - template: artfload.yml
           parameters:
-            arch:       ${{ parameters.arch }}
             path:       build/$(owobjdir)
             prefix:     build
-        - script: ci/${{ parameters.scriptname }}
+        - script: ci/$(owscript)
           displayName: "Documentation Build"
         - script: |
             set
@@ -58,13 +54,16 @@ stages:
       - job: wiki
         displayName: "Wiki Documentation Update"
         variables:
-          owtools:          ${{ parameters.tools }}
+          owarch:           ${{ variables.owarch_nt }}
+          owimage:          ${{ variables.owimage_nt }}
+          owtools:          ${{ variables.owtools_nt }}
+          owscript:         ${{ variables.owscript_nt }}
           owwiki_depth:     10
           owwikiproject:    open-watcom/open-watcom-v2-webdocs
           owwikipath:       wiki
           owwikiroot:       $(Pipeline.Workspace)\$(owwikipath)
         pool:
-          vmImage: ${{ parameters.image }}
+          vmImage: $(owimage)
         steps:
         - template: gituser.yml
         - checkout: wiki
