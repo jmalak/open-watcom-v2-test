@@ -319,7 +319,6 @@ stages:
           parameters:
             owpath:   build/$(owobjdir)
             owprefix: build
-          parameters: {owarch: $(owarch_lnx)}
         - template: ci/artfload.yml
           parameters:
             owarch:   $(owarch_nt)
