@@ -6,7 +6,7 @@ steps:
     - template: archives.yml
       parameters: 
         owfilepath: bld/setupgui
-        owtitle: Archive Artifact bld-setupgui-${{ parameters.owarch }}
+        owtitle: Create Artifact Archive bld-setupgui-${{ parameters.owarch }}
         owcond: ${{ parameters.owcond }}
     - task: PublishPipelineArtifact@1
       displayName: Save Archive bld-setupgui-${{ parameters.owarch }}

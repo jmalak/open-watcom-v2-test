@@ -6,7 +6,7 @@ steps:
     - template: archives.yml
       parameters: 
         owfilepath: rel
-        owtitle: Archive Artifact rel-${{ parameters.owarch }}
+        owtitle: Create Artifact Archive rel-${{ parameters.owarch }}
         owcond: ${{ parameters.owcond }}
     - task: PublishPipelineArtifact@1
       displayName: Save Archive rel-${{ parameters.owarch }}

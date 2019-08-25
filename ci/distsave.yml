@@ -5,7 +5,7 @@ steps:
     - template: archives.yml
       parameters: 
         owfilepath: distrib/ow/bin
-        owtitle: Archive Artifact distrib-${{ parameters.owarch }}
+        owtitle: Create Artifact Archive distrib-${{ parameters.owarch }}
     - task: PublishPipelineArtifact@1
       displayName: Save Archive distrib-${{ parameters.owarch }}
       inputs: 

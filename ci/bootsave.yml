@@ -5,7 +5,7 @@ steps:
     - template: archives.yml
       parameters: 
         owfilepath: build/$(owobjdir)
-        owtitle: Archive Artifact build-${{ parameters.owarch }}
+        owtitle: Create Artifact Archive build-${{ parameters.owarch }}
     - task: PublishPipelineArtifact@1
       displayName: Save Archive build-${{ parameters.owarch }}
       inputs: 
@@ -15,7 +15,7 @@ steps:
     - template: archives.yml
       parameters:
         owfilepath: bld/watcom/$(owobjdir)
-        owtitle: Archive Artifact bld-watcom-${{ parameters.owarch }}
+        owtitle: Create Artifact Archive bld-watcom-${{ parameters.owarch }}
     - task: PublishPipelineArtifact@1
       displayName: Save Archive bld-watcom-${{ parameters.owarch }}
       inputs:
