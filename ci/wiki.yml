@@ -5,18 +5,29 @@ stages:
       - docs
     jobs:
       - job: WikiDocs
+        displayName: "Wiki Documentation Build"
         variables:
-          owarch:           ${{ variables.owarch_nt }}
-          owtools:          ${{ variables.owtools_nt }}
           owbuild.stage:    docs
+              owarch1:      ${{ variables.owarch_nt }}
+              owarch2:      variables.owarch_nt
+              owarch3:      $(owarch_nt)
+              owarch4:      variables['owarch_nt']
         strategy:
           matrix:
-            Wiki Html:
-              owdoctarget: wikihtml .and wikihtml .or -- -- docset=wikihtml
-              owartifname: wiki-dochtml
-            Wiki PDF:
-              owdoctarget: wikipdf .and wikipdf .or -- -- docset=wikipdf
-              owartifname: wiki-docpdf
+            Html:
+              owarch1a:      ${{ variables.owarch_nt }}
+              owarch2a:      variables.owarch_nt
+              owarch3a:      $(owarch_nt)
+              owarch4a:      variables['owarch_nt']
+              owarch:       ${{ variables.owarch_nt }}
+              owtools:      ${{ variables.owtools_nt }}
+              owdoctarget:  wikihtml .and wikihtml .or -- -- docset=wikihtml
+              owartifname:  wiki-dochtml
+            PDF:
+              owarch:       ${{ variables.owarch_nt }}
+              owtools:      ${{ variables.owtools_nt }}
+              owdoctarget:  wikipdf .and wikipdf .or -- -- docset=wikipdf
+              owartifname:  wiki-docpdf
         pool:
           vmImage: $(owimage_nt)
         steps:
@@ -24,6 +35,7 @@ stages:
         - script: $(owscript_nt)
           displayName: "Documentation Build"
         - script: |
+            set
             xcopy docs\html\*.htm $(Build.ArtifactStagingDirectory)\
             xcopy docs\html\*.bmp $(Build.ArtifactStagingDirectory)\
             ren $(Build.ArtifactStagingDirectory)\*.htm *.html
