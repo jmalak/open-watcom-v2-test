@@ -14,4 +14,4 @@ steps:
     condition: in( ${{ parameters.arch }}, variables.owarch_lnx )
   - script: brew install dosbox
     displayName: "Install DOSBOX OSX"
-    condition: ${{ in( parameters.arch, variables.owarch_osx ) }}
+    condition: in( ${{ parameters.arch }}, variables.owarch_osx )
