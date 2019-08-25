@@ -86,12 +86,10 @@ stages:
           displayName: "Bootstrap"
         - template: ci/artfsave.yml
           parameters: 
-            arch:       $(owarch)
             path:       build/$(owobjdir)
             prefix:     build
         - template: ci/artfsave.yml
           parameters: 
-            arch:       $(owarch)
             path:       bld/watcom/$(owobjdir)
             prefix:     bld-watcom
   - stage: build
@@ -126,25 +124,21 @@ stages:
         - template: ci/dosbox.yml
         - template: ci/artfload.yml
           parameters:
-            arch:       $(owarch)
             path:       build/$(owobjdir)
             prefix:     build
         - template: ci/artfload.yml
           parameters:
-            arch:       $(owarch)
             path:       bld/watcom/$(owobjdir)
             prefix:     bld-watcom
         - script: ci/$(owscript)
           displayName: "Build"
         - template: ci/artfsave.yml
           parameters: 
-            arch:       $(owarch)
             path:       rel
             prefix:     rel
             cond:       in( variables.owarch, variables.owarch_lnx, variables.owarch_nt )
         - template: ci/artfsave.yml
           parameters: 
-            arch:       $(owarch)
             path:       bld/setupgui
             prefix:     bld-setupgui
             cond:       in( variables.owarch, variables.owarch_lnx, variables.owarch_nt )
@@ -171,7 +165,6 @@ stages:
         steps:
         - template: ci/artfload.yml
           parameters:
-            arch:       $(owarch)
             path:       build/$(owobjdir)
             prefix:     build
   - stage: docs
@@ -204,7 +197,6 @@ stages:
         steps:
         - template: ci/artfload.yml
           parameters:
-            arch:       $(owarch)
             path:       build/$(owobjdir)
             prefix:     build
         - script: ci/$(owscript_nt)
@@ -246,33 +238,30 @@ stages:
         steps:
         - template: ci/artfload.yml
           parameters:
-            arch:       $(owarch)
             path:       build/$(owobjdir)
             prefix:     build
         - template: ci/artfload.yml
           parameters:
-            arch:       $(owarch)
             path:       bld/watcom/$(owobjdir)
             prefix:     bld-watcom
         - template: ci/artfload.yml
           parameters:
-            arch:       $(owarch_nt)
             path:       bld/setupgui
             prefix:     bld-setupgui
         - template: ci/artfload.yml
           parameters:
-            arch:       $(owarch_lnx)
+            owarch:     $(owarch_lnx)
             path:       bld/setupgui
             prefix:     bld-setupgui
         # consolidate binaries
         - template: ci/artfload.yml
           parameters:
-            arch:       $(owarch_nt)
+            owarch:     $(owarch_nt)
             path:       rel
             prefix:     rel
         - template: ci/artfload.yml
           parameters:
-            arch:       $(owarch_lnx)
+            owarch:     $(owarch_lnx)
             path:       rel
             prefix:     rel
         # consolidate documentation
@@ -303,7 +292,6 @@ stages:
         # save all artifacts for distribution
         - template: ci/artfsave.yml
           parameters: 
-            arch:       $(owarch)
             path:       distrib/ow/bin
             prefix:     distrib
   - stage: release
@@ -331,17 +319,15 @@ stages:
           persistCredentials: true
         - template: ci/artfload.yml
           parameters:
-            arch:       $(owarch)
             path:       build/$(owobjdir)
             prefix:     build
         - template: ci/artfload.yml
           parameters:
-            arch:       $(owarch)
             path:       distrib/ow/bin
             prefix:     distrib
         - template: ci/artfload.yml
           parameters:
-            arch:       $(owarch_lnx)
+            owarch:     $(owarch_lnx)
             path:       distrib/ow/bin
             prefix:     distrib
         - bash: echo "##vso[task.setvariable variable=owtagstamp;]$(date +'%Y-%m-%d %H:%M:%S')"
