@@ -10,6 +10,12 @@ schedules:
     include:
     - master
 
+resources:
+  repositories:
+  - repository: wiki
+    type: github
+    name: open-watcom/open-watcom-v2-webdocs
+
 variables: 
   owimage_lnx:      'ubuntu-latest'
   owimage_nt:       'vs2017-win2016'
