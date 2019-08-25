@@ -13,7 +13,7 @@ schedules:
 resources:
   repositories:
   - repository: wiki
-    type: github
+    type: GitHub
     name: open-watcom/open-watcom-v2-webdocs
     endpoint: open-watcom
 
