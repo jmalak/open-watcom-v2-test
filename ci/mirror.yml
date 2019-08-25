@@ -1,7 +1,12 @@
 jobs:
   - job: mirror
+    variables:
+      owarch:       ${{ variables.owarch_lnx }}
+      owimage:      ${{ variables.owimage_lnx }}
+      owtools:      ${{ variables.owtools_lnx }}
+      owscript:     ${{ variables.owscript_lnx }}
     pool:
-      vmImage: $(owimage_lnx)
+      vmImage: $(owimage)
     steps:
     - script: |
         mkdir ~/.ssh
