@@ -1,5 +1,5 @@
 parameters:
-  owarch:   $(owarch)
+  owarch:   ''
   owpath:   ''
   owprefix: ''
 
