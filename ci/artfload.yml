@@ -1,30 +1,30 @@
 parameters:
-  owarch:   ''
-  owpath:   ''
-  owprefix: ''
+  arch:     ''
+  path:     ''
+  prefix:   ''
 
 steps:
     - task: DownloadPipelineArtifact@2
-      displayName: Load Artifact ${{ parameters.owprefix }}-${{ parameters.owarch }}
+      displayName: Load Artifact ${{ parameters.prefix }}-${{ parameters.arch }}
       inputs: 
         buildType: 'current'
-        artifactName: ${{ parameters.owprefix }}-${{ parameters.owarch }}
+        artifactName: ${{ parameters.prefix }}-${{ parameters.arch }}
     # extract full binary archive
     - script: 7z x $(Pipeline.Workspace)\$(owartifactfile) *.tar
-      displayName: 7-ZIP TAR Extract Artifact ${{ parameters.owprefix }}-${{ parameters.owarch }}
-      condition: in(parameters.owarch, variables.owarch_nt)
-    - script: 7z x $(owartifactfile7z) -aoa -o${{ parameters.owpath }}
-      displayName: 7-ZIP Extract Artifact ${{ parameters.owprefix }}-${{ parameters.owarch }}
-      condition: in(parameters.owarch, variables.owarch_nt)
+      displayName: 7-ZIP TAR Extract Artifact ${{ parameters.prefix }}-${{ parameters.arch }}
+      condition: in(parameters.arch, variables.owarch_nt)
+    - script: 7z x $(owartifactfile7z) -aoa -o${{ parameters.path }}
+      displayName: 7-ZIP Extract Artifact ${{ parameters.prefix }}-${{ parameters.arch }}
+      condition: in(parameters.arch, variables.owarch_nt)
     - task: ExtractFiles@1
-      displayName: TAR Extract Artifact ${{ parameters.owprefix }}-${{ parameters.owarch }}
+      displayName: TAR Extract Artifact ${{ parameters.prefix }}-${{ parameters.arch }}
       inputs:
         archiveFilePatterns: $(Pipeline.Workspace)/$(owartifactfile)
-        destinationFolder: ${{ parameters.owpath }}
+        destinationFolder: ${{ parameters.path }}
         cleanDestinationFolder: false
-      condition: in(parameters.owarch, variables.owarch_lnx, variables.owarch_osx)
+      condition: in(parameters.arch, variables.owarch_lnx, variables.owarch_osx)
     - script: del $(owartifactfile7z)
       displayName: 7-ZIP Remove tar file
-      condition: in(parameters.owarch, variables.owarch_nt)
+      condition: in(parameters.arch, variables.owarch_nt)
     - bash: rm -f $(Pipeline.Workspace)/$(owartifactfile)
       displayName: Remove Archive

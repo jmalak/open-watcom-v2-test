@@ -86,14 +86,14 @@ stages:
           displayName: "Bootstrap"
         - template: ci/artfsave.yml
           parameters: 
-            owarch:     $(owarch)
-            owpath:     build/$(owobjdir)
-            owprefix:   build
+            arch:       $(owarch)
+            path:       build/$(owobjdir)
+            prefix:     build
         - template: ci/artfsave.yml
           parameters: 
-            owarch:     $(owarch)
-            owpath:     bld/watcom/$(owobjdir)
-            owprefix:   bld-watcom
+            arch:       $(owarch)
+            path:       bld/watcom/$(owobjdir)
+            prefix:     bld-watcom
   - stage: build
     displayName: "Build"
     dependsOn:
@@ -125,30 +125,30 @@ stages:
         steps:
         - template: ci/dosbox.yml
           parameters:
-            owarch:   $(owarch)
+            arch:       $(owarch)
         - template: ci/artfload.yml
           parameters:
-            owarch:   $(owarch)
-            owpath:   build/$(owobjdir)
-            owprefix: build
+            arch:       $(owarch)
+            path:       build/$(owobjdir)
+            prefix:     build
         - template: ci/artfload.yml
           parameters:
-            owarch:   $(owarch)
-            owpath:   bld/watcom/$(owobjdir)
-            owprefix: bld-watcom
+            arch:       $(owarch)
+            path:       bld/watcom/$(owobjdir)
+            prefix:     bld-watcom
         - script: ci/$(owscript)
           displayName: "Build"
         - template: ci/artfsave.yml
           parameters: 
-            owarch:     $(owarch)
-            owpath:     rel
-            owprefix:   rel
+            arch:       $(owarch)
+            path:       rel
+            prefix:     rel
             owcond:     in( variables.owarch, variables.owarch_lnx, variables.owarch_nt )
         - template: ci/artfsave.yml
           parameters: 
-            owarch:     $(owarch)
-            owpath:     bld/setupgui
-            owprefix:   bld-setupgui
+            arch:       $(owarch)
+            path:       bld/setupgui
+            prefix:     bld-setupgui
             owcond:     in( variables.owarch, variables.owarch_lnx, variables.owarch_nt )
   - stage: tests
     displayName: "Tests"
@@ -173,9 +173,9 @@ stages:
         steps:
         - template: ci/artfload.yml
           parameters:
-            owarch:   $(owarch)
-            owpath:   build/$(owobjdir)
-            owprefix: build
+            arch:       $(owarch)
+            path:       build/$(owobjdir)
+            prefix:     build
   - stage: docs
     displayName: "Documentation Build"
     dependsOn:
@@ -183,8 +183,7 @@ stages:
     jobs:
       - job: Documentation
         variables:
-          owarch:           ${{ variables.owarch_nt }}
-          owtools:          ${{ variables.owtools_nt }}
+          owtools:          $(owtools_nt)
           owbuild.stage:    docs
         strategy:
           matrix:
@@ -205,9 +204,9 @@ stages:
         steps:
         - template: ci/artfload.yml
           parameters:
-            owarch:   $(owarch)
-            owpath:   build/$(owobjdir)
-            owprefix: build
+            arch:       $(owarch_nt)
+            path:       build/$(owobjdir)
+            prefix:     build
         - script: ci/$(owscript_nt)
           displayName: "Documentation Build"
         - task: PublishPipelineArtifact@1
@@ -247,35 +246,35 @@ stages:
         steps:
         - template: ci/artfload.yml
           parameters:
-            owarch:   $(owarch)
-            owpath:   build/$(owobjdir)
-            owprefix: build
+            arch:       $(owarch)
+            path:       build/$(owobjdir)
+            prefix:     build
         - template: ci/artfload.yml
           parameters:
-            owarch:   $(owarch)
-            owpath:   bld/watcom/$(owobjdir)
-            owprefix: bld-watcom
+            arch:       $(owarch)
+            path:       bld/watcom/$(owobjdir)
+            prefix:     bld-watcom
         - template: ci/artfload.yml
           parameters:
-            owarch:   $(owarch_nt)
-            owpath:   bld/setupgui
-            owprefix: bld-setupgui
+            arch:       $(owarch_nt)
+            path:       bld/setupgui
+            prefix:     bld-setupgui
         - template: ci/artfload.yml
           parameters:
-            owarch:   $(owarch_lnx)
-            owpath:   bld/setupgui
-            owprefix: bld-setupgui
+            arch:       $(owarch_lnx)
+            path:       bld/setupgui
+            prefix:     bld-setupgui
         # consolidate binaries
         - template: ci/artfload.yml
           parameters:
-            owarch:   $(owarch_nt)
-            owpath:   rel
-            owprefix: rel
+            arch:       $(owarch_nt)
+            path:       rel
+            prefix:     rel
         - template: ci/artfload.yml
           parameters:
-            owarch:   $(owarch_lnx)
-            owpath:   rel
-            owprefix: rel
+            arch:       $(owarch_lnx)
+            path:       rel
+            prefix:     rel
         # consolidate documentation
         - template: ci/docload.yml
           parameters: {owdoctarget: docdos}
@@ -304,9 +303,9 @@ stages:
         # save all artifacts for distribution
         - template: ci/artfsave.yml
           parameters: 
-            owarch:     $(owarch)
-            owpath:     distrib/ow/bin
-            owprefix:   distrib
+            arch:       $(owarch)
+            path:       distrib/ow/bin
+            prefix:     distrib
   - stage: release
     displayName: "GitHub Release"
     dependsOn:
@@ -320,29 +319,29 @@ stages:
       - job: release
         displayName: "GitHub Release"
         variables:
-          owarch: ${{ variables.owarch_lnx }}
-          owtag: Current-build
+          arch:     $(owarch_lnx)
+          owtag:    Current-build
         pool:
-          vmImage: $(owimage_lnx)
+          vmImage:  $(owimage_lnx)
         steps:
         - template: ci/gituser.yml
         - checkout: self
           persistCredentials: true
         - template: ci/artfload.yml
           parameters:
-            owarch:   $(owarch)
-            owpath:   build/$(owobjdir)
-            owprefix: build
+            arch:       $(owarch)
+            path:       build/$(owobjdir)
+            prefix:     build
         - template: ci/artfload.yml
           parameters:
-            owarch:   $(owarch_nt)
-            owpath:   distrib/ow/bin
-            owprefix: distrib
+            arch:       $(owarch_nt)
+            path:       distrib/ow/bin
+            prefix:     distrib
         - template: ci/artfload.yml
           parameters:
-            owarch:   $(owarch_lnx)
-            owpath:   distrib/ow/bin
-            owprefix: distrib
+            arch:       $(owarch_lnx)
+            path:       distrib/ow/bin
+            prefix:     distrib
         - bash: echo "##vso[task.setvariable variable=owtagstamp;]$(date +'%Y-%m-%d %H:%M:%S')"
           displayName: "Get current timestamp"
         - bash: echo "##vso[task.setvariable variable=owgitstamp;]`git ls-remote --tags . | sed -n -e \"s:\([0-9a-z]*\) *refs/tags/${{ variables.owtag }}^{}:\1:p\"`"
@@ -421,14 +420,15 @@ stages:
               #owcoverity.script: $(Build.SourcesDirectory)\ci\covbuild.cmd
               #owcoverity.results.archive: open-watcom-v2.zip
         pool:
-          vmImage: '$(owimage)'
+          vmImage: $(owimage)
         steps:
           - template: ci/coverity.yml
             parameters:
-              owarch: $(owarch)
+              arch:         $(owarch)
+              scriptname:   $(owscript)
   - template: ci/wiki.yml
     parameters:
-      owarch: $(owarch_nt)
-      owtools: $(owtools_nt)
-      owimage: $(owimage_nt)
-      owscript: $(owscript_nt)
+      arch:         $(owarch_nt)
+      tools:        $(owtools_nt)
+      image:        $(owimage_nt)
+      scriptname:   $(owscript_nt)

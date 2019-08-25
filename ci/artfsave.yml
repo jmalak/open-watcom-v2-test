@@ -1,23 +1,23 @@
 parameters:
-  owarch:   ''
-  owpath:   ''
-  owprefix: ''
+  arch:     ''
+  path:     ''
+  prefix:   ''
   owcond:   true
 
 steps:
     - task: ArchiveFiles@2
-      displayName: Create Artifact Archive ${{ parameters.owprefix }}-${{ parameters.owarch }}
+      displayName: Create Artifact Archive ${{ parameters.prefix }}-${{ parameters.arch }}
       inputs:
-        rootFolderOrFile: ${{ parameters.owpath }}
+        rootFolderOrFile: ${{ parameters.path }}
         includeRootFolder: false
         archiveType: 'tar'
         archiveFile: $(Pipeline.Workspace)/$(owartifactfile)
         replaceExistingArchive: true
       condition: ${{ parameters.owcond }}
     - task: PublishPipelineArtifact@1
-      displayName: Save Archive ${{ parameters.owprefix }}-${{ parameters.owarch }}
+      displayName: Save Archive ${{ parameters.prefix }}-${{ parameters.arch }}
       inputs: 
-        artifactName: ${{ parameters.owprefix }}-${{ parameters.owarch }}
+        artifactName: ${{ parameters.prefix }}-${{ parameters.arch }}
         targetPath: $(Pipeline.Workspace)/$(owartifactfile)
       condition: ${{ parameters.owcond }}
     - bash: rm -f $(Pipeline.Workspace)/$(owartifactfile)
