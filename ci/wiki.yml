@@ -6,7 +6,7 @@ jobs:
       owwikiproject: open-watcom/open-watcom-v2-webdocs
       owwikiroot:    $(Pipeline.Workspace)/wiki
     pool:
-      vmImage: $(owimage_lnx)
+      vmImage: $(owimage_nt)
     steps:
     - checkout: self
       persistCredentials: true
