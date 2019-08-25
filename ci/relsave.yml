@@ -12,7 +12,7 @@ steps:
       displayName: Save Archive rel-${{ parameters.owarch }}
       inputs: 
         artifactName: rel-${{ parameters.owarch }}
-        targetPath: $(owartifactfile)
+        targetPath: $(Pipeline.Workspace)/$(owartifactfile)
       condition: ${{ parameters.owcond }}
     - template: archiver.yml
       parameters:

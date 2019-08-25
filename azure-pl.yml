@@ -23,11 +23,11 @@ variables:
   owarch_lnx:       lnx
   owarch_nt:        nt
   owarch_osx:       osx
-  owartifactfile:   $(Pipeline.Workspace)/owartifact.tar.gz
+  owartifactfile:   owartifact.tar.gz
   owartifactfile7z: owartifact.tar
   owroot:           $(Build.SourcesDirectory)
   owcibin64:        $(Build.SourcesDirectory)\ci\bin64
-  owobjdir:         binbin
+  owobjdir:         binbuild
 
 stages:
   - stage: start

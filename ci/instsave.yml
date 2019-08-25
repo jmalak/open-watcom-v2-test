@@ -12,7 +12,7 @@ steps:
       displayName: Save Archive bld-setupgui-${{ parameters.owarch }}
       inputs: 
         artifactName: bld-setupgui-${{ parameters.owarch }}
-        targetPath: $(owartifactfile)
+        targetPath: $(Pipeline.Workspace)/$(owartifactfile)
       condition: ${{ parameters.owcond }}
     - template: archiver.yml
       parameters: 

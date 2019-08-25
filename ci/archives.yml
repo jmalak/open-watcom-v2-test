@@ -10,6 +10,6 @@ steps:
         rootFolderOrFile: ${{ parameters.owfilepath }}
         includeRootFolder: false
         archiveType: 'tar'
-        archiveFile: $(owartifactfile)
+        archiveFile: $(Pipeline.Workspace)/$(owartifactfile)
         replaceExistingArchive: true
       condition: ${{ parameters.owcond }}

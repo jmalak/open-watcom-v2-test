@@ -10,7 +10,7 @@ steps:
       displayName: Save Archive build-${{ parameters.owarch }}
       inputs: 
         artifactName: build-${{ parameters.owarch }}
-        targetPath: $(owartifactfile)
+        targetPath: $(Pipeline.Workspace)/$(owartifactfile)
     - template: archiver.yml
     - template: archives.yml
       parameters:
@@ -20,5 +20,5 @@ steps:
       displayName: Save Archive bld-watcom-${{ parameters.owarch }}
       inputs:
         artifactName: bld-watcom-${{ parameters.owarch }}
-        targetPath: $(owartifactfile)
+        targetPath: $(Pipeline.Workspace)/$(owartifactfile)
     - template: archiver.yml

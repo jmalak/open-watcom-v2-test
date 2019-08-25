@@ -4,7 +4,7 @@ parameters:
 
 steps:
     # extract full binary archive
-    - script: 7z x $(owartifactfile) *.tar
+    - script: 7z x $(Pipeline.Workspace)\$(owartifactfile) *.tar
       displayName: 7-ZIP TAR ${{ parameters.owtitle }}
       condition: in(variables.owarch, variables.owarch_nt)
     - script: 7z x $(owartifactfile7z) -aoa -o${{ parameters.owfilepath }}
@@ -13,7 +13,7 @@ steps:
     - task: ExtractFiles@1
       displayName: TAR ${{ parameters.owtitle }}
       inputs:
-        archiveFilePatterns: $(owartifactfile)
+        archiveFilePatterns: $(Pipeline.Workspace)/$(owartifactfile)
         destinationFolder: ${{ parameters.owfilepath }}
         cleanDestinationFolder: false
       condition: in(variables.owarch, variables.owarch_lnx, variables.owarch_osx)

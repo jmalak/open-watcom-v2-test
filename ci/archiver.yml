@@ -2,6 +2,6 @@ parameters:
   owcond: 'true'
 
 steps:
-    - bash: rm -f $(owartifactfile)
+    - bash: rm -f $(Pipeline.Workspace)/$(owartifactfile)
       displayName: Remove Archive
       condition: ${{ parameters.owcond }}
