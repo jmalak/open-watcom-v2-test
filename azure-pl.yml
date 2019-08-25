@@ -319,7 +319,7 @@ stages:
       - job: release
         displayName: "GitHub Release"
         variables:
-          arch:     $(owarch_lnx)
+          owarch:   $(owarch_lnx)
           owtag:    Current-build
         pool:
           vmImage:  $(owimage_lnx)
