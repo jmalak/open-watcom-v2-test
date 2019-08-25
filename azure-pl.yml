@@ -124,8 +124,6 @@ stages:
         timeoutInMinutes: 90
         steps:
         - template: ci/dosbox.yml
-          parameters:
-            arch:       $(owarch)
         - template: ci/artfload.yml
           parameters:
             arch:       $(owarch)
@@ -323,6 +321,7 @@ stages:
         variables:
           owarch:       ${{ variables.owarch_lnx }}
           owimage:      ${{ variables.owimage_lnx }}
+          owtools:      ${{ variables.owtools_lnx }}
           owtag:        Current-build
         pool:
           vmImage:      $(owimage)
@@ -428,9 +427,6 @@ stages:
           vmImage: $(owimage)
         steps:
           - template: ci/coverity.yml
-            parameters:
-              arch:         $(owarch)
-              scriptname:   $(owscript)
   - template: ci/wiki.yml
     parameters:
       arch:         $(owarch_nt)

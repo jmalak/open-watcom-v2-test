@@ -1,11 +1,5 @@
-parameters:
-  arch:         ''
-  scriptname:   ''
-
 steps:
   - template: dosbox.yml
-    parameters:
-      arch: ${{ parameters.arch }}
   - script: |
       curl -s -o $(owcoverity.tool.archive) https://scan.coverity.com/download/cxx/$(owcoverity.tool.src) -d "project=$(owcoverity.project)&token=$(owcoverity.token)"
       mkdir $(owcoverity.tool.base)
@@ -14,22 +8,22 @@ steps:
       tar xzf $(owcoverity.tool.archive) -C $(owcoverity.tool.base)
       echo "##vso[task.setvariable variable=owcoverity.tool.cmd;]`find $(owcoverity.tool.base) -type f -name 'cov-build' -exec realpath {} \;`"
     displayName: "Restore Coverity Tools Linux"
-    condition: in( ${{ parameters.arch }}, variables.owarch_lnx )
+    condition: in( variables.owarch, variables.owarch_lnx )
   - script: |
       7z x -aoa -o$(owcoverity.tool.base) $(owcoverity.tool.archive)
       pushd $(owcoverity.tool.base)
       for /f %%a in ('dir /b /s cov-build.exe') do echo ##vso[task.setvariable variable=owcoverity.tool.cmd;]%%a
       popd
     displayName: "Restore Coverity Tools Windows"
-    condition: in( ${{ parameters.arch }}, variables.owarch_nt )
+    condition: in( variables.owarch, variables.owarch_nt )
   - script: |
-      ${{ parameters.scriptname }}
+      $(owscript)
     displayName: "Build Coverity data"
   - script: |
       tar czf $(owcoverity.results.archive) cov-int
       echo "##vso[task.setvariable variable=owsha;]`git rev-parse --short HEAD`"
     displayName: "Archive Coverity data Linux"
-    condition: in( ${{ parameters.arch }}, variables.owarch_lnx )
+    condition: in( variables.owarch, variables.owarch_lnx )
   - script: |
       pwd
       7z a $(owcoverity.results.archive) cov-int
@@ -37,7 +31,7 @@ steps:
       7z rn $(owcoverity.results.archive) @lst.txt
       del lst.txt
     displayName: "Archive Coverity data Windows"
-    condition: in( ${{ parameters.arch }}, variables.owarch_nt )
+    condition: in( variables.owarch, variables.owarch_nt )
   - script: >
       response=$(curl -s
       --write-out "\n%{http_code}\n"
