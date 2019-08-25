@@ -1,19 +1,20 @@
 parameters:
-  owarch: $(owarch)
-  owcond: 'true'
+  owpath:   ''
+  owprefix: ''
+  owcond:   true
 
 steps:
     - template: archives.yml
       parameters: 
-        owfilepath: bld/setupgui
-        owtitle: Create Artifact Archive bld-setupgui-${{ parameters.owarch }}
+        owfilepath: ${{ parameters.owpath }}
+        owtitle: Create Artifact Archive ${{ parameters.owprefix }}-$(owarch)
         owcond: ${{ parameters.owcond }}
     - task: PublishPipelineArtifact@1
-      displayName: Save Archive bld-setupgui-${{ parameters.owarch }}
+      displayName: Save Archive ${{ parameters.owprefix }}-$(owarch)
       inputs: 
-        artifactName: bld-setupgui-${{ parameters.owarch }}
+        artifactName: ${{ parameters.owprefix }}-$(owarch)
         targetPath: $(Pipeline.Workspace)/$(owartifactfile)
       condition: ${{ parameters.owcond }}
     - template: archiver.yml
-      parameters: 
+      parameters:
         owcond: ${{ parameters.owcond }}

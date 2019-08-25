@@ -1,0 +1,15 @@
+parameters:
+  owarch:   $(owarch)
+  owpath:   ''
+  owprefix: ''
+
+steps:
+    - task: DownloadPipelineArtifact@2
+      displayName: Load Artifact ${{ parameters.owprefix }}-${{ parameters.owarch }}
+      inputs: 
+        buildType: 'current'
+        artifactName: ${{ parameters.owprefix }}-${{ parameters.owarch }}
+    - template: archivel.yml
+      parameters: 
+        owfilepath: ${{ parameters.owpath }}
+        owtitle: Extract Artifact ${{ parameters.owprefix }}-${{ parameters.owarch }}

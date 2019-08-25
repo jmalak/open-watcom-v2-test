@@ -84,7 +84,14 @@ stages:
         steps:
         - script: ci/$(owscript)
           displayName: "Bootstrap"
-        - template: ci/bootsave.yml
+        - template: ci/artfsave.yml
+          parameters: 
+            owpath:     build/$(owobjdir)
+            owprefix:   build
+        - template: ci/artfsave.yml
+          parameters: 
+            owpath:     bld/watcom/$(owobjdir)
+            owprefix:   bld-watcom
   - stage: build
     displayName: "Build"
     dependsOn:
@@ -115,15 +122,26 @@ stages:
         timeoutInMinutes: 90
         steps:
         - template: ci/dosbox.yml
-        - template: ci/bootload.yml
+        - template: ci/artfload.yml
+          parameters:
+            owpath:   build/$(owobjdir)
+            owprefix: build
+        - template: ci/artfload.yml
+          parameters:
+            owpath:   bld/watcom/$(owobjdir)
+            owprefix: bld-watcom
         - script: ci/$(owscript)
           displayName: "Build"
-        - template: ci/relsave.yml
-          parameters:
-            owcond: in( variables.owarch, variables.owarch_lnx, variables.owarch_nt )
-        - template: ci/instsave.yml
-          parameters:
-            owcond: in( variables.owarch, variables.owarch_lnx, variables.owarch_nt )
+        - template: ci/artfsave.yml
+          parameters: 
+            owpath:     rel
+            owprefix:   rel
+            owcond:     in( variables.owarch, variables.owarch_lnx, variables.owarch_nt )
+        - template: ci/artfsave.yml
+          parameters: 
+            owpath:     bld/setupgui
+            owprefix:   bld-setupgui
+            owcond:     in( variables.owarch, variables.owarch_lnx, variables.owarch_nt )
   - stage: tests
     displayName: "Tests"
     dependsOn:
@@ -145,7 +163,10 @@ stages:
         pool:
           vmImage: $(owimage)
         steps:
-        - template: ci/bootload.yml
+        - template: ci/artfload.yml
+          parameters:
+            owpath:   build/$(owobjdir)
+            owprefix: build
   - stage: docs
     displayName: "Documentation Build"
     dependsOn:
@@ -173,7 +194,10 @@ stages:
         pool:
           vmImage: $(owimage_nt)
         steps:
-        - template: ci/bootload.yml
+        - template: ci/artfload.yml
+          parameters:
+            owpath:   build/$(owobjdir)
+            owprefix: build
         - script: ci/$(owscript_nt)
           displayName: "Documentation Build"
         - task: PublishPipelineArtifact@1
@@ -211,16 +235,35 @@ stages:
         pool:
           vmImage: $(owimage)
         steps:
-        - template: ci/bootload.yml
-        - template: ci/instload.yml
-          parameters: {owarch: $(owarch_nt)}
-        - template: ci/instload.yml
-          parameters: {owarch: $(owarch_lnx)}
+        - template: ci/artfload.yml
+          parameters:
+            owpath:   build/$(owobjdir)
+            owprefix: build
+        - template: ci/artfload.yml
+          parameters:
+            owpath:   bld/watcom/$(owobjdir)
+            owprefix: bld-watcom
+        - template: ci/artfload.yml
+          parameters:
+            owarch:   $(owarch_nt)
+            owpath:   bld/setupgui
+            owprefix: bld-setupgui
+        - template: ci/artfload.yml
+          parameters:
+            owarch:   $(owarch_lnx)
+            owpath:   bld/setupgui
+            owprefix: bld-setupgui
         # consolidate binaries
-        - template: ci/relload.yml
-          parameters: {owarch: $(owarch_nt)}
-        - template: ci/relload.yml
-          parameters: {owarch: $(owarch_lnx)}
+        - template: ci/artfload.yml
+          parameters:
+            owarch:   $(owarch_nt)
+            owpath:   rel
+            owprefix: rel
+        - template: ci/artfload.yml
+          parameters:
+            owarch:   $(owarch_lnx)
+            owpath:   rel
+            owprefix: rel
         # consolidate documentation
         - template: ci/docload.yml
           parameters: {owdoctarget: docdos}
@@ -247,7 +290,10 @@ stages:
             archiveFile: 'distrib/ow/bin/ow-snapshot.tar.gz'
             replaceExistingArchive: true
         # save all artifacts for distribution
-        - template: ci/distsave.yml
+        - template: ci/artfsave.yml
+          parameters: 
+            owpath:     distrib/ow/bin
+            owprefix:   distrib
   - stage: release
     displayName: "GitHub Release"
     dependsOn:
@@ -268,12 +314,21 @@ stages:
         steps:
         - checkout: self
           persistCredentials: true
-        - template: ci/bootload.yml
+        - template: ci/artfload.yml
+          parameters:
+            owpath:   build/$(owobjdir)
+            owprefix: build
           parameters: {owarch: $(owarch_lnx)}
-        - template: ci/distload.yml
-          parameters: {owarch: $(owarch_nt)}
-        - template: ci/distload.yml
-          parameters: {owarch: $(owarch_lnx)}
+        - template: ci/artfload.yml
+          parameters:
+            owarch:   $(owarch_nt)
+            owpath:   distrib/ow/bin
+            owprefix: distrib
+        - template: ci/artfload.yml
+          parameters:
+            owarch:   $(owarch_lnx)
+            owpath:   distrib/ow/bin
+            owprefix: distrib
         - bash: echo "##vso[task.setvariable variable=owtagstamp;]$(date +'%Y-%m-%d %H:%M:%S')"
           displayName: "Get current timestamp"
         - bash: echo "##vso[task.setvariable variable=owgitstamp;]`git ls-remote --tags . | sed -n -e \"s:\([0-9a-z]*\) *refs/tags/${{ variables.owtag }}^{}:\1:p\"`"

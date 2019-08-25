@@ -31,7 +31,10 @@ stages:
         pool:
           vmImage: $(owimage_nt)
         steps:
-        - template: bootload.yml
+        - template: artfload.yml
+          parameters:
+            owpath:   build/$(owobjdir)
+            owprefix: build
         - script: $(owscript_nt)
           displayName: "Documentation Build"
         - script: |
