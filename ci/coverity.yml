@@ -3,8 +3,8 @@ parameters:
 
 steps:
   - template: dosbox.yml
-      parameters:
-        owarch: ${{ parameters.owarch }}
+    parameters:
+      owarch: ${{ parameters.owarch }}
   - script: |
       curl -s -o $(owcoverity.tool.archive) https://scan.coverity.com/download/cxx/$(owcoverity.tool.src) -d "project=$(owcoverity.project)&token=$(owcoverity.token)"
       mkdir $(owcoverity.tool.base)
