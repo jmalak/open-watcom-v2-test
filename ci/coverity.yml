@@ -42,7 +42,7 @@ steps:
       --form version=$(owsha)
       --form description="Open Watcom V2 Travis CI build"
       https://scan.coverity.com/builds)
-      displayName: "Upload Coverity data"
+    displayName: "Upload Coverity data"
   - task: PublishPipelineArtifact@0
     inputs:
       artifactName: '$(owcoverity.tool.src)'
