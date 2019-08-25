@@ -30,7 +30,7 @@ stages:
             owarch:   ${{ parameters.owarch }}
             owpath:   build/$(owobjdir)
             owprefix: build
-        - script: ${{ parameters.owscript }}
+        - script: ci/${{ parameters.owscript }}
           displayName: "Documentation Build"
         - script: |
             set
