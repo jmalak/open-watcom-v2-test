@@ -1,3 +1,6 @@
+parameters:
+  owarch:   ''
+
 steps:
   - script: |
       for i in {1..10}
@@ -8,7 +11,7 @@ steps:
         fi
       done
     displayName: "Install DOSBOX Linux"
-    condition: in( variables.owarch, variables.owarch_lnx )
+    condition: in( parameters.owarch, variables.owarch_lnx )
   - script: brew install dosbox
     displayName: "Install DOSBOX OSX"
-    condition: in( variables.owarch, variables.owarch_osx )
+    condition: in( parameters.owarch, variables.owarch_osx )

@@ -124,6 +124,8 @@ stages:
         timeoutInMinutes: 90
         steps:
         - template: ci/dosbox.yml
+          parameters:
+            owarch:   $(owarch)
         - template: ci/artfload.yml
           parameters:
             owarch:   $(owarch)
@@ -422,6 +424,8 @@ stages:
           vmImage: '$(owimage)'
         steps:
           - template: ci/coverity.yml
+            parameters:
+              owarch: $(owarch)
   - template: ci/wiki.yml
     parameters:
       owarch: $(owarch_nt)
