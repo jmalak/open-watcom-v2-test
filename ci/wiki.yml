@@ -69,11 +69,7 @@ stages:
         pool:
           vmImage: $(owimage_nt)
         steps:
-        - script: |
-            # configure Git client
-            git config --global user.email "openwatcomazure@gmail.com"
-            git config --global user.name "Open Watcom Azure"
-          displayName: "Init git user"
+        - template: gituser.yml
         - checkout: wiki
           persistCredentials: true
           path: $(owwikipath)

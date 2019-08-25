@@ -312,6 +312,7 @@ stages:
         pool:
           vmImage: $(owimage_lnx)
         steps:
+        - template: ci/gituser.yml
         - checkout: self
           persistCredentials: true
         - template: ci/artfload.yml
@@ -333,9 +334,7 @@ stages:
           displayName: "Get current timestamp"
         - bash: echo "##vso[task.setvariable variable=owgitstamp;]`git ls-remote --tags . | sed -n -e \"s:\([0-9a-z]*\) *refs/tags/${{ variables.owtag }}^{}:\1:p\"`"
           displayName: "Get 'Current-build' tag commit"
-        - script: >
-            git config --global user.email "openwatcomazure@gmail.com"
-            git config --global user.name "Open Watcom Azure"
+        - script: |
             if [ ! "$OWGITSTAMP" = "$BUILD_SOURCEVERSION" ]; then
               git tag -d $OWTAG
               git push --delete origin $OWTAG
