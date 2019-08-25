@@ -439,7 +439,7 @@ stages:
           vmImage: $(owimage)
         steps:
         - template: ci/wikibld.yml
-  - stage: Wiki
+  - stage: wikiupd
     displayName: "Wiki Docs Update"
     dependsOn:
       - wikidocs
@@ -449,7 +449,7 @@ stages:
     #    in( variables['Build.Reason'], 'Schedule' )
     #  )
     jobs:
-      - job: wiki
+      - job: wikiupd
         displayName: "Wiki Documentation Update"
         variables:
           owarch:           ${{ variables.owarch_nt }}
