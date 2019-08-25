@@ -8,10 +8,10 @@ stages:
         displayName: "Wiki Documentation Build"
         variables:
           owbuild.stage:    docs
-              #owarch1:      ${{ variables.owarch_nt }}
-              #owarch2:      variables.owarch_nt
-              owarch3:      $(owarch_nt)
-              owarch4:      variables['owarch_nt']
+          owarch1:      ${{ variables.owarch_nt }}
+          owarch2:      variables.owarch_nt
+          owarch3:      $(owarch_nt)
+          owarch4:      variables['owarch_nt']
         strategy:
           matrix:
             Html:
