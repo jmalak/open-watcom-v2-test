@@ -31,6 +31,11 @@ stages:
         pool:
           vmImage: $(owimage_nt)
         steps:
+        - script: |
+            echo "owarch1=$(owarch1)"
+            echo "owarch2=$(owarch2)"
+            echo "owarch3=$(owarch3)"
+            echo "owarch4=$(owarch4)"
         - template: artfload.yml
           parameters:
             owpath:   build/$(owobjdir)
