@@ -15,7 +15,7 @@ resources:
   - repository: wiki
     type: github
     name: open-watcom/open-watcom-v2-webdocs
-    endpoint: GitHubWiki
+    endpoint: open-watcom
 
 variables: 
   owimage_lnx:      'ubuntu-latest'
