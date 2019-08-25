@@ -86,10 +86,12 @@ stages:
           displayName: "Bootstrap"
         - template: ci/artfsave.yml
           parameters: 
+            owarch:     $(owarch)
             owpath:     build/$(owobjdir)
             owprefix:   build
         - template: ci/artfsave.yml
           parameters: 
+            owarch:     $(owarch)
             owpath:     bld/watcom/$(owobjdir)
             owprefix:   bld-watcom
   - stage: build
@@ -124,21 +126,25 @@ stages:
         - template: ci/dosbox.yml
         - template: ci/artfload.yml
           parameters:
+            owarch:   $(owarch)
             owpath:   build/$(owobjdir)
             owprefix: build
         - template: ci/artfload.yml
           parameters:
+            owarch:   $(owarch)
             owpath:   bld/watcom/$(owobjdir)
             owprefix: bld-watcom
         - script: ci/$(owscript)
           displayName: "Build"
         - template: ci/artfsave.yml
           parameters: 
+            owarch:     $(owarch)
             owpath:     rel
             owprefix:   rel
             owcond:     in( variables.owarch, variables.owarch_lnx, variables.owarch_nt )
         - template: ci/artfsave.yml
           parameters: 
+            owarch:     $(owarch)
             owpath:     bld/setupgui
             owprefix:   bld-setupgui
             owcond:     in( variables.owarch, variables.owarch_lnx, variables.owarch_nt )
@@ -165,6 +171,7 @@ stages:
         steps:
         - template: ci/artfload.yml
           parameters:
+            owarch:   $(owarch)
             owpath:   build/$(owobjdir)
             owprefix: build
   - stage: docs
@@ -196,6 +203,7 @@ stages:
         steps:
         - template: ci/artfload.yml
           parameters:
+            owarch:   $(owarch)
             owpath:   build/$(owobjdir)
             owprefix: build
         - script: ci/$(owscript_nt)
@@ -237,10 +245,12 @@ stages:
         steps:
         - template: ci/artfload.yml
           parameters:
+            owarch:   $(owarch)
             owpath:   build/$(owobjdir)
             owprefix: build
         - template: ci/artfload.yml
           parameters:
+            owarch:   $(owarch)
             owpath:   bld/watcom/$(owobjdir)
             owprefix: bld-watcom
         - template: ci/artfload.yml
@@ -292,6 +302,7 @@ stages:
         # save all artifacts for distribution
         - template: ci/artfsave.yml
           parameters: 
+            owarch:     $(owarch)
             owpath:     distrib/ow/bin
             owprefix:   distrib
   - stage: release
@@ -317,6 +328,7 @@ stages:
           persistCredentials: true
         - template: ci/artfload.yml
           parameters:
+            owarch:   $(owarch)
             owpath:   build/$(owobjdir)
             owprefix: build
         - template: ci/artfload.yml
