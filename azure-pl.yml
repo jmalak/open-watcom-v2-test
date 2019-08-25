@@ -411,3 +411,8 @@ stages:
         steps:
           - template: ci/coverity.yml
   - template: ci/wiki.yml
+    parameters:
+      owarch: $(owarch_nt)
+      owtools: $(owtools_nt)
+      owimage: $(owimage_nt)
+      owscript: $(owscript_nt)

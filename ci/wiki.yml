@@ -1,3 +1,9 @@
+parameters:
+  owarch: ''
+  owtools: ''
+  owimage: ''
+  owscript: ''
+
 stages:
   - stage: wikidocs
     displayName: "Wiki Docs Build"
@@ -8,8 +14,6 @@ stages:
         displayName: "Wiki Documentation Build"
         variables:
           owbuild.stage:    docs
-          owarch:           $(owarch_nt)
-          owtools:          $(owtools_nt)
         strategy:
           matrix:
             Html:
@@ -19,13 +23,14 @@ stages:
               owdoctarget:  wikipdf .and wikipdf .or -- -- docset=wikipdf
               owartifname:  wiki-docpdf
         pool:
-          vmImage: $(owimage_nt)
+          vmImage: ${{ parameters.owimage }}
         steps:
         - template: artfload.yml
           parameters:
+            owarch:   ${{ parameters.owarch }}
             owpath:   build/$(owobjdir)
             owprefix: build
-        - script: $(owscript_nt)
+        - script: ${{ parameters.owscript }}
           displayName: "Documentation Build"
         - script: |
             set

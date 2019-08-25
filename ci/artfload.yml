@@ -9,7 +9,22 @@ steps:
       inputs: 
         buildType: 'current'
         artifactName: ${{ parameters.owprefix }}-${{ parameters.owarch }}
-    - template: archivel.yml
-      parameters: 
-        owfilepath: ${{ parameters.owpath }}
-        owtitle: Extract Artifact ${{ parameters.owprefix }}-${{ parameters.owarch }}
+    # extract full binary archive
+    - script: 7z x $(Pipeline.Workspace)\$(owartifactfile) *.tar
+      displayName: 7-ZIP TAR Extract Artifact ${{ parameters.owprefix }}-${{ parameters.owarch }}
+      condition: in(parameters.owarch, variables.owarch_nt)
+    - script: 7z x $(owartifactfile7z) -aoa -o${{ parameters.owpath }}
+      displayName: 7-ZIP Extract Artifact ${{ parameters.owprefix }}-${{ parameters.owarch }}
+      condition: in(parameters.owarch, variables.owarch_nt)
+    - task: ExtractFiles@1
+      displayName: TAR Extract Artifact ${{ parameters.owprefix }}-${{ parameters.owarch }}
+      inputs:
+        archiveFilePatterns: $(Pipeline.Workspace)/$(owartifactfile)
+        destinationFolder: ${{ parameters.owpath }}
+        cleanDestinationFolder: false
+      condition: in(parameters.owarch, variables.owarch_lnx, variables.owarch_osx)
+    - script: del $(owartifactfile7z)
+      displayName: 7-ZIP Remove tar file
+      condition: in(parameters.owarch, variables.owarch_nt)
+    - bash: rm -f $(Pipeline.Workspace)/$(owartifactfile)
+      displayName: Remove Archive
