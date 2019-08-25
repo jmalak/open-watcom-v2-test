@@ -1,0 +1,31 @@
+steps:
+  - template: gituser.yml
+  - checkout: wiki
+    persistCredentials: true
+    path: $(owwikipath)
+    displayName: "Wiki Docs clone"
+  - task: DownloadPipelineArtifact@2
+    displayName: "Load Artifact wiki-dochtml"
+    inputs: 
+      buildType:    'current'
+      artifactName: "wiki-dochtml"
+      targetPath:   $(owwikiroot)\docs
+  - task: DownloadPipelineArtifact@2
+    displayName: "Load Artifact wiki-docpdf"
+    inputs: 
+      buildType:    'current'
+      artifactName: "wiki-docpdf"
+      targetPath:   $(owwikiroot)\docs
+  - script: |
+      cd $(owwikiroot)
+      git add -v -f .
+      git status -uno --porcelain
+      if [ -n "$(git status -uno --porcelain)" ]; then
+        git commit -v -m "Azure Pipelines build $(Build.BuildNumber)"
+        git checkout -b temp
+        git checkout master
+        git merge temp
+        git branch -d temp
+        git push -v
+      fi
+    displayName: "Wiki Docs update"

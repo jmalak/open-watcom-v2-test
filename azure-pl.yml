@@ -24,9 +24,9 @@ variables:
   owtools_lnx:      GCC
   owtools_nt:       VISUALC
   owtools_osx:      CLANG
-  owscript_lnx:     buildx.sh
-  owscript_nt:      buildx.cmd
-  owscript_osx:     buildx.sh
+  owscript_lnx:     $(Build.SourcesDirectory)/ci/buildx.sh
+  owscript_nt:      $(Build.SourcesDirectory)\ci\buildx.cmd
+  owscript_osx:     $(Build.SourcesDirectory)/ci/buildx.sh
   owarch_lnx:       lnx
   owarch_nt:        nt
   owarch_osx:       osx
@@ -82,7 +82,7 @@ stages:
         pool:
           vmImage: $(owimage)
         steps:
-        - script: ci/$(owscript)
+        - script: $(owscript)
           displayName: "Bootstrap"
         - template: ci/artfsave.yml
           parameters: 
@@ -130,7 +130,7 @@ stages:
           parameters:
             path:       bld/watcom/$(owobjdir)
             prefix:     bld-watcom
-        - script: ci/$(owscript)
+        - script: $(owscript)
           displayName: "Build"
         - template: ci/artfsave.yml
           parameters: 
@@ -200,7 +200,7 @@ stages:
           parameters:
             path:       build/$(owobjdir)
             prefix:     build
-        - script: ci/$(owscript)
+        - script: $(owscript)
           displayName: "Documentation Build"
         - task: PublishPipelineArtifact@1
           displayName: "Save Artifact rel-$(owdoctarget)"
@@ -279,7 +279,7 @@ stages:
         - template: ci/docload.yml
           parameters: {owdoctarget: docwin}
         # run build script
-        - script: ci/$(owscript)
+        - script: $(owscript)
           displayName: "Build Installers"
         # create full binary archive
         - task: ArchiveFiles@2
@@ -414,5 +414,53 @@ stages:
           vmImage: $(owimage)
         steps:
           - template: ci/coverity.yml
-  - template: ci/wiki.yml
-
+  - stage: wikidocs
+    displayName: "Wiki Docs Build"
+    dependsOn:
+      - docs
+    jobs:
+      - job: WikiDocs
+        displayName: "Wiki Documentation Build"
+        variables:
+          owbuild.stage:    docs
+          owarch:           ${{ variables.owarch_nt }}
+          owimage:          ${{ variables.owimage_nt }}
+          owtools:          ${{ variables.owtools_nt }}
+          owscript:         ${{ variables.owscript_nt }}
+        strategy:
+          matrix:
+            Html:
+              owdoctarget:  wikihtml .and wikihtml .or -- -- docset=wikihtml
+              owartifname:  wiki-dochtml
+            PDF:
+              owdoctarget:  wikipdf .and wikipdf .or -- -- docset=wikipdf
+              owartifname:  wiki-docpdf
+        pool:
+          vmImage: $(owimage)
+        steps:
+        - template: ci/wikibld.yml
+  - stage: Wiki
+    displayName: "Wiki Docs Update"
+    dependsOn:
+      - wikidocs
+    #condition: >
+    #  and(
+    #    succeeded(), 
+    #    in( variables['Build.Reason'], 'Schedule' )
+    #  )
+    jobs:
+      - job: wiki
+        displayName: "Wiki Documentation Update"
+        variables:
+          owarch:           ${{ variables.owarch_nt }}
+          owimage:          ${{ variables.owimage_nt }}
+          owtools:          ${{ variables.owtools_nt }}
+          owscript:         ${{ variables.owscript_nt }}
+          owwiki_depth:     10
+          owwikiproject:    open-watcom/open-watcom-v2-webdocs
+          owwikipath:       wiki
+          owwikiroot:       $(Pipeline.Workspace)\$(owwikipath)
+        pool:
+          vmImage: $(owimage)
+        steps:
+        - template: ci/wikiupd.yml
