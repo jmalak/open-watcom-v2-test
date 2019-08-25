@@ -2,7 +2,7 @@ parameters:
   arch:     ''
   path:     ''
   prefix:   ''
-  owcond:   true
+  cond:     true
 
 steps:
     - task: ArchiveFiles@2
@@ -13,13 +13,13 @@ steps:
         archiveType: 'tar'
         archiveFile: $(Pipeline.Workspace)/$(owartifactfile)
         replaceExistingArchive: true
-      condition: ${{ parameters.owcond }}
+      condition: ${{ parameters.cond }}
     - task: PublishPipelineArtifact@1
       displayName: Save Archive ${{ parameters.prefix }}-${{ parameters.arch }}
       inputs: 
         artifactName: ${{ parameters.prefix }}-${{ parameters.arch }}
         targetPath: $(Pipeline.Workspace)/$(owartifactfile)
-      condition: ${{ parameters.owcond }}
+      condition: ${{ parameters.cond }}
     - bash: rm -f $(Pipeline.Workspace)/$(owartifactfile)
       displayName: Remove Archive
-      condition: ${{ parameters.owcond }}
+      condition: ${{ parameters.cond }}

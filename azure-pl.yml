@@ -143,13 +143,13 @@ stages:
             arch:       $(owarch)
             path:       rel
             prefix:     rel
-            owcond:     in( variables.owarch, variables.owarch_lnx, variables.owarch_nt )
+            cond:       in( variables.owarch, variables.owarch_lnx, variables.owarch_nt )
         - template: ci/artfsave.yml
           parameters: 
             arch:       $(owarch)
             path:       bld/setupgui
             prefix:     bld-setupgui
-            owcond:     in( variables.owarch, variables.owarch_lnx, variables.owarch_nt )
+            cond:       in( variables.owarch, variables.owarch_lnx, variables.owarch_nt )
   - stage: tests
     displayName: "Tests"
     dependsOn:
