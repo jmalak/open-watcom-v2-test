@@ -20,4 +20,5 @@ steps:
     - script: del $(owartifactfile7z)
       displayName: 7-ZIP Remove tar file
       condition: in(variables.owarch, variables.owarch_nt)
-    - template: archiver.yml
+    - bash: rm -f $(Pipeline.Workspace)/$(owartifactfile)
+      displayName: Remove Archive

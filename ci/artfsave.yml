@@ -15,6 +15,6 @@ steps:
         artifactName: ${{ parameters.owprefix }}-$(owarch)
         targetPath: $(Pipeline.Workspace)/$(owartifactfile)
       condition: ${{ parameters.owcond }}
-    - template: archiver.yml
-      parameters:
-        owcond: ${{ parameters.owcond }}
+    - bash: rm -f $(Pipeline.Workspace)/$(owartifactfile)
+      displayName: Remove Archive
+      condition: ${{ parameters.owcond }}
