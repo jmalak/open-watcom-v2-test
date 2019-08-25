@@ -12,19 +12,19 @@ steps:
     # extract full binary archive
     - script: 7z x $(Pipeline.Workspace)\$(owartifactfile) *.tar
       displayName: 7-ZIP TAR Extract Artifact ${{ parameters.prefix }}-${{ parameters.arch }}
-      condition: in(parameters.arch, variables.owarch_nt)
+      condition: in( ${{ parameters.arch }}, variables.owarch_nt )
     - script: 7z x $(owartifactfile7z) -aoa -o${{ parameters.path }}
       displayName: 7-ZIP Extract Artifact ${{ parameters.prefix }}-${{ parameters.arch }}
-      condition: in(parameters.arch, variables.owarch_nt)
+      condition: in( ${{ parameters.arch }}, variables.owarch_nt )
     - task: ExtractFiles@1
       displayName: TAR Extract Artifact ${{ parameters.prefix }}-${{ parameters.arch }}
       inputs:
         archiveFilePatterns: $(Pipeline.Workspace)/$(owartifactfile)
         destinationFolder: ${{ parameters.path }}
         cleanDestinationFolder: false
-      condition: in(parameters.arch, variables.owarch_lnx, variables.owarch_osx)
+      condition: in( ${{ parameters.arch }}, variables.owarch_lnx, variables.owarch_osx )
     - script: del $(owartifactfile7z)
       displayName: 7-ZIP Remove tar file
-      condition: in(parameters.arch, variables.owarch_nt)
+      condition: in( ${{ parameters.arch }}, variables.owarch_nt )
     - bash: rm -f $(Pipeline.Workspace)/$(owartifactfile)
       displayName: Remove Archive

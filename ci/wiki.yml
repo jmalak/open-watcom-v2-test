@@ -52,7 +52,7 @@ stages:
     #condition: >
     #  and(
     #    succeeded(), 
-    #    in(variables['Build.Reason'], 'Schedule')
+    #    in( variables['Build.Reason'], 'Schedule' )
     #  )
     jobs:
       - job: wiki
