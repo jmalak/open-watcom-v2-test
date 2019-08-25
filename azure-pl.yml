@@ -324,54 +324,6 @@ stages:
               distrib/ow/bin/ow-snapshot.tar.gz
             isPreRelease: true
             addChangeLog: false
-  - stage: wikidocs
-    displayName: "Wiki Docs Build"
-    dependsOn:
-      - docs
-    jobs:
-      - job: WikiDocs
-        variables:
-          owarch: $(owarch_nt)
-          owobjdir: ${{ variables.owobjdir_nt }}
-          owtools: ${{ variables.owtools_nt }}
-        strategy:
-          matrix:
-            Wiki Html:
-              owdoctarget: wikihtml .and wikihtml .or -- -- docset=wikihtml
-              owartifname: wiki-dochtml
-            Wiki PDF:
-              owdoctarget: wikipdf .and wikipdf .or -- -- docset=wikipdf
-              owartifname: wiki-docpdf
-        pool:
-          vmImage: $(owimage_nt)
-        steps:
-        - template: ci/bootload.yml
-        - script: ci/$(owscript_nt)
-          displayName: "Documentation Build"
-          env:
-            OWBUILD_STAGE: docs
-        - script: |
-            xcopy docs\html\*.htm $(Build.ArtifactStagingDirectory)\
-            xcopy docs\html\*.bmp $(Build.ArtifactStagingDirectory)\
-            ren $(Build.ArtifactStagingDirectory)\*.htm *.html
-            xcopy docs\pdf\*.pdf $(Build.ArtifactStagingDirectory)\
-          displayName: "Copy Artifact Wiki files"
-        - task: PublishPipelineArtifact@1
-          displayName: "Save Artifact $(owartifname)"
-          inputs: 
-            artifactName: "$(owartifname)"
-            targetPath: $(Build.ArtifactStagingDirectory)
-  - stage: Wiki
-    displayName: "Wiki Docs Update"
-    dependsOn:
-      - wikidocs
-    #condition: >
-    #  and(
-    #    succeeded(), 
-    #    in(variables['Build.Reason'], 'Schedule')
-    #  )
-    jobs:
-      - template: ci/wiki.yml
   - stage: scan
     displayName: "Coverity Scan"
     dependsOn:
@@ -414,3 +366,4 @@ stages:
           vmImage: '$(owimage)'
         steps:
           - template: ci/coverity.yml
+  - template: ci/wiki.yml
