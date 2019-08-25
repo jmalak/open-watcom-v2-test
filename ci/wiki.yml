@@ -20,8 +20,8 @@ stages:
         pool:
           vmImage: $(owimage_nt)
         steps:
-        - template: ci/bootload.yml
-        - script: ci/$(owscript_nt)
+        - template: bootload.yml
+        - script: $(owscript_nt)
           displayName: "Documentation Build"
           env:
             OWBUILD_STAGE: docs
