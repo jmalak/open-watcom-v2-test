@@ -51,7 +51,7 @@ stages:
         variables:
           owwiki_depth:  10
           owwikiproject: open-watcom/open-watcom-v2-webdocs
-          owwikiroot:    $(Pipeline.Workspace)/wiki
+          owwikiroot:    $(Pipeline.Workspace)\wiki
         pool:
           vmImage: $(owimage_nt)
         steps:
