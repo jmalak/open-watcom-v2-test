@@ -6,8 +6,9 @@ stages:
     jobs:
       - job: WikiDocs
         variables:
-          owarch:  ${{ variables.owarch_nt }}
-          owtools: ${{ variables.owtools_nt }}
+          owarch:           ${{ variables.owarch_nt }}
+          owtools:          ${{ variables.owtools_nt }}
+          owbuild.stage:    docs
         strategy:
           matrix:
             Wiki Html:
@@ -22,8 +23,6 @@ stages:
         - template: bootload.yml
         - script: $(owscript_nt)
           displayName: "Documentation Build"
-          env:
-            OWBUILD_STAGE: docs
         - script: |
             xcopy docs\html\*.htm $(Build.ArtifactStagingDirectory)\
             xcopy docs\html\*.bmp $(Build.ArtifactStagingDirectory)\

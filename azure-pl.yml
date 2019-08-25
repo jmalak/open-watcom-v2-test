@@ -53,6 +53,8 @@ stages:
       - start
     jobs:
       - job: Bootstrap
+        variables:
+          owbuild.stage:    boot
         strategy:
           matrix:
             Linux:
@@ -75,8 +77,6 @@ stages:
         steps:
         - script: ci/$(owscript)
           displayName: "Bootstrap"
-          env:
-            OWBUILD_STAGE: boot
         - template: ci/bootsave.yml
   - stage: build
     displayName: "Build"
@@ -84,6 +84,8 @@ stages:
       - boot
     jobs:
       - job: Build
+        variables:
+          owbuild.stage:    build
         strategy:
           matrix:
             Linux:
@@ -109,8 +111,6 @@ stages:
         - template: ci/bootload.yml
         - script: ci/$(owscript)
           displayName: "Build"
-          env: 
-            OWBUILD_STAGE: build
         - template: ci/relsave.yml
           parameters:
             owcond: in( variables.owarch, variables.owarch_lnx, variables.owarch_nt )
@@ -146,8 +146,9 @@ stages:
     jobs:
       - job: Documentation
         variables:
-          owarch:       ${{ variables.owarch_nt }}
-          owtools:      ${{ variables.owtools_nt }}
+          owarch:           ${{ variables.owarch_nt }}
+          owtools:          ${{ variables.owtools_nt }}
+          owbuild.stage:    docs
         strategy:
           matrix:
             DOS:
@@ -168,8 +169,6 @@ stages:
         - template: ci/bootload.yml
         - script: ci/$(owscript_nt)
           displayName: "Documentation Build"
-          env:
-            OWBUILD_STAGE: docs
         - task: PublishPipelineArtifact@1
           displayName: "Save Artifact rel-$(owdoctarget)"
           inputs: 
@@ -188,6 +187,8 @@ stages:
     jobs:
       - job: instal
         displayName: "Installers Build"
+        variables:
+          owbuild.stage:    inst
         strategy:
           matrix:
             Linux:
@@ -229,8 +230,6 @@ stages:
         # run build script
         - script: ci/$(owscript)
           displayName: "Build Installers"
-          env:
-            OWBUILD_STAGE: inst
         # create full binary archive
         - task: ArchiveFiles@2
           condition: in( variables.owarch, variables.owarch_lnx )
