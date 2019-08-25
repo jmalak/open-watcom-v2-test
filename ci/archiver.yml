@@ -2,6 +2,6 @@ parameters:
   owcond: 'true'
 
 steps:
-    - bash: rm -f $(owartifact)
+    - bash: rm -f $(owartifactfile)
       displayName: Remove Archive
       condition: ${{ parameters.owcond }}

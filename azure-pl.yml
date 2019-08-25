@@ -11,25 +11,23 @@ schedules:
     - master
 
 variables: 
-  owimage_lnx:  'ubuntu-latest'
-  owimage_nt:   'vs2017-win2016'
-  owimage_osx:  'macOS-latest'
-  owobjdir_lnx: binlnx
-  owobjdir_nt:  binnt
-  owobjdir_osx: binosx
-  owtools_lnx:  GCC
-  owtools_nt:   VISUALC
-  owtools_osx:  CLANG
-  owscript_lnx: buildx.sh
-  owscript_nt:  buildx.cmd
-  owscript_osx: buildx.sh
-  owarch_lnx:   lnx
-  owarch_nt:    nt
-  owarch_osx:   osx
-  owartifact:   $(Pipeline.Workspace)/owartifact.tar.gz
-  owartifact7z: owartifact.tar
-  owroot:       $(Build.SourcesDirectory)
-  owcibin64:    $(Build.SourcesDirectory)\ci\bin64
+  owimage_lnx:      'ubuntu-latest'
+  owimage_nt:       'vs2017-win2016'
+  owimage_osx:      'macOS-latest'
+  owtools_lnx:      GCC
+  owtools_nt:       VISUALC
+  owtools_osx:      CLANG
+  owscript_lnx:     buildx.sh
+  owscript_nt:      buildx.cmd
+  owscript_osx:     buildx.sh
+  owarch_lnx:       lnx
+  owarch_nt:        nt
+  owarch_osx:       osx
+  owartifactfile:   $(Pipeline.Workspace)/owartifact.tar.gz
+  owartifactfile7z: owartifact.tar
+  owroot:           $(Build.SourcesDirectory)
+  owcibin64:        $(Build.SourcesDirectory)\ci\bin64
+  owobjdir:         binbin
 
 stages:
   - stage: start
@@ -58,23 +56,20 @@ stages:
         strategy:
           matrix:
             Linux:
-              owarch:   ${{ variables.owarch_lnx }}
-              owobjdir: ${{ variables.owobjdir_lnx }}
-              owimage:  ${{ variables.owimage_lnx }}
-              owtools:  ${{ variables.owtools_lnx }}
-              owscript: ${{ variables.owscript_lnx }}
+              owarch:       ${{ variables.owarch_lnx }}
+              owimage:      ${{ variables.owimage_lnx }}
+              owtools:      ${{ variables.owtools_lnx }}
+              owscript:     ${{ variables.owscript_lnx }}
             Windows:
-              owarch:   ${{ variables.owarch_nt }}
-              owobjdir: ${{ variables.owobjdir_nt }}
-              owimage:  ${{ variables.owimage_nt }}
-              owtools:  ${{ variables.owtools_nt }}
-              owscript: ${{ variables.owscript_nt }}
+              owarch:       ${{ variables.owarch_nt }}
+              owimage:      ${{ variables.owimage_nt }}
+              owtools:      ${{ variables.owtools_nt }}
+              owscript:     ${{ variables.owscript_nt }}
             OSX:
-              owarch:   ${{ variables.owarch_osx }}
-              owobjdir: ${{ variables.owobjdir_osx }}
-              owimage:  ${{ variables.owimage_osx }}
-              owtools:  ${{ variables.owtools_osx }}
-              owscript: ${{ variables.owscript_osx }}
+              owarch:       ${{ variables.owarch_osx }}
+              owimage:      ${{ variables.owimage_osx }}
+              owtools:      ${{ variables.owtools_osx }}
+              owscript:     ${{ variables.owscript_osx }}
         pool:
           vmImage: $(owimage)
         steps:
@@ -92,23 +87,20 @@ stages:
         strategy:
           matrix:
             Linux:
-              owarch:   ${{ variables.owarch_lnx }}
-              owobjdir: ${{ variables.owobjdir_lnx }}
-              owimage:  ${{ variables.owimage_lnx }}
-              owtools:  ${{ variables.owtools_lnx }}
-              owscript: ${{ variables.owscript_lnx }}
+              owarch:       ${{ variables.owarch_lnx }}
+              owimage:      ${{ variables.owimage_lnx }}
+              owtools:      ${{ variables.owtools_lnx }}
+              owscript:     ${{ variables.owscript_lnx }}
             Windows:
-              owarch:   ${{ variables.owarch_nt }}
-              owobjdir: ${{ variables.owobjdir_nt }}
-              owimage:  ${{ variables.owimage_nt }}
-              owtools:  ${{ variables.owtools_nt }}
-              owscript: ${{ variables.owscript_nt }}
+              owarch:       ${{ variables.owarch_nt }}
+              owimage:      ${{ variables.owimage_nt }}
+              owtools:      ${{ variables.owtools_nt }}
+              owscript:     ${{ variables.owscript_nt }}
             OSX:
-              owarch:   ${{ variables.owarch_osx }}
-              owobjdir: ${{ variables.owobjdir_osx }}
-              owimage:  ${{ variables.owimage_osx }}
-              owtools:  ${{ variables.owtools_osx }}
-              owscript: ${{ variables.owscript_osx }}
+              owarch:       ${{ variables.owarch_osx }}
+              owimage:      ${{ variables.owimage_osx }}
+              owtools:      ${{ variables.owtools_osx }}
+              owscript:     ${{ variables.owscript_osx }}
         pool:
           vmImage: $(owimage)
         timeoutInMinutes: 90
@@ -134,17 +126,15 @@ stages:
         strategy:
           matrix:
             Linux:
-              owarch:   ${{ variables.owarch_lnx }}
-              owobjdir: ${{ variables.owobjdir_lnx }}
-              owimage:  ${{ variables.owimage_lnx }}
-              owtools:  ${{ variables.owtools_lnx }}
-              owscript: ${{ variables.owscript_lnx }}
+              owarch:       ${{ variables.owarch_lnx }}
+              owimage:      ${{ variables.owimage_lnx }}
+              owtools:      ${{ variables.owtools_lnx }}
+              owscript:     ${{ variables.owscript_lnx }}
             Windows:
-              owarch:   ${{ variables.owarch_nt }}
-              owobjdir: ${{ variables.owobjdir_nt }}
-              owimage:  ${{ variables.owimage_nt }}
-              owtools:  ${{ variables.owtools_nt }}
-              owscript: ${{ variables.owscript_nt }}
+              owarch:       ${{ variables.owarch_nt }}
+              owimage:      ${{ variables.owimage_nt }}
+              owtools:      ${{ variables.owtools_nt }}
+              owscript:     ${{ variables.owscript_nt }}
         pool:
           vmImage: $(owimage)
         steps:
@@ -156,9 +146,8 @@ stages:
     jobs:
       - job: Documentation
         variables:
-          owarch: $(owarch_nt)
-          owobjdir: ${{ variables.owobjdir_nt }}
-          owtools: ${{ variables.owtools_nt }}
+          owarch:       ${{ variables.owarch_nt }}
+          owtools:      ${{ variables.owtools_nt }}
         strategy:
           matrix:
             DOS:
@@ -202,30 +191,28 @@ stages:
         strategy:
           matrix:
             Linux:
-              owarch:   ${{ variables.owarch_lnx }}
-              owobjdir: ${{ variables.owobjdir_lnx }}
-              owimage:  ${{ variables.owimage_lnx }}
-              owtools:  ${{ variables.owtools_lnx }}
-              owscript: ${{ variables.owscript_lnx }}
+              owarch:       ${{ variables.owarch_lnx }}
+              owimage:      ${{ variables.owimage_lnx }}
+              owtools:      ${{ variables.owtools_lnx }}
+              owscript:     ${{ variables.owscript_lnx }}
             Windows:
-              owarch:   ${{ variables.owarch_nt }}
-              owobjdir: ${{ variables.owobjdir_nt }}
-              owimage:  ${{ variables.owimage_nt }}
-              owtools:  ${{ variables.owtools_nt }}
-              owscript: ${{ variables.owscript_nt }}
+              owarch:       ${{ variables.owarch_nt }}
+              owimage:      ${{ variables.owimage_nt }}
+              owtools:      ${{ variables.owtools_nt }}
+              owscript:     ${{ variables.owscript_nt }}
         pool:
           vmImage: $(owimage)
         steps:
         - template: ci/bootload.yml
         - template: ci/instload.yml
-          parameters: {owobjdir: $(owobjdir_nt)}
+          parameters: {owarch: $(owarch_nt)}
         - template: ci/instload.yml
-          parameters: {owobjdir: $(owobjdir_lnx)}
+          parameters: {owarch: $(owarch_lnx)}
         # consolidate binaries
         - template: ci/relload.yml
-          parameters: {owobjdir: $(owobjdir_nt)}
+          parameters: {owarch: $(owarch_nt)}
         - template: ci/relload.yml
-          parameters: {owobjdir: $(owobjdir_lnx)}
+          parameters: {owarch: $(owarch_lnx)}
         # consolidate documentation
         - template: ci/docload.yml
           parameters: {owdoctarget: docdos}
@@ -268,7 +255,7 @@ stages:
       - job: release
         displayName: "GitHub Release"
         variables:
-          owarch: $(owarch_lnx)
+          owarch: ${{ variables.owarch_lnx }}
           owtag: Current-build
         pool:
           vmImage: $(owimage_lnx)
@@ -276,11 +263,11 @@ stages:
         - checkout: self
           persistCredentials: true
         - template: ci/bootload.yml
-          parameters: {owobjdir: $(owobjdir_lnx)}
+          parameters: {owarch: $(owarch_lnx)}
         - template: ci/distload.yml
-          parameters: {owobjdir: $(owobjdir_nt)}
+          parameters: {owarch: $(owarch_nt)}
         - template: ci/distload.yml
-          parameters: {owobjdir: $(owobjdir_lnx)}
+          parameters: {owarch: $(owarch_lnx)}
         - bash: echo "##vso[task.setvariable variable=owtagstamp;]$(date +'%Y-%m-%d %H:%M:%S')"
           displayName: "Get current timestamp"
         - bash: echo "##vso[task.setvariable variable=owgitstamp;]`git ls-remote --tags . | sed -n -e \"s:\([0-9a-z]*\) *refs/tags/${{ variables.owtag }}^{}:\1:p\"`"
@@ -341,22 +328,20 @@ stages:
         strategy:
           matrix:
             Linux:
-              owarch:   ${{ variables.owarch_lnx }}
-              owobjdir: ${{ variables.owobjdir_lnx }}
-              owimage:  ${{ variables.owimage_lnx }}
-              owtools:  ${{ variables.owtools_lnx }}
-              owscript: $(Build.SourcesDirectory)/ci/coverity.sh
+              owarch:       ${{ variables.owarch_lnx }}
+              owimage:      ${{ variables.owimage_lnx }}
+              owtools:      ${{ variables.owtools_lnx }}
+              owscript:     $(Build.SourcesDirectory)/ci/coverity.sh
               owcoverity.tool.src: linux64
               owcoverity.tool.archive: /tmp/cov-analysis-linux.tgz
               owcoverity.tool.base: /tmp/coverity-scan-analysis
               owcoverity.script: $(Build.SourcesDirectory)/ci/covbuild.sh
               owcoverity.results.archive: open-watcom-v2.tgz
             #Windows:
-              #owarch:   ${{ variables.owarch_nt }}
-              #owobjdir: ${{ variables.owobjdir_nt }}
-              #owimage:  ${{ variables.owimage_nt }}
-              #owtools:  ${{ variables.owtools_nt }}
-              #owscript: $(Build.SourcesDirectory)\ci\coverity.cmd
+              #owarch:      ${{ variables.owarch_nt }}
+              #owimage:     ${{ variables.owimage_nt }}
+              #owtools:     ${{ variables.owtools_nt }}
+              #owscript:    $(Build.SourcesDirectory)\ci\coverity.cmd
               #owcoverity.tool.src: win64
               #owcoverity.tool.archive: $(TEMP)\cov-analysis-windows.zip
               #owcoverity.tool.base: $(TEMP)\coverity-scan-analysis

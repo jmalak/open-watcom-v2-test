@@ -1,24 +1,24 @@
 parameters:
-  owobjdir: $(owobjdir)
+  owarch: $(owarch)
 
 steps:
     - template: archives.yml
       parameters: 
-        owfilepath: build/${{ parameters.owobjdir }}
-        owtitle: Archive Artifact build-${{ parameters.owobjdir }}
+        owfilepath: build/$(owobjdir)
+        owtitle: Archive Artifact build-${{ parameters.owarch }}
     - task: PublishPipelineArtifact@1
-      displayName: Save Archive build-${{ parameters.owobjdir }}
+      displayName: Save Archive build-${{ parameters.owarch }}
       inputs: 
-        artifactName: build-${{ parameters.owobjdir }}
-        targetPath: $(owartifact)
+        artifactName: build-${{ parameters.owarch }}
+        targetPath: $(owartifactfile)
     - template: archiver.yml
     - template: archives.yml
       parameters:
-        owfilepath: bld/watcom/${{ parameters.owobjdir }}
-        owtitle: Archive Artifact bld-watcom-${{ parameters.owobjdir }}
+        owfilepath: bld/watcom/$(owobjdir)
+        owtitle: Archive Artifact bld-watcom-${{ parameters.owarch }}
     - task: PublishPipelineArtifact@1
-      displayName: Save Archive bld-watcom-${{ parameters.owobjdir }}
+      displayName: Save Archive bld-watcom-${{ parameters.owarch }}
       inputs:
-        artifactName: bld-watcom-${{ parameters.owobjdir }}
-        targetPath: $(owartifact)
+        artifactName: bld-watcom-${{ parameters.owarch }}
+        targetPath: $(owartifactfile)
     - template: archiver.yml

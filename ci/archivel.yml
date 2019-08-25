@@ -4,20 +4,20 @@ parameters:
 
 steps:
     # extract full binary archive
-    - script: 7z x $(owartifact) *.tar
+    - script: 7z x $(owartifactfile) *.tar
       displayName: 7-ZIP TAR ${{ parameters.owtitle }}
       condition: in(variables.owarch, variables.owarch_nt)
-    - script: 7z x $(owartifact7z) -aoa -o${{ parameters.owfilepath }}
+    - script: 7z x $(owartifactfile7z) -aoa -o${{ parameters.owfilepath }}
       displayName: 7-ZIP ${{ parameters.owtitle }}
       condition: in(variables.owarch, variables.owarch_nt)
     - task: ExtractFiles@1
       displayName: TAR ${{ parameters.owtitle }}
       inputs:
-        archiveFilePatterns: $(owartifact)
+        archiveFilePatterns: $(owartifactfile)
         destinationFolder: ${{ parameters.owfilepath }}
         cleanDestinationFolder: false
       condition: in(variables.owarch, variables.owarch_lnx, variables.owarch_osx)
-    - script: del $(owartifact7z)
+    - script: del $(owartifactfile7z)
       displayName: 7-ZIP Remove tar file
       condition: in(variables.owarch, variables.owarch_nt)
     - template: archiver.yml

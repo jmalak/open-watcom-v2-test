@@ -6,8 +6,7 @@ stages:
     jobs:
       - job: WikiDocs
         variables:
-          owarch: $(owarch_nt)
-          owobjdir: ${{ variables.owobjdir_nt }}
+          owarch:  ${{ variables.owarch_nt }}
           owtools: ${{ variables.owtools_nt }}
         strategy:
           matrix:
@@ -79,6 +78,7 @@ stages:
         - script: |
             cd $(owwikiroot)
             git add -v -f .
+            git status -uno --porcelain
             if [ -n "$(git status -uno --porcelain)" ]; then
               git commit -v -m "Azure Pipelines build $(Build.BuildNumber)"
               git checkout -b temp

@@ -1,22 +1,22 @@
 parameters:
-  owobjdir: $(owobjdir)
+  owarch: $(owarch)
 
 steps:
     - task: DownloadPipelineArtifact@2
-      displayName: Load Artifact build-${{ parameters.owobjdir }}
+      displayName: Load Artifact build-${{ parameters.owarch }}
       inputs:
         buildType: 'current'
-        artifactName: build-${{ parameters.owobjdir }}
+        artifactName: build-${{ parameters.owarch }}
     - template: archivel.yml
       parameters: 
-        owfilepath: build/${{ parameters.owobjdir }}
-        owtitle: Extract Artifact build-${{ parameters.owobjdir }}
+        owfilepath: build/$(owobjdir)
+        owtitle: Extract Artifact build-${{ parameters.owarch }}
     - task: DownloadPipelineArtifact@2
-      displayName: Load Artifact bld-watcom-${{ parameters.owobjdir }}
+      displayName: Load Artifact bld-watcom-${{ parameters.owarch }}
       inputs:
         buildType: 'current'
-        artifactName: bld-watcom-${{ parameters.owobjdir }}
+        artifactName: bld-watcom-${{ parameters.owarch }}
     - template: archivel.yml
       parameters: 
-        owfilepath: bld/watcom/${{ parameters.owobjdir }}
-        owtitle: Extract Artifact bld-watcom-${{ parameters.owobjdir }}
+        owfilepath: bld/watcom/$(owobjdir)
+        owtitle: Extract Artifact bld-watcom-${{ parameters.owarch }}

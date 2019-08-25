@@ -1,14 +1,14 @@
 parameters:
-  owobjdir: $(owobjdir)
+  owarch: $(owarch)
 
 steps:
     - template: archives.yml
       parameters: 
         owfilepath: distrib/ow/bin
-        owtitle: Archive Artifact distrib-${{ parameters.owobjdir }}
+        owtitle: Archive Artifact distrib-${{ parameters.owarch }}
     - task: PublishPipelineArtifact@1
-      displayName: Save Archive distrib-${{ parameters.owobjdir }}
+      displayName: Save Archive distrib-${{ parameters.owarch }}
       inputs: 
-        artifactName: distrib-${{ parameters.owobjdir }}
-        targetPath: $(owartifact)
+        artifactName: distrib-${{ parameters.owarch }}
+        targetPath: $(owartifactfile)
     - template: archiver.yml
