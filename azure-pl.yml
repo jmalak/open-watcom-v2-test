@@ -260,23 +260,23 @@ stages:
             artfname:   bld-watcom-$(owarch)
         - template: ci/artfload.yml
           parameters:
-            owarch:     $(owarch_nt)
+            owarch:     variables.owarch_nt
             path:       bld/setupgui
             artfname:   bld-setupgui-$(owarch_nt)
         - template: ci/artfload.yml
           parameters:
-            owarch:     $(owarch_lnx)
+            owarch:     variables.owarch_lnx
             path:       bld/setupgui
             artfname:   bld-setupgui-$(owarch_lnx)
         # consolidate binaries
         - template: ci/artfload.yml
           parameters:
-            owarch:     $(owarch_nt)
+            owarch:     variables.owarch_nt
             path:       rel
             artfname:   rel-$(owarch_nt)
         - template: ci/artfload.yml
           parameters:
-            owarch:     $(owarch_lnx)
+            owarch:     variables.owarch_lnx
             path:       rel
             artfname:   rel-$(owarch_lnx)
         # consolidate documentation
@@ -338,12 +338,12 @@ stages:
             artfname:   build-$(owarch)
         - template: ci/artfload.yml
           parameters:
-            owarch:     $(owarch_nt)
+            owarch:     variables.owarch_nt
             path:       distrib/ow/bin
             artfname:   distrib-$(owarch_nt)
         - template: ci/artfload.yml
           parameters:
-            owarch:     $(owarch_lnx)
+            owarch:     variables.owarch_lnx
             path:       distrib/ow/bin
             artfname:   distrib-$(owarch_lnx)
         - bash: echo "##vso[task.setvariable variable=owtagstamp;]$(date +'%Y-%m-%d %H:%M:%S')"

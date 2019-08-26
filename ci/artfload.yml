@@ -1,5 +1,5 @@
 parameters:
-  owarch:   $(owarch)
+  owarch:   variables.owarch
   path:     ''
   artfname: ''
 
@@ -15,16 +15,16 @@ steps:
         7z x $(Pipeline.Workspace)\$(owartifactfile) *.tar
         7z x $(owartifactfile7z) -aoa -o$(owroot)\${{ parameters.path }}
       displayName: 7-ZIP Extract Artifact ${{ parameters.artfname }}
-      condition: in( parameters.owarch, variables.owarch_nt )
+      condition: in( ${{ parameters.owarch }}, variables.owarch_nt )
     - task: ExtractFiles@1
       displayName: TAR Extract Artifact ${{ parameters.artfname }}
       inputs:
         archiveFilePatterns: $(Pipeline.Workspace)/$(owartifactfile)
         destinationFolder: $(owroot)/${{ parameters.path }}
         cleanDestinationFolder: false
-      condition: in( parameters.owarch, variables.owarch_lnx, variables.owarch_osx )
+      condition: in( ${{ parameters.owarch }}, variables.owarch_lnx, variables.owarch_osx )
     - script: del $(owartifactfile7z)
       displayName: 7-ZIP Remove tar file
-      condition: in( parameters.owarch, variables.owarch_nt )
+      condition: in( ${{ parameters.owarch }}, variables.owarch_nt )
     - bash: rm -f $(Pipeline.Workspace)/$(owartifactfile)
       displayName: Remove Archive
