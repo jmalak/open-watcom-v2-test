@@ -415,12 +415,12 @@ stages:
         steps:
           - template: ci/coverity.yml
   - stage: wikidocs
-    displayName: "Wiki Docs Build"
+    displayName: Wiki Docs Build
     dependsOn:
       - docs
     jobs:
-      - job: WikiDocs
-        displayName: "Wiki Documentation Build"
+      - job: wikidocs
+        displayName: Wiki Documentation Build
         variables:
           owbuild.stage:    docs
           owarch:           ${{ variables.owarch_nt }}
@@ -440,7 +440,7 @@ stages:
         steps:
         - template: ci/wikibld.yml
   - stage: wikiupd
-    displayName: "Wiki Docs Update"
+    displayName: Wiki Docs Update
     dependsOn:
       - wikidocs
     #condition: >
@@ -450,7 +450,7 @@ stages:
     #  )
     jobs:
       - job: wikiupd
-        displayName: "Wiki Documentation Update"
+        displayName: Wiki Documentation Update
         variables:
           owarch:           ${{ variables.owarch_nt }}
           owimage:          ${{ variables.owimage_nt }}
@@ -459,7 +459,7 @@ stages:
           owwiki_depth:     10
           owwikiproject:    open-watcom/open-watcom-v2-webdocs
           owwikipath:       wiki
-          owwikiroot:       $(Pipeline.Workspace)\$(owwikipath)
+          owwikiroot:       $(Pipeline.Workspace)\wiki
         pool:
           vmImage: $(owimage)
         steps:
