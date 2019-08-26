@@ -18,23 +18,24 @@ resources:
     endpoint: open-watcom
 
 variables: 
+  owroot:           $(Build.SourcesDirectory)
+  owobjdir:         binbuild
+
   owimage_lnx:      'ubuntu-latest'
   owimage_nt:       'vs2017-win2016'
   owimage_osx:      'macOS-latest'
   owtools_lnx:      GCC
   owtools_nt:       VISUALC
   owtools_osx:      CLANG
-  owscript_lnx:     $(Build.SourcesDirectory)/ci/buildx.sh
-  owscript_nt:      $(Build.SourcesDirectory)\ci\buildx.cmd
-  owscript_osx:     $(Build.SourcesDirectory)/ci/buildx.sh
+  owscript_lnx:     ci/buildx.sh
+  owscript_nt:      ci\buildx.cmd
+  owscript_osx:     ci/buildx.sh
   owarch_lnx:       lnx
   owarch_nt:        nt
   owarch_osx:       osx
   owartifactfile:   owartifact.tar.gz
   owartifactfile7z: owartifact.tar
-  owroot:           $(Build.SourcesDirectory)
-  owcibin64:        $(Build.SourcesDirectory)\ci\bin64
-  owobjdir:         binbuild
+  owcibin:          $(owroot)\ci\bin64
 
 stages:
   - stage: start
@@ -218,7 +219,7 @@ stages:
           displayName: "Save Artifact rel-$(owdoctarget)"
           inputs: 
             artifactName: "rel-$(owdoctarget)"
-            targetPath: rel
+            targetPath: $(owroot)/rel
   - stage: instal
     displayName: "Installers Build"
     dependsOn:
@@ -297,10 +298,10 @@ stages:
         - task: ArchiveFiles@2
           condition: in( variables.owarch, variables.owarch_lnx )
           inputs:
-            rootFolderOrFile: 'rel'
+            rootFolderOrFile: '$(owroot)/rel'
             includeRootFolder: false
             archiveType: 'tar'
-            archiveFile: 'distrib/ow/bin/ow-snapshot.tar.gz'
+            archiveFile: '$(owroot)/distrib/ow/bin/ow-snapshot.tar.gz'
             replaceExistingArchive: true
         # save all artifacts for distribution
         - template: ci/artfsave.yml
@@ -406,21 +407,21 @@ stages:
               owarch:       ${{ variables.owarch_lnx }}
               owimage:      ${{ variables.owimage_lnx }}
               owtools:      ${{ variables.owtools_lnx }}
-              owscript:     $(Build.SourcesDirectory)/ci/coverity.sh
+              owscript:     $(owroot)/ci/coverity.sh
               owcoverity.tool.src: linux64
               owcoverity.tool.archive: /tmp/cov-analysis-linux.tgz
               owcoverity.tool.base: /tmp/coverity-scan-analysis
-              owcoverity.script: $(Build.SourcesDirectory)/ci/covbuild.sh
+              owcoverity.script: $(owroot)/ci/covbuild.sh
               owcoverity.results.archive: open-watcom-v2.tgz
             #Windows:
               #owarch:      ${{ variables.owarch_nt }}
               #owimage:     ${{ variables.owimage_nt }}
               #owtools:     ${{ variables.owtools_nt }}
-              #owscript:    $(Build.SourcesDirectory)\ci\coverity.cmd
+              #owscript:    $(owroot)\ci\coverity.cmd
               #owcoverity.tool.src: win64
               #owcoverity.tool.archive: $(TEMP)\cov-analysis-windows.zip
               #owcoverity.tool.base: $(TEMP)\coverity-scan-analysis
-              #owcoverity.script: $(Build.SourcesDirectory)\ci\covbuild.cmd
+              #owcoverity.script: $(owroot)\ci\covbuild.cmd
               #owcoverity.results.archive: open-watcom-v2.zip
         pool:
           vmImage: $(owimage)
@@ -473,6 +474,7 @@ stages:
           owwikiproject:    open-watcom/open-watcom-v2-webdocs
           owwikipath:       wiki
           owwikiroot:       $(Pipeline.Workspace)/$(owwikipath)
+          owwikiartfpath:   $(owwikiroot)/docs
         pool:
           vmImage: $(owimage)
         steps:

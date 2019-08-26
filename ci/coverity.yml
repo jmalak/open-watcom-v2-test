@@ -27,7 +27,7 @@ steps:
   - script: |
       pwd
       7z a $(owcoverity.results.archive) cov-int
-      $(Build.SourcesDirectory)\ci\slash.cmd $(owcoverity.results.archive) > lst.txt
+      ci\slash.cmd $(owcoverity.results.archive) > lst.txt
       7z rn $(owcoverity.results.archive) @lst.txt
       del lst.txt
     displayName: "Archive Coverity data Windows"
@@ -43,7 +43,7 @@ steps:
       --form description="Open Watcom V2 Travis CI build"
       https://scan.coverity.com/builds)
     displayName: "Upload Coverity data"
-  - task: PublishPipelineArtifact@0
+  - task: PublishPipelineArtifact@1
     inputs:
       artifactName: '$(owcoverity.tool.src)'
       targetPath: '$(owcoverity.results.archive)'

@@ -9,13 +9,13 @@ steps:
   inputs: 
     buildType:    'current'
     artifactName: wiki-dochtml
-    targetPath:   $(owwikiroot)/docs
+    targetPath:   $(owwikiartfpath)
 - task: DownloadPipelineArtifact@2
   displayName: "Load Artifact wiki-docpdf"
   inputs: 
     buildType:    'current'
     artifactName: wiki-docpdf
-    targetPath:   $(owwikiroot)/docs
+    targetPath:   $(owwikiartfpath)
 - script: |
     cd $(owwikiroot)
     git add -v -f .
@@ -28,5 +28,6 @@ steps:
       git branch -d temp
       git push -v
     fi
+    cd $(owroot)
   displayName: "Wiki Docs update"
 - script: echo "End"

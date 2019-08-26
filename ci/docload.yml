@@ -7,4 +7,4 @@ steps:
       inputs: 
         buildType:    'current'
         artifactName: "rel-${{ parameters.owdoctarget }}"
-        targetPath:   rel
+        targetPath:   $(owroot)/rel

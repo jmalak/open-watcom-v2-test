@@ -4,8 +4,8 @@ steps:
     ssh-keyscan git.code.sf.net > ~/.ssh/known_hosts
     export DISPLAY=:0
     export SSH_PASSWORD=$(owsftoken2)
-    export SSH_ASKPASS=$(Build.SourcesDirectory)/ci/askpass.sh
-    export GIT_ASKPASS=$(Build.SourcesDirectory)/ci/askpass.sh
+    export SSH_ASKPASS=ci/askpass.sh
+    export GIT_ASKPASS=ci/askpass.sh
     export GIT_SSH_COMMAND="setsid ssh"
     git remote set-url --push origin ssh://$(owsftoken1)@git.code.sf.net/p/openwatcom/open-watcom-v2
     git checkout master

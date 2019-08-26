@@ -11,7 +11,7 @@ REM ...
 REM ...
 REM setup DOSBOX
 REM ...
-set OWDOSBOXPATH=%OWCIBIN64%
+set OWDOSBOXPATH=%OWCIBIN%
 set OWDOSBOX=dosbox.exe
 set SDL_VIDEODRIVER=dummy
 set SDL_AUDIODRIVER=disk
@@ -19,9 +19,9 @@ set SDL_DISKAUDIOFILE=NUL
 REM ...
 REM setup Help Compilers
 REM ...
-set OWGHOSTSCRIPTPATH=%OWCIBIN64%
-set OWWIN95HC=%OWCIBIN64%\hcrtf.exe
-set OWHHC=%OWCIBIN64%\hhc.exe
+set OWGHOSTSCRIPTPATH=%OWCIBIN%
+set OWWIN95HC=%OWCIBIN%\hcrtf.exe
+set OWHHC=%OWCIBIN%\hhc.exe
 REM ...
 call cmnvars.bat
 REM ...
@@ -69,7 +69,7 @@ REM    set RC=%ERRORLEVEL%
 if "%OWBUILD_STAGE%" == "docs" (
     REM register all Help Compilers DLL's
     regsvr32 -u -s itcc.dll
-    regsvr32 -s %OWCIBIN64%\itcc.dll
+    regsvr32 -s %OWCIBIN%\itcc.dll
     builder docs %OWDOCTARGET%
     set RC=%ERRORLEVEL%
 )
