@@ -13,32 +13,29 @@ bootutil_proc()
     #
     # build new verison of wmake for host system
     #
-    if [ ! -d $OWBINDIR ]; then mkdir $OWBINDIR; fi
+    mkdir $OWBINDIR
     #
-    cd $OWSRCDIR/wmake
-    mkdir $OWOBJDIR
-    cd $OWOBJDIR
-    rm -f $OWBINDIR/wmake
+    RC=-1
     case `uname` in
         Darwin)
-            make -f ../posmake clean
+            mkdir $OWSRCDIR/wmake/$OWOBJDIR
+            cd $OWSRCDIR/wmake/$OWOBJDIR
             make -f ../posmake TARGETDEF=-D__OSX__
+            RC=$?
             ;;
         *)
-            make -f ../posmake clean
+            mkdir $OWSRCDIR/wmake/$OWOBJDIR
+            cd $OWSRCDIR/wmake/$OWOBJDIR
             make -f ../posmake TARGETDEF=-D__LINUX__
+            RC=$?
             ;;
     esac
-    RC=$?
     if [ $RC -eq 0 ]; then
         #
         # build new verison of builder for host system
         #
-        cd $OWSRCDIR/builder
-        mkdir $OWOBJDIR
-        cd $OWOBJDIR
-        rm -f $OWBINDIR/builder
-        $OWBINDIR/wmake -f ../binmake clean
+        mkdir $OWSRCDIR/builder/$OWOBJDIR
+        cd $OWSRCDIR/builder/$OWOBJDIR
         $OWBINDIR/wmake -f ../binmake bootstrap=1 builder.exe
         RC=$?
     fi
@@ -52,7 +49,9 @@ build_proc()
     export SDL_AUDIODRIVER=disk
     export SDL_DISKAUDIOFILE=/dev/null
     export OWGHOSTSCRIPTPATH=:
-    . ./cmnvars.sh
+
+    . $OWROOT/cmnvars.sh
+
     cd $OWSRCDIR
     case "$OWBUILD_STAGE" in
         "boot")
@@ -65,6 +64,10 @@ build_proc()
             ;;
         "build")
             builder rel
+            RC=$?
+            ;;
+        "tests")
+            builder test $OWTESTTARGET
             RC=$?
             ;;
         "docs")

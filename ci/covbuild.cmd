@@ -4,13 +4,11 @@ REM
 
 mkdir %OWBINDIR%
 
-cd %OWSRCDIR%\wmake
-mkdir %OWOBJDIR%
-cd %OWOBJDIR%
+mkdir %OWSRCDIR%\wmake\%OWOBJDIR%
+cd %OWSRCDIR%\wmake\%OWOBJDIR%
 nmake -f ..\nmake
-cd %OWSRCDIR%\builder
-mkdir %OWOBJDIR%
-cd %OWOBJDIR%
+mkdir %OWSRCDIR%\builder\%OWOBJDIR%
+cd %OWSRCDIR%\builder\%OWOBJDIR%
 %OWBINDIR%\wmake -f ..\binmake bootstrap=1 builder.exe
 cd %OWSRCDIR%
 builder boot

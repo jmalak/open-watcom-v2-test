@@ -7,9 +7,8 @@
 
 mkdir $OWBINDIR
 
-cd $OWSRCDIR/wmake
-mkdir $OWOBJDIR
-cd $OWOBJDIR
+mkdir $OWSRCDIR/wmake/$OWOBJDIR
+cd $OWSRCDIR/wmake/$OWOBJDIR
 if [ "$OWTOOLS" = "WATCOM" ]; then
     wmake -f ../wmake
 else
@@ -33,19 +32,18 @@ RC=$?
 if [ $RC -ne 0 ]; then
     echo "wmake bootstrap build error"
 else
-    cd $OWSRCDIR/builder
-    mkdir $OWOBJDIR
-    cd $OWOBJDIR
+    mkdir $OWSRCDIR/builder/$OWOBJDIR
+    cd $OWSRCDIR/builder/$OWOBJDIR
     $OWBINDIR/wmake -f ../binmake bootstrap=1 builder.exe
-        cd $OWSRCDIR
-        builder boot
+    cd $OWSRCDIR
+    builder boot
+    RC=$?
+    if [ $RC -ne 0 ]; then
+        echo "builder bootstrap build error"
+    else
+        builder build cpu_x64 .and
         RC=$?
-        if [ $RC -ne 0 ]; then
-            echo "builder bootstrap build error"
-        else
-            builder build cpu_x64 .and
-            RC=$?
-        fi
+    fi
 fi
-cd $TRAVIS_BUILD_DIR
+cd $OWROOT
 exit $RC

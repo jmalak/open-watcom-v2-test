@@ -23,7 +23,7 @@ set OWGHOSTSCRIPTPATH=%OWCIBIN%
 set OWWIN95HC=%OWCIBIN%\hcrtf.exe
 set OWHHC=%OWCIBIN%\hhc.exe
 REM ...
-call cmnvars.bat
+call %OWROOT%\cmnvars.bat
 REM ...
 @echo %OWECHO%
 REM ...
@@ -37,24 +37,19 @@ set RC=0
 cd %OWSRCDIR%
 if "%OWBUILD_STAGE%" == "boot" (
     mkdir %OWBINDIR%
-    cd %OWSRCDIR%
-    cd wmake
-    mkdir %OWOBJDIR%
-    cd %OWOBJDIR%
-    nmake -f ..\nmake clean >>%OWBINDIR%\bootx.log 2>&1
-    nmake -f ..\nmake >>%OWBINDIR%\bootx.log 2>&1
+    mkdir %OWSRCDIR%\wmake\%OWOBJDIR%
+    cd %OWSRCDIR%\wmake\%OWOBJDIR%
+    nmake -f ..\nmake
     set RC=%ERRORLEVEL%
-    cd %OWSRCDIR%
     if not %RC% == 1 (
-        cd builder
-        mkdir %OWOBJDIR%
-        cd %OWOBJDIR%
-        %OWBINDIR%\wmake -f ..\binmake clean >>%OWBINDIR%\bootx.log 2>&1
-        %OWBINDIR%\wmake -f ..\binmake bootstrap=1 builder.exe >>%OWBINDIR%\bootx.log 2>&1
+    	mkdir %OWSRCDIR%\builder\%OWOBJDIR%
+    	cd %OWSRCDIR%\builder\%OWOBJDIR%
+        %OWBINDIR%\wmake -f ..\binmake bootstrap=1 builder.exe
         set RC=%ERRORLEVEL%
-        cd %OWSRCDIR%
         if not %RC% == 1 (
+            cd %OWSRCDIR%
             builder boot
+            set RC=%ERRORLEVEL%
         )
     )
 )
@@ -63,7 +58,7 @@ if "%OWBUILD_STAGE%" == "build" (
     set RC=%ERRORLEVEL%
 )
 if "%OWBUILD_STAGE%" == "tests" (
-REM    builder rel
+REM    builder test %OWTESTTARGET%
 REM    set RC=%ERRORLEVEL%
 )
 if "%OWBUILD_STAGE%" == "docs" (
