@@ -1,16 +1,16 @@
 steps:
   - template: artfload.yml
     parameters:
-      path:       build\$(owobjdir)
+      path:       build/$(owobjdir)
       prefix:     build
   - script: $(owscript)
     displayName: "Documentation Build"
   - script: |
       set
-      xcopy docs\html\*.htm $(Build.ArtifactStagingDirectory)\
-      xcopy docs\html\*.bmp $(Build.ArtifactStagingDirectory)\
-      ren $(Build.ArtifactStagingDirectory)\*.htm *.html
-      xcopy docs\pdf\*.pdf $(Build.ArtifactStagingDirectory)\
+      cp docs/html/*.htm $(Build.ArtifactStagingDirectory)/
+      cp docs/html/*.bmp $(Build.ArtifactStagingDirectory)/
+      mv $(Build.ArtifactStagingDirectory)/*.htm *.html
+      cp docs/pdf/*.pdf $(Build.ArtifactStagingDirectory)/
     displayName: "Copy Artifact Wiki files"
   - task: PublishPipelineArtifact@1
     displayName: "Save Artifact $(owartifname)"

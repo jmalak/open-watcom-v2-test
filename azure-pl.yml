@@ -427,10 +427,10 @@ stages:
         displayName: "Wiki Documentation Build"
         variables:
           owbuild.stage:    docs
-          owarch:           ${{ variables.owarch_nt }}
-          owimage:          ${{ variables.owimage_nt }}
-          owtools:          ${{ variables.owtools_nt }}
-          owscript:         ${{ variables.owscript_nt }}
+          owarch:           ${{ variables.owarch_lnx }}
+          owimage:          ${{ variables.owimage_lnx }}
+          owtools:          ${{ variables.owtools_lnx }}
+          owscript:         ${{ variables.owscript_lnx }}
         strategy:
           matrix:
             Html:
@@ -442,6 +442,7 @@ stages:
         pool:
           vmImage: $(owimage)
         steps:
+        - template: ci/dosbox.yml
         - template: ci/wikibld.yml
   - stage: wikiupd
     displayName: "Wiki Docs Update"
@@ -456,23 +457,22 @@ stages:
       - job: wikiupd
         displayName: "Wiki Documentation Update"
         variables:
-          owarch:           ${{ variables.owarch_nt }}
-          owimage:          ${{ variables.owimage_nt }}
-          owtools:          ${{ variables.owtools_nt }}
-          owscript:         ${{ variables.owscript_nt }}
+          owarch:           ${{ variables.owarch_lnx }}
+          owimage:          ${{ variables.owimage_lnx }}
+          owtools:          ${{ variables.owtools_lnx }}
+          owscript:         ${{ variables.owscript_lnx }}
           owwiki_depth:     10
           owwikiproject:    open-watcom/open-watcom-v2-webdocs
           owwikipath:       wiki
-          owwikiroot:       $(Pipeline.Workspace)\wiki
+          owwikiroot:       $(Pipeline.Workspace)/$(owwikipath)
         pool:
           vmImage: $(owimage)
         steps:
         - template: ci/wikiupd.yml
       - job: end
         variables:
-          owimage:          ${{ variables.owimage_nt }}
+          owimage:          ${{ variables.owimage_lnx }}
         pool:
           vmImage: $(owimage)
         steps:
         - script: echo "End"
-
