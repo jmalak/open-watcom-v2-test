@@ -2,7 +2,7 @@ steps:
   - template: artfload.yml
     parameters:
       path:       build/$(owobjdir)
-      prefix:     build
+      artfname:   build-$(owarch)
   - script: $(owscript)
     displayName: "Documentation Build"
   - script: |

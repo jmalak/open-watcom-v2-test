@@ -1,11 +1,11 @@
 parameters:
   path:     ''
-  prefix:   ''
+  artfname: ''
   cond:     true
 
 steps:
     - task: ArchiveFiles@2
-      displayName: Create Artifact Archive ${{ parameters.prefix }}-$(owarch)
+      displayName: Create Artifact Archive ${{ parameters.artfname }}
       inputs:
         rootFolderOrFile: $(owroot)/${{ parameters.path }}
         includeRootFolder: false
@@ -14,9 +14,9 @@ steps:
         replaceExistingArchive: true
       condition: ${{ parameters.cond }}
     - task: PublishPipelineArtifact@1
-      displayName: Save Archive ${{ parameters.prefix }}-$(owarch)
+      displayName: Save Archive ${{ parameters.artfname }}
       inputs: 
-        artifactName: ${{ parameters.prefix }}-$(owarch)
+        artifactName: ${{ parameters.artfname }}
         targetPath: $(Pipeline.Workspace)/$(owartifactfile)
       condition: ${{ parameters.cond }}
     - bash: rm -f $(Pipeline.Workspace)/$(owartifactfile)
