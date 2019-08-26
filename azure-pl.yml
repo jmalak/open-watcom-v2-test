@@ -16,6 +16,10 @@ resources:
     type: GitHub
     name: open-watcom/open-watcom-v2-webdocs
     endpoint: open-watcom
+  - repository: sourceforge
+    type: Git
+    name: openwatcom/open-watcom-v2
+    endpoint: open-watcom-v2-sourceforge
 
 variables: 
   owimage_lnx:      'ubuntu-latest'
@@ -53,7 +57,15 @@ stages:
         in( variables['Build.Reason'], 'IndividualCI', 'BatchedCI' )
       )
     jobs:
-      - template: ci/mirror.yml
+      - job: mirror
+        displayName: "Mirror to SF"
+        variables:
+          owarch:   ${{ variables.owarch_lnx }}
+          owimage:  ${{ variables.owimage_lnx }}
+        pool:
+          vmImage:  $(owimage)
+        steps:
+        - template: ci/mirror.yml
   - stage: boot
     displayName: "Bootstrap"
     dependsOn:

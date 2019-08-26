@@ -51,6 +51,7 @@ build_proc()
     export SDL_VIDEODRIVER=dummy
     export SDL_AUDIODRIVER=disk
     export SDL_DISKAUDIOFILE=/dev/null
+    export OWGHOSTSCRIPTPATH=:
     . ./cmnvars.sh
     cd $OWSRCDIR
     case "$OWBUILD_STAGE" in
