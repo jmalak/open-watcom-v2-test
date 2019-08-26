@@ -21,7 +21,7 @@
 !inject devguide                                               wikihtml wikipdf
 !inject drnt             html  htmlhelp  nt                win
 !inject drwatcom         html  htmlhelp  nt                win
-!inject dwdoc                                                  wikihtml wikipdf
+!inject dwdoc                                                           wikipdf
 !inject ebooks                           nt
 !inject editor           html  htmlhelp  nt                win
 !inject f77graph    dos  html  htmlhelp  nt  os2  pdf  ps  win wikihtml wikipdf
