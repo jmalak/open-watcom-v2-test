@@ -5,7 +5,7 @@
 
 schedules:
 - cron: "10 1 * * *"
-  displayName: Daily midnight build
+  displayName: "Daily midnight build"
   branches:
     include:
     - master
@@ -59,7 +59,8 @@ stages:
     dependsOn:
       - start
     jobs:
-      - job: Bootstrap
+      - job: boot
+        displayName: "Bootstrap"
         variables:
           owbuild.stage:    boot
         strategy:
@@ -97,7 +98,8 @@ stages:
     dependsOn:
       - boot
     jobs:
-      - job: Build
+      - job: build
+        displayName: "Build"
         variables:
           owbuild.stage:    build
         strategy:
@@ -147,7 +149,8 @@ stages:
     dependsOn:
       - build
     jobs:
-      - job: Tests
+      - job: tests
+        displayName: "Tests"
         strategy:
           matrix:
             Linux:
@@ -172,7 +175,8 @@ stages:
     dependsOn:
       - boot
     jobs:
-      - job: Documentation
+      - job: docs
+        displayName: "Documentation Build"
         variables:
           owarch:           ${{ variables.owarch_nt }}
           owimage:          ${{ variables.owimage_nt }}
@@ -415,12 +419,12 @@ stages:
         steps:
           - template: ci/coverity.yml
   - stage: wikidocs
-    displayName: Wiki Docs Build
+    displayName: "Wiki Docs Build"
     dependsOn:
       - docs
     jobs:
       - job: wikidocs
-        displayName: Wiki Documentation Build
+        displayName: "Wiki Documentation Build"
         variables:
           owbuild.stage:    docs
           owarch:           ${{ variables.owarch_nt }}
@@ -440,7 +444,7 @@ stages:
         steps:
         - template: ci/wikibld.yml
   - stage: wikiupd
-    displayName: Wiki Docs Update
+    displayName: "Wiki Docs Update"
     dependsOn:
       - wikidocs
     #condition: >
@@ -450,7 +454,7 @@ stages:
     #  )
     jobs:
       - job: wikiupd
-        displayName: Wiki Documentation Update
+        displayName: "Wiki Documentation Update"
         variables:
           owarch:           ${{ variables.owarch_nt }}
           owimage:          ${{ variables.owimage_nt }}

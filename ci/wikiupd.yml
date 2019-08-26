@@ -3,17 +3,17 @@ steps:
   - checkout: wiki
     persistCredentials: true
     path: $(owwikipath)
-    displayName: Wiki Docs clone
+    displayName: "Wiki Docs clone"
   - task: DownloadPipelineArtifact@2
-    displayName: Load Artifact wiki-dochtml
+    displayName: "Load Artifact wiki-dochtml"
     inputs: 
-      buildType:    current
+      buildType:    'current'
       artifactName: wiki-dochtml
       targetPath:   $(owwikiroot)\docs
   - task: DownloadPipelineArtifact@2
-    displayName: Load Artifact wiki-docpdf
+    displayName: "Load Artifact wiki-docpdf"
     inputs: 
-      buildType:    current
+      buildType:    'current'
       artifactName: wiki-docpdf
       targetPath:   $(owwikiroot)\docs
   - script: |
@@ -28,4 +28,4 @@ steps:
         git branch -d temp
         git push -v
       fi
-    displayName: Wiki Docs update
+    displayName: "Wiki Docs update"
