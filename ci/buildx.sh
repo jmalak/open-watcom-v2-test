@@ -49,6 +49,8 @@ build_proc()
 
     . $OWROOT/cmnvars.sh
 
+    env | sort
+
     cd $OWSRCDIR
     case "$OWBUILD_STAGE" in
         "boot")
