@@ -17,7 +17,7 @@ resources:
     name: open-watcom/open-watcom-v2-webdocs
     endpoint: open-watcom
   - repository: sourceforge
-    type: others
+    type: GitHub
     name: open-watcom-v2
     endpoint: open-watcom-v2-sourceforge
 
