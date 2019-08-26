@@ -13,9 +13,6 @@ REM setup DOSBOX
 REM ...
 set OWDOSBOXPATH=%OWCIBIN%
 set OWDOSBOX=dosbox.exe
-set SDL_VIDEODRIVER=dummy
-set SDL_AUDIODRIVER=disk
-set SDL_DISKAUDIOFILE=NUL
 REM ...
 REM setup Help Compilers
 REM ...

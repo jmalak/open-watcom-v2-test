@@ -45,9 +45,6 @@ build_proc()
 {
     RC=0
     export OWDOSBOX=dosbox
-    export SDL_VIDEODRIVER=dummy
-    export SDL_AUDIODRIVER=disk
-    export SDL_DISKAUDIOFILE=/dev/null
     export OWGHOSTSCRIPTPATH=:
 
     . $OWROOT/cmnvars.sh
