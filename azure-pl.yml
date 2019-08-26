@@ -18,7 +18,6 @@ resources:
     endpoint: open-watcom
   - repository: sourceforge
     type: Git
-    name: openwatcom/open-watcom-v2
     endpoint: open-watcom-v2-sourceforge
 
 variables: 
