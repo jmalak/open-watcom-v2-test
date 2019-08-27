@@ -479,4 +479,4 @@ stages:
         pool:
           vmImage: $(owimage)
         steps:
-        - template: ci/wikiupd.yml
+        #- template: ci/wikiupd.yml
