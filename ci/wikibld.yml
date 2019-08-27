@@ -9,21 +9,11 @@ steps:
       artfname:   ${{ parameters.owartfname }}
   - script: $(owscript)
     displayName: "Documentation Build"
-  - script: |
+  - bash: |
       cp docs/pdf/*.pdf $(Build.ArtifactStagingDirectory)/
-    displayName: "Copy Artifact Wiki PDF files"
+    displayName: "Copy Artifact Wiki PDF files Windows"
     condition: ${{ parameters.owpdf }}
-  - script: |
-      xcopy docs/html/*.bmp $(Build.ArtifactStagingDirectory)/
-      xcopy docs/html/*.htm $(Build.ArtifactStagingDirectory)/
-      ren $(Build.ArtifactStagingDirectory)/*.htm *.html
-    displayName: "Copy Artifact Wiki Html files"
-    condition: |
-        and(
-          not( ${{ parameters.owpdf }} ),
-          in( variables.owarch, variables.owarch_nt )
-        )
-  - script: |
+  - bash: |
       cp docs/html/*.bmp $(Build.ArtifactStagingDirectory)/
       cp docs/html/*.htm $(Build.ArtifactStagingDirectory)/
       for x in $(Build.ArtifactStagingDirectory)/*.htm
@@ -31,11 +21,7 @@ steps:
         mv "${x}" "${x}l" 
       done
     displayName: "Copy Artifact Wiki Html files"
-    condition: |
-        and(
-          not( ${{ parameters.owpdf }} ),
-          in( variables.owarch, variables.owarch_lnx )
-        )
+    condition: not(${{ parameters.owpdf }})
   - task: PublishPipelineArtifact@1
     displayName: "Save Artifact $(owartifname)"
     inputs: 

@@ -16,11 +16,11 @@ steps:
     buildType:    'current'
     artifactName: wiki-docpdf
     targetPath:   $(owwikiartfpath)
-- script: |
+- bash: |
     cd $(owwikiroot)
     git add -v -f .
-    git status -uno --porcelain
-    if [ -n "$(git status -uno --porcelain)" ]; then
+    if [ -n "$(git status -uno --porcelain)" ]
+    then
       git commit -v -m "Azure Pipelines build $(Build.BuildNumber)"
       git checkout -b temp
       git checkout master
@@ -30,4 +30,3 @@ steps:
     fi
     cd $(owroot)
   displayName: "Wiki Docs update"
-- script: echo "End"
