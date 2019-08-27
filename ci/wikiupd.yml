@@ -1,10 +1,10 @@
 steps:
 #- template: gituser.yml
-- checkout: wiki
-  persistCredentials: true
-  path: $(owwikipath)
-  displayName: "Wiki Docs clone"
-  condition: false
+#- checkout: wiki
+#  persistCredentials: true
+#  path: $(owwikipath)
+#  displayName: "Wiki Docs clone"
+#  condition: false
 - task: DownloadPipelineArtifact@2
   displayName: "Load Artifact wiki-dochtml"
   inputs: 
