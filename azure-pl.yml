@@ -457,6 +457,7 @@ stages:
         - template: ci/wikibld.yml
           parameters:
             owartfname:     build-$(owarch)
+            owpdf:          eq(variables.owartifname, 'wiki-docpdf')
   - stage: wikiupd
     displayName: "Wiki Docs Update"
     dependsOn:

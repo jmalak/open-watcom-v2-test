@@ -1,6 +1,6 @@
 parameters:
-  owarch:       variables.owarch
   owartfname:   ''
+  owpdf:        false
 
 steps:
   - template: artfload.yml
@@ -12,7 +12,7 @@ steps:
   - script: |
       cp docs/pdf/*.pdf $(Build.ArtifactStagingDirectory)/
     displayName: "Copy Artifact Wiki PDF files"
-    condition: in( ${{ variables.owartifname }}, 'wiki-docpdf' )
+    condition: ${{ parameters.owpdf }}
   - script: |
       xcopy docs/html/*.bmp $(Build.ArtifactStagingDirectory)/
       xcopy docs/html/*.htm $(Build.ArtifactStagingDirectory)/
@@ -20,8 +20,8 @@ steps:
     displayName: "Copy Artifact Wiki Html files"
     condition: |
         and(
-          in( ${{ variables.owartifname }}, 'wiki-dochtml' ),
-          in( ${{ parameters.owarch }}, variables.owarch_nt )
+          not( ${{ parameters.owpdf }} ),
+          in( variables.owarch, variables.owarch_nt )
         )
   - script: |
       cp docs/html/*.bmp $(Build.ArtifactStagingDirectory)/
@@ -33,8 +33,8 @@ steps:
     displayName: "Copy Artifact Wiki Html files"
     condition: |
         and(
-          in( ${{ variables.owartifname }}, 'wiki-dochtml' ),
-          in( ${{ parameters.owarch }}, variables.owarch_lnx )
+          not( ${{ parameters.owpdf }} ),
+          in( variables.owarch, variables.owarch_lnx )
         )
   - task: PublishPipelineArtifact@1
     displayName: "Save Artifact $(owartifname)"
