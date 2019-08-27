@@ -478,10 +478,3 @@ stages:
           vmImage: $(owimage)
         steps:
         - template: ci/wikiupd.yml
-      - job: end
-        variables:
-          owimage:          ${{ variables.owimage_lnx }}
-        pool:
-          vmImage: $(owimage)
-        steps:
-        - script: echo "End"
