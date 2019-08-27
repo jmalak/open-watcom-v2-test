@@ -455,6 +455,8 @@ stages:
         steps:
         - template: ci/dosbox.yml
         - template: ci/wikibld.yml
+          parameters:
+            owartfname:     build-$(owarch)
   - stage: wikiupd
     displayName: "Wiki Docs Update"
     dependsOn:

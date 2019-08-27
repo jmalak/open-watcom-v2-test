@@ -1,17 +1,41 @@
+parameters:
+  owarch:       variables.owarch
+  owartfname:   ''
+
 steps:
   - template: artfload.yml
     parameters:
       path:       build/$(owobjdir)
-      artfname:   build-$(owarch)
+      artfname:   ${{ parameters.owartfname }}
   - script: $(owscript)
     displayName: "Documentation Build"
   - script: |
-      set
-      cp docs/html/*.htm $(Build.ArtifactStagingDirectory)/
-      cp docs/html/*.bmp $(Build.ArtifactStagingDirectory)/
-      mv $(Build.ArtifactStagingDirectory)/*.htm *.html
       cp docs/pdf/*.pdf $(Build.ArtifactStagingDirectory)/
-    displayName: "Copy Artifact Wiki files"
+    displayName: "Copy Artifact Wiki PDF files"
+    condition: in( ${{ variables.owartifname }}, 'wiki-docpdf' )
+  - script: |
+      xcopy docs/html/*.bmp $(Build.ArtifactStagingDirectory)/
+      xcopy docs/html/*.htm $(Build.ArtifactStagingDirectory)/
+      ren $(Build.ArtifactStagingDirectory)/*.htm *.html
+    displayName: "Copy Artifact Wiki Html files"
+    condition: |
+        and(
+          in( ${{ variables.owartifname }}, 'wiki-dochtml' ),
+          in( ${{ parameters.owarch }}, variables.owarch_nt )
+        )
+  - script: |
+      cp docs/html/*.bmp $(Build.ArtifactStagingDirectory)/
+      cp docs/html/*.htm $(Build.ArtifactStagingDirectory)/
+      for x in $(Build.ArtifactStagingDirectory)/*.htm
+      do 
+        mv "${x}" "${x}l" 
+      done
+    displayName: "Copy Artifact Wiki Html files"
+    condition: |
+        and(
+          in( ${{ variables.owartifname }}, 'wiki-dochtml' ),
+          in( ${{ parameters.owarch }}, variables.owarch_lnx )
+        )
   - task: PublishPipelineArtifact@1
     displayName: "Save Artifact $(owartifname)"
     inputs: 
