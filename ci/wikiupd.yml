@@ -4,18 +4,21 @@ steps:
   persistCredentials: true
   path: $(owwikipath)
   displayName: "Wiki Docs clone"
+  condition: false
 - task: DownloadPipelineArtifact@2
   displayName: "Load Artifact wiki-dochtml"
   inputs: 
     buildType:    'current'
     artifactName: wiki-dochtml
     targetPath:   $(owwikiartfpath)
+  condition: false
 - task: DownloadPipelineArtifact@2
   displayName: "Load Artifact wiki-docpdf"
   inputs: 
     buildType:    'current'
     artifactName: wiki-docpdf
     targetPath:   $(owwikiartfpath)
+  condition: false
 - bash: |
     cd $(owwikiroot)
     git add -v -f .
