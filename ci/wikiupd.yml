@@ -1,6 +1,6 @@
 steps:
-#- template: gituser.yml
-#- checkout: wiki
+- template: gituser.yml
+- checkout: wiki
 #  persistCredentials: true
 #  path: $(owwikipath)
 #  displayName: "Wiki Docs clone"
