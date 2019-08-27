@@ -465,6 +465,7 @@ stages:
     jobs:
       - job: wikiupd
         displayName: "Wiki Documentation Update"
+        continueOnError: true
         variables:
           owarch:           ${{ variables.owarch_lnx }}
           owimage:          ${{ variables.owimage_lnx }}

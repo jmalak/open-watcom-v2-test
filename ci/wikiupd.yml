@@ -31,3 +31,4 @@ steps:
     fi
     cd $(owroot)
   displayName: "Wiki Docs update"
+  condition: false
