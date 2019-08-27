@@ -1,5 +1,5 @@
 steps:
-- template: gituser.yml
+#- template: gituser.yml
 - checkout: wiki
   persistCredentials: true
   path: $(owwikipath)
