@@ -3,6 +3,6 @@ steps:
     export GIT_ASKPASS=ci/askpass.sh
     export SSH_PASSWORD=$(owsftoken2)
     git checkout master
-    git remote set-url --push origin ssh://$(owsftoken1)@git.code.sf.net/p/$(owsfproject)
+    git remote set-url --push origin https://$(owsftoken1)@git.code.sf.net/p/$(owsfproject)
     git push -v
   displayName: "Mirror to SF"
