@@ -1,0 +1,24 @@
+name: Mirror
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v1
+    - name: mirror
+      run: |
+          mkdir ~/.ssh
+          ssh-keyscan git.code.sf.net > ~/.ssh/known_hosts
+          export DISPLAY=:0
+          export SSH_PASSWORD=$(owsftoken2)
+          export SSH_ASKPASS=ci/askpass.sh
+          export GIT_ASKPASS=ci/askpass.sh
+          export GIT_SSH_COMMAND="setsid ssh"
+          git checkout master
+          git remote set-url --push origin ssh://git.code.sf.net/p/openwatcom/open-watcom-v2
+          git config credential.username $(owsftoken1)
+          git push -v
