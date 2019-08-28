@@ -1,6 +1,6 @@
 resources:
   repositories:
-  - repository: wikidocsgit
+  - repository: wiki
     type: GitHub
     name: open-watcom/open-watcom-v2-webdocs
     endpoint: open-watcom-v2-wikidocs
@@ -12,7 +12,6 @@ jobs:
     pool:
       vmImage: 'ubuntu-latest'
     steps:
-    - template: ci/gituser.yml
-    - checkout: wikidocsgit
+    - checkout: wiki
       persistCredentials: true
       path: wiki
