@@ -28,6 +28,6 @@ jobs:
           export GIT_SSH_COMMAND="setsid ssh"
           cat .git/config
           git checkout master
-          git remote set-url --push origin ssh://git.code.sf.net/p/openwatcom/open-watcom-v2-test
+          git remote set-url --push origin ssh://git.code.sf.net/p/openwatcom/open-watcom-v2-test.git
           git config credential.username $OW_SF_TOKEN1
           git push -v
