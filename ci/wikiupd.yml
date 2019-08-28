@@ -18,6 +18,7 @@ steps:
       artifactName: wiki-docpdf
       targetPath:   $(owwikiartfpath)
   - bash: |
+      export SSH_ASKPASS=$(owroot)/ci/askpass.sh
       cd $(owwikiroot)
       git add -v -f .
       if [ -n "$(git status -uno --porcelain)" ]
