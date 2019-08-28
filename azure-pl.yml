@@ -38,6 +38,35 @@ variables:
   owcibin:          $(owroot)\ci\bin64
 
 stages:
+  - stage: wikiupd
+    displayName: "Wiki Docs Update"
+    #dependsOn:
+    #  - start
+    #  - wikidocs
+    #condition: >
+    #  and(
+    #    succeeded(), 
+    #    in( variables['Build.Reason'], 'Schedule' )
+    #  )
+    jobs:
+      - job: wikiupd
+        displayName: "Wiki Documentation Update"
+        continueOnError: true
+        variables:
+          owarch:           ${{ variables.owarch_lnx }}
+          owimage:          ${{ variables.owimage_lnx }}
+          owtools:          ${{ variables.owtools_lnx }}
+          owscript:         ${{ variables.owscript_lnx }}
+          owwiki_depth:     10
+          owwikiproject:    open-watcom/open-watcom-v2-webdocs
+          owwikipath:       wiki
+          owwikiroot:       $(Pipeline.Workspace)/$(owwikipath)
+          owwikiartfpath:   $(owwikiroot)/docs
+        pool:
+          vmImage: $(owimage)
+        steps:
+        - template: ci/wikiupd.yml
+        - script: echo "Test"
   - stage: start
     displayName: "Start"
     dependsOn:
@@ -455,32 +484,3 @@ stages:
           parameters:
             owartfname:     build-$(owarch)
             owpdf:          eq(variables.owartifname, 'wiki-docpdf')
-  - stage: wikiupd
-    displayName: "Wiki Docs Update"
-    #dependsOn:
-    #  - start
-    #  - wikidocs
-    #condition: >
-    #  and(
-    #    succeeded(), 
-    #    in( variables['Build.Reason'], 'Schedule' )
-    #  )
-    jobs:
-      - job: wikiupd
-        displayName: "Wiki Documentation Update"
-        continueOnError: true
-        variables:
-          owarch:           ${{ variables.owarch_lnx }}
-          owimage:          ${{ variables.owimage_lnx }}
-          owtools:          ${{ variables.owtools_lnx }}
-          owscript:         ${{ variables.owscript_lnx }}
-          owwiki_depth:     10
-          owwikiproject:    open-watcom/open-watcom-v2-webdocs
-          owwikipath:       wiki
-          owwikiroot:       $(Pipeline.Workspace)/$(owwikipath)
-          owwikiartfpath:   $(owwikiroot)/docs
-        pool:
-          vmImage: $(owimage)
-        steps:
-        - template: ci/wikiupd.yml
-        - script: echo "Test"
