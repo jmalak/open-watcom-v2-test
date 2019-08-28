@@ -67,7 +67,6 @@ stages:
     displayName: "Bootstrap"
     dependsOn:
       - start
-    condition: false
     jobs:
       - job: boot
         displayName: "Bootstrap"
