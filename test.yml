@@ -16,6 +16,6 @@ jobs:
     - checkout: self
       persistCredentials: true
     - script: |
-      git 
+        echo "git"
       persistCredentials: true
       path: wiki
