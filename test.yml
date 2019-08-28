@@ -15,13 +15,14 @@ jobs:
       owwikiproject: open-watcom/open-watcom-v2-webdocs
       owwikiroot:    $(Pipeline.Workspace)/wiki
       ssh.password:  $(owghtoken2)
+      owghuser:      $(owghtoken1)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
     - template: ci/gituser.yml
     - script: |
         export SSH_ASKPASS=$(owroot)/ci/askpass.sh
-        git clone --depth=1 --branch=master https://$(owghtoken1)@github.com/$(owwikiproject).git $(owwikiroot)
+        git clone --depth=1 --branch=master https://$OWGHUSER@github.com/$(owwikiproject).git $(owwikiroot)
         cd $(owwikiroot)
         git add -v -f .
         git status -uno --porcelain
