@@ -17,5 +17,3 @@ jobs:
       persistCredentials: true
     - script: |
         echo "git"
-      persistCredentials: true
-      path: wiki
