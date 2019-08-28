@@ -10,3 +10,6 @@ steps:
     git remote set-url --push origin ssh://$OWSFUSER@git.code.sf.net/p/$(owsfproject)
     git push -v
   displayName: "Mirror to SF"
+  env:
+    SSH_PASSWORD: $(owsftoken2)
+    OWSFUSER:     $(owsftoken1)

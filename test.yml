@@ -14,8 +14,6 @@ jobs:
       owwiki_depth:  10
       owwikiproject: open-watcom/open-watcom-v2-webdocs
       owwikiroot:    $(Pipeline.Workspace)/wiki
-      ssh.password:  $(owghtoken2)
-      owghuser:      $(owghtoken1)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -33,3 +31,6 @@ jobs:
         fi
         pwd
       displayName: "Wiki Docs update"
+      env:
+        SSH_PASSWORD: $(owsftoken2)
+        OWGHUSER:     $(owghtoken1)
