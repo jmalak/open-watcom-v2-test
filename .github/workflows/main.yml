@@ -14,7 +14,7 @@ jobs:
         OW_SF_TOKEN1: ${{ secrets.OW_SF_TOKEN1 }}
         OW_SF_TOKEN2: ${{ secrets.OW_SF_TOKEN2 }}
       run: |
-          cd $GITHUB_WORKSPACE/$GITHUB_REPOSITORY
+          cd $GITHUB_WORKSPACE
           mkdir ~/.ssh
           ssh-keyscan git.code.sf.net > ~/.ssh/known_hosts
           export DISPLAY=:0
