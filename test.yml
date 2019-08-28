@@ -54,7 +54,6 @@ jobs:
     pool:
       vmImage: $(owimage)
     steps:
-    steps:
     - template: gituser.yml
     - checkout: wikidocsgit
       persistCredentials: true
