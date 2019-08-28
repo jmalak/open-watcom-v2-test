@@ -59,6 +59,7 @@ stages:
         variables:
           owarch:   ${{ variables.owarch_lnx }}
           owimage:  ${{ variables.owimage_lnx }}
+          owsfproject: openwatcom/open-watcom-v2-test
         pool:
           vmImage:  $(owimage)
         steps:
@@ -466,7 +467,7 @@ stages:
           owtools:          ${{ variables.owtools_lnx }}
           owscript:         ${{ variables.owscript_lnx }}
           owwiki_depth:     10
-          owwikiproject:    open-watcom/open-watcom-v2-webdocs
+          owwikiproject:    jmalak/open-watcom-v2-webdocs
           owwikipath:       wiki
           owwikiroot:       $(Pipeline.Workspace)/$(owwikipath)
           owwikiartfpath:   $(owwikiroot)/docs
