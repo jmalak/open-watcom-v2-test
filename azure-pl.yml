@@ -40,14 +40,6 @@ variables:
 stages:
   - stage: wikiupd
     displayName: "Wiki Docs Update"
-    #dependsOn:
-    #  - start
-    #  - wikidocs
-    #condition: >
-    #  and(
-    #    succeeded(), 
-    #    in( variables['Build.Reason'], 'Schedule' )
-    #  )
     jobs:
       - job: wikiupd
         displayName: "Wiki Documentation Update"
