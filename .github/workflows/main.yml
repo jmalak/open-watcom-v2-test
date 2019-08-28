@@ -15,6 +15,7 @@ jobs:
           cd $GITHUB_WORKSPACE
           echo "GITHUB_REPOSITORY=$GITHUB_REPOSITORY"
           export SSH_PASSWORD=$OW_SF_TOKEN2
+          export SSH_ASKPASS=ci/askpass.sh
           export GIT_ASKPASS=ci/askpass.sh
           git checkout master
           git remote set-url --push origin https://git.code.sf.net/p/openwatcom/open-watcom-v2-test
