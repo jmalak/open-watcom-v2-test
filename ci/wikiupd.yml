@@ -1,6 +1,6 @@
 steps:
   - template: gituser.yml
-  - checkout: wiki
+  - checkout: wikidocsgit
     persistCredentials: true
     path: wiki
     #displayName: "Wiki Docs clone"
