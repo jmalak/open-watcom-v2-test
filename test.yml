@@ -37,9 +37,6 @@ variables:
   owartifactfile7z: owartifact.tar
   owcibin:          $(owroot)\ci\bin64
 
-stages:
-  - stage: wikiupd
-    displayName: "Wiki Docs Update"
     jobs:
       - job: wikiupd
         displayName: "Wiki Documentation Update"
