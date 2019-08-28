@@ -21,8 +21,8 @@ jobs:
           ssh-keyscan git.code.sf.net > ~/.ssh/known_hosts
           export DISPLAY=:0
           export SSH_PASSWORD=$OW_SF_TOKEN2
-          export SSH_ASKPASS=ci/askpass.sh
-          export GIT_ASKPASS=ci/askpass.sh
+          export SSH_ASKPASS=$GITHUB_WORKSPACE/ci/askpass.sh
+          export GIT_ASKPASS=$GITHUB_WORKSPACE/ci/askpass.sh
           export GIT_SSH_COMMAND="setsid ssh"
           git checkout master
           git remote set-url --push origin ssh://git.code.sf.net/p/openwatcom/open-watcom-v2-test
