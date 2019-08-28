@@ -22,9 +22,11 @@ jobs:
     - script: |
         set -x
         env | sort
-        git config --get-all http.https://github.com/$(owwikiproject).extraheader
-        git config http.https://github.com/$(owwikiproject).extraheader "AUTHORIZATION: basic ***"
-        git clone --depth=1 --branch=master https://$(github.user)@github.com/$(owwikiproject).git $(owwikiroot)
+        git clone --depth=1 --branch=master https://github.com/$(owwikiproject).git $(owwikiroot)
+        export DISPLAY=:0
+        export GIT_ASKPASS=ci/askpass.sh
+        cd $(owwikiroot)
+        git remote set-url --push origin https://$(owghtoken1)@github.com/$(owwikiproject)
         pwd
     - script: |
         set -x
