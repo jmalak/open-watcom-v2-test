@@ -9,11 +9,28 @@ jobs:
   - job: wikiupd
     displayName: "Wiki Documentation Update"
     continueOnError: true
+    variables:
+      owwiki_depth:  10
+      owwikiproject: open-watcom/open-watcom-v2-webdocs
+      owwikiroot:    $(Pipeline.Workspace)/wiki
     pool:
-      vmImage: 'ubuntu-latest'
+      vmImage: $(owimage_lnx)
     steps:
     - template: ci/gituser.yml
     - checkout: self
       persistCredentials: true
     - script: |
-        echo "git"
+        git clone --depth=1 --branch=master https://github.com/$(owwikiproject).git $(owwikiroot)
+    - script: |
+        cd $(owwikiroot)
+        git add -v -f .
+        if [ -n "$(git status -uno --porcelain)" ]; then
+          git commit -v -m "Azure Pipelines build $(Build.BuildNumber)"
+          git checkout -b temp
+          git checkout master
+          git merge temp
+          git branch -d temp
+          git push -v
+        fi
+        pwd
+      displayName: "Wiki Docs update"
