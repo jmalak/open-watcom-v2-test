@@ -12,6 +12,8 @@ jobs:
     pool:
       vmImage: 'ubuntu-latest'
     steps:
+    - checkout: self
+      persistCredentials: true
     - checkout: wiki
       persistCredentials: true
       path: wiki
