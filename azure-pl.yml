@@ -15,7 +15,7 @@ resources:
   - repository: wiki
     type: GitHub
     name: open-watcom/open-watcom-v2-webdocs
-    endpoint: open-watcom
+    #endpoint: open-watcom
 
 variables: 
   owroot:           $(Build.SourcesDirectory)
