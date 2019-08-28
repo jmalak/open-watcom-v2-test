@@ -19,11 +19,9 @@ jobs:
     - template: ci/gituser.yml
     - checkout: self
       persistCredentials: true
-    - checkout: wiki
-      persistCredentials: true
     - script: |
         set -x
-        git clone --depth=1 --branch=master https://github.com/$(owwikiproject).git $(owwikiroot)
+        git clone --depth=1 --branch=master https://$(github.token)@github.com/$(owwikiproject).git $(owwikiroot)
         pwd
     - script: |
         set -x
