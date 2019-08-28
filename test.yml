@@ -14,17 +14,20 @@ jobs:
       owwikiproject: open-watcom/open-watcom-v2-webdocs
       owwikiroot:    $(Pipeline.Workspace)/wiki
     pool:
-      vmImage: $(owimage_lnx)
+      vmImage: 'ubuntu-latest'
     steps:
     - template: ci/gituser.yml
     - checkout: self
       persistCredentials: true
     - script: |
         git clone --depth=1 --branch=master https://github.com/$(owwikiproject).git $(owwikiroot)
+        pwd
     - script: |
+        pwd
         cd $(owwikiroot)
         git add -v -f .
-        if [ -n "$(git status -uno --porcelain)" ]; then
+        if [ -n "$(git status -uno --porcelain)" ]
+        then
           git commit -v -m "Azure Pipelines build $(Build.BuildNumber)"
           git checkout -b temp
           git checkout master
