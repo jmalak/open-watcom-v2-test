@@ -18,26 +18,16 @@ jobs:
       vmImage: 'ubuntu-latest'
     steps:
     - template: ci/gituser.yml
-    - checkout: self
-      persistCredentials: true
     - script: |
-        set -x
-        env | sort
-        git clone --depth=1 --branch=master https://github.com/$(owwikiproject).git $(owwikiroot)
-        pwd
-    - script: |
-        set -x
-        pwd
+        export SSH_PASSWORD=$(owghtoken2)
+        export GIT_ASKPASS=$(owroot)/ci/askpass.sh
+        git clone --depth=1 --branch=master https://$(owghtoken1)@github.com/$(owwikiproject).git $(owwikiroot)
         cd $(owwikiroot)
         git add -v -f .
         git status -uno --porcelain
         if [ -n "$(git status -uno --porcelain)x" ]
         then
           git commit -v -m "Azure Pipelines build $(Build.BuildNumber)"
-          git config credential.username $(owghtoken1)
-          export DISPLAY=:0
-          export SSH_PASSWORD=$(owghtoken2)
-          export GIT_ASKPASS=$(owroot)/ci/askpass.sh
           git push -v
         fi
         pwd
