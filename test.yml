@@ -54,7 +54,7 @@ jobs:
     pool:
       vmImage: $(owimage)
     steps:
-    - template: gituser.yml
+    - template: ci/gituser.yml
     - checkout: wikidocsgit
       persistCredentials: true
       path: wiki
