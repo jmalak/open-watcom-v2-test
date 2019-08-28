@@ -38,6 +38,7 @@ jobs:
           cat .git/config
           git config --list
           export DISPLAY=:0
+          export SSH_PASSWORD=$(owghtoken2)
           export GIT_ASKPASS=$(owroot)/ci/askpass.sh
           git push -v
         fi
