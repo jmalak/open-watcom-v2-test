@@ -18,6 +18,7 @@ jobs:
           echo "GITHUB_WORKSPACE=$GITHUB_WORKSPACE"
           echo "GITHUB_REPOSITORY=$GITHUB_REPOSITORY"
           cd $GITHUB_WORKSPACE
+          cat .git/config
           mkdir ~/.ssh
           ssh-keyscan git.code.sf.net > ~/.ssh/known_hosts
           export DISPLAY=:0
@@ -25,6 +26,7 @@ jobs:
           export SSH_ASKPASS=$GITHUB_WORKSPACE/ci/askpass.sh
           export GIT_ASKPASS=$GITHUB_WORKSPACE/ci/askpass.sh
           export GIT_SSH_COMMAND="setsid ssh"
+          cat .git/config
           git checkout master
           git remote set-url --push origin ssh://git.code.sf.net/p/openwatcom/open-watcom-v2-test
           git config credential.username $OW_SF_TOKEN1
