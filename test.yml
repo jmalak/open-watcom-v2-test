@@ -34,7 +34,7 @@ jobs:
         if [ -n "$(git status -uno --porcelain)x" ]
         then
           git commit -v -m "Azure Pipelines build $(Build.BuildNumber)"
-          git config credential.https://github.com.username $(owghtoken1)
+          git config credential.username $(owghtoken1)
           export DISPLAY=:0
           export GIT_ASKPASS=$(owroot)/ci/askpass.sh
           git push -v
