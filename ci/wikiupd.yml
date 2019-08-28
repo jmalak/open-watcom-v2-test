@@ -1,38 +1,37 @@
 steps:
-- checkout: none
-- template: gituser.yml
-#- checkout: wiki
-#  persistCredentials: true
-#  path: $(owwikipath)
-#  displayName: "Wiki Docs clone"
-#  condition: false
-- task: DownloadPipelineArtifact@2
-  displayName: "Load Artifact wiki-dochtml"
-  inputs: 
-    buildType:    'current'
-    artifactName: wiki-dochtml
-    targetPath:   $(owwikiartfpath)
-  condition: false
-- task: DownloadPipelineArtifact@2
-  displayName: "Load Artifact wiki-docpdf"
-  inputs: 
-    buildType:    'current'
-    artifactName: wiki-docpdf
-    targetPath:   $(owwikiartfpath)
-  condition: false
-- bash: |
-    cd $(owwikiroot)
-    git add -v -f .
-    git status -uno --porcelain
-    if [ -n "$(git status -uno --porcelain)" ]
-    then
-      git commit -v -m "Azure Pipelines build $(Build.BuildNumber)"
-      git checkout -b temp
-      git checkout master
-      git merge temp
-      git branch -d temp
-      git push -v
-    fi
-    cd $(owroot)
-  displayName: "Wiki Docs update"
-  condition: false
+  - template: gituser.yml
+  - checkout: wiki
+    #persistCredentials: true
+    #path: $(owwikipath)
+    #displayName: "Wiki Docs clone"
+    #condition: false
+  - task: DownloadPipelineArtifact@2
+    displayName: "Load Artifact wiki-dochtml"
+    inputs: 
+      buildType:    'current'
+      artifactName: wiki-dochtml
+      targetPath:   $(owwikiartfpath)
+    condition: false
+  - task: DownloadPipelineArtifact@2
+    displayName: "Load Artifact wiki-docpdf"
+    inputs: 
+      buildType:    'current'
+      artifactName: wiki-docpdf
+      targetPath:   $(owwikiartfpath)
+    condition: false
+  - bash: |
+      cd $(owwikiroot)
+      git add -v -f .
+      git status -uno --porcelain
+      if [ -n "$(git status -uno --porcelain)" ]
+      then
+        git commit -v -m "Azure Pipelines build $(Build.BuildNumber)"
+        git checkout -b temp
+        git checkout master
+        git merge temp
+        git branch -d temp
+        git push -v
+      fi
+      cd $(owroot)
+    displayName: "Wiki Docs update"
+    condition: false
