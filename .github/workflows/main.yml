@@ -10,24 +10,23 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: mirror
-      env:
-        OW_SF_TOKEN1: ${{ secrets.OW_SF_TOKEN1 }}
-        OW_SF_TOKEN2: ${{ secrets.OW_SF_TOKEN2 }}
       run: |
           set -x
-          echo "GITHUB_WORKSPACE=$GITHUB_WORKSPACE"
-          echo "GITHUB_REPOSITORY=$GITHUB_REPOSITORY"
           cd $GITHUB_WORKSPACE
-          cat .git/config
+          pwd
+          echo "GITHUB_REPOSITORY=$GITHUB_REPOSITORY"
           mkdir ~/.ssh
           ssh-keyscan git.code.sf.net > ~/.ssh/known_hosts
           export DISPLAY=:0
           export SSH_PASSWORD=$OW_SF_TOKEN2
-          export SSH_ASKPASS=$GITHUB_WORKSPACE/ci/askpass.sh
-          export GIT_ASKPASS=$GITHUB_WORKSPACE/ci/askpass.sh
+          export SSH_ASKPASS=ci/askpass.sh
+          export GIT_ASKPASS=ci/askpass.sh
           export GIT_SSH_COMMAND="setsid ssh"
-          cat .git/config
           git checkout master
-          git remote set-url --push origin ssh://git.code.sf.net/p/openwatcom/open-watcom-v2-test.git
+          git remote set-url --push origin ssh://git.code.sf.net/p/openwatcom/open-watcom-v2-test
           git config credential.username $OW_SF_TOKEN1
+          cat .git/config
           git push -v
+      env:
+        OW_SF_TOKEN1: ${{ secrets.OW_SF_TOKEN1 }}
+        OW_SF_TOKEN2: ${{ secrets.OW_SF_TOKEN2 }}
