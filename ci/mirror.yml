@@ -1,6 +1,10 @@
 steps:
 - script: |
     git checkout master
+    mkdir ~/.ssh
+    ssh-keyscan git.code.sf.net > ~/.ssh/known_hosts
+    export DISPLAY=:0
+    export GIT_SSH_COMMAND="setsid ssh"
     export SSH_ASKPASS=ci/askpass.sh
     git remote set-url --push origin ssh://$(owsftoken1)@git.code.sf.net/p/$(owsfproject)
     git push -v
