@@ -1,9 +1,5 @@
 steps:
   - template: gituser.yml
-  - checkout: wikidocsgit
-    persistCredentials: true
-    path: wiki
-    #displayName: "Wiki Docs clone"
   - task: DownloadPipelineArtifact@2
     displayName: "Load Artifact wiki-dochtml"
     inputs: 
@@ -19,18 +15,22 @@ steps:
       targetPath:   $(owwikiartfpath)
     condition: false
   - bash: |
+      git clone --depth=1 --branch=master https://github.com/$(owwikiproject).git $(owwikiroot)
       cd $(owwikiroot)
       git add -v -f .
       git status -uno --porcelain
       if [ -n "$(git status -uno --porcelain)" ]
       then
         git commit -v -m "Azure Pipelines build $(Build.BuildNumber)"
-        git checkout -b temp
-        git checkout master
-        git merge temp
-        git branch -d temp
+        git config credential.username $(owghtoken1)
+        export DISPLAY=:0
+        export SSH_PASSWORD=$(owghtoken2)
+        export GIT_ASKPASS=$(owroot)/ci/askpass.sh
+        #git checkout -b temp
+        #git checkout master
+        #git merge temp
+        #git branch -d temp
         git push -v
       fi
       cd $(owroot)
     displayName: "Wiki Docs update"
-    condition: false

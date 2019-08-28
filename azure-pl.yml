@@ -475,4 +475,3 @@ stages:
           vmImage: $(owimage)
         steps:
         - template: ci/wikiupd.yml
-        - script: echo "Test"

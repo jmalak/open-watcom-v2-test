@@ -35,8 +35,6 @@ jobs:
         then
           git commit -v -m "Azure Pipelines build $(Build.BuildNumber)"
           git config credential.username $(owghtoken1)
-          cat .git/config
-          git config --list
           export DISPLAY=:0
           export SSH_PASSWORD=$(owghtoken2)
           export GIT_ASKPASS=$(owroot)/ci/askpass.sh
