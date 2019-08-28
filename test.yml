@@ -24,25 +24,12 @@ variables:
   owimage_lnx:      'ubuntu-latest'
   owimage_nt:       'vs2017-win2016'
   owimage_osx:      'macOS-latest'
-  owtools_lnx:      GCC
-  owtools_nt:       VISUALC
-  owtools_osx:      CLANG
-  owscript_lnx:     ci/buildx.sh
-  owscript_nt:      ci\buildx.cmd
-  owscript_osx:     ci/buildx.sh
-  owarch_lnx:       lnx
-  owarch_nt:        nt
-  owarch_osx:       osx
-  owartifactfile:   owartifact.tar.gz
-  owartifactfile7z: owartifact.tar
-  owcibin:          $(owroot)\ci\bin64
 
 jobs:
   - job: wikiupd
     displayName: "Wiki Documentation Update"
     continueOnError: true
     variables:
-      owarch:           ${{ variables.owarch_lnx }}
       owimage:          ${{ variables.owimage_lnx }}
     pool:
       vmImage: $(owimage)
