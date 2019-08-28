@@ -58,7 +58,6 @@ jobs:
     - checkout: wikidocsgit
       persistCredentials: true
       path: wiki
-      #displayName: "Wiki Docs clone"
     - task: DownloadPipelineArtifact@2
       displayName: "Load Artifact wiki-dochtml"
       inputs: 
