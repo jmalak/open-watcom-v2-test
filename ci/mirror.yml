@@ -7,7 +7,8 @@ steps:
     export SSH_ASKPASS=ci/askpass.sh
     export GIT_ASKPASS=ci/askpass.sh
     export GIT_SSH_COMMAND="setsid ssh"
-    git remote set-url --push origin ssh://$(owsftoken1)@git.code.sf.net/p/openwatcom/open-watcom-v2
     git checkout master
+    git remote set-url --push origin ssh://git.code.sf.net/p/openwatcom/open-watcom-v2
+    git config credential.username $(owsftoken1)
     git push -v
   displayName: "Mirror to SF"
