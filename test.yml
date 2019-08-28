@@ -21,6 +21,7 @@ jobs:
       persistCredentials: true
     - script: |
         set -x
+        env | sort
         git clone --depth=1 --branch=master https://$GITHUB_TOKEN@github.com/$(owwikiproject).git $(owwikiroot)
         pwd
     - script: |
