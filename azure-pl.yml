@@ -60,6 +60,7 @@ stages:
           owarch:   ${{ variables.owarch_lnx }}
           owimage:  ${{ variables.owimage_lnx }}
           owsfproject: openwatcom/open-watcom-v2-test
+          ssh.password: $(owsftoken2)
         pool:
           vmImage:  $(owimage)
         steps:
@@ -471,8 +472,8 @@ stages:
           owwikipath:       wiki
           owwikiroot:       $(Pipeline.Workspace)/$(owwikipath)
           owwikiartfpath:   $(owwikiroot)/docs
+          ssh.password:     $(owghtoken2)
         pool:
           vmImage: $(owimage)
         steps:
         - template: ci/wikiupd.yml
-

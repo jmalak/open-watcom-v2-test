@@ -2,8 +2,7 @@ steps:
   - template: gituser.yml
   - checkout: none
   - bash: |
-      export GIT_ASKPASS=$(owroot)/ci/askpass.sh
-      export SSH_PASSWORD=$(owghtoken2)
+      export SSH_ASKPASS=$(owroot)/ci/askpass.sh
       git clone --depth=1 --branch=master https://$(owghtoken1)@github.com/$(owwikiproject).git $(owwikiroot)
     displayName: "Wiki Docs clone"
   - task: DownloadPipelineArtifact@2
