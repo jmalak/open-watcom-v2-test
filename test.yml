@@ -19,6 +19,8 @@ jobs:
     - template: ci/gituser.yml
     - checkout: self
       persistCredentials: true
+    - checkout: wiki
+      persistCredentials: true
     - script: |
         set -x
         git clone --depth=1 --branch=master https://github.com/$(owwikiproject).git $(owwikiroot)
@@ -32,10 +34,6 @@ jobs:
         if [ -n "$(git status -uno --porcelain)x" ]
         then
           git commit -v -m "Azure Pipelines build $(Build.BuildNumber)"
-          git checkout -b temp
-          git checkout master
-          git merge temp
-          git branch -d temp
           git push -v
         fi
         pwd
