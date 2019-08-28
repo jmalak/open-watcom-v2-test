@@ -12,8 +12,10 @@ jobs:
     pool:
       vmImage: 'ubuntu-latest'
     steps:
+    - template: ci/gituser.yml
     - checkout: self
       persistCredentials: true
-    - checkout: wiki
+    - script: |
+      git 
       persistCredentials: true
       path: wiki
