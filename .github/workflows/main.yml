@@ -14,6 +14,7 @@ jobs:
         OW_SF_TOKEN1: ${{ secrets.OW_SF_TOKEN1 }}
         OW_SF_TOKEN2: ${{ secrets.OW_SF_TOKEN2 }}
       run: |
+          set -x
           echo "GITHUB_WORKSPACE=$GITHUB_WORKSPACE"
           echo "GITHUB_REPOSITORY=$GITHUB_REPOSITORY"
           cd $GITHUB_WORKSPACE
