@@ -20,9 +20,11 @@ jobs:
     - checkout: self
       persistCredentials: true
     - script: |
+        set -x
         git clone --depth=1 --branch=master https://github.com/$(owwikiproject).git $(owwikiroot)
         pwd
     - script: |
+        set -x
         pwd
         cd $(owwikiroot)
         git add -v -f .
