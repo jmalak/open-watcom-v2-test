@@ -40,6 +40,8 @@ variables:
 stages:
   - stage: start
     displayName: "Start"
+    dependsOn:
+      - wikiupd
     jobs:
       - job: start
         steps:
@@ -455,8 +457,8 @@ stages:
             owpdf:          eq(variables.owartifname, 'wiki-docpdf')
   - stage: wikiupd
     displayName: "Wiki Docs Update"
-    dependsOn:
-      - start
+    #dependsOn:
+    #  - start
     #  - wikidocs
     #condition: >
     #  and(
