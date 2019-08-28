@@ -10,6 +10,7 @@ jobs:
     displayName: "Wiki Documentation Update"
     continueOnError: true
     variables:
+      owroot:        $(Build.SourcesDirectory)
       owwiki_depth:  10
       owwikiproject: open-watcom/open-watcom-v2-webdocs
       owwikiroot:    $(Pipeline.Workspace)/wiki
@@ -34,7 +35,7 @@ jobs:
         then
           git commit -v -m "Azure Pipelines build $(Build.BuildNumber)"
           export DISPLAY=:0
-          export GIT_ASKPASS=ci/askpass.sh
+          export GIT_ASKPASS=$(owroot)/ci/askpass.sh
           git remote set-url --push origin https://$(owghtoken1)@github.com/$(owwikiproject)
           git push -v
         fi
