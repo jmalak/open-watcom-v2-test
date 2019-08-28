@@ -1,0 +1,61 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+schedules:
+- cron: "10 1 * * *"
+  displayName: "Daily midnight build"
+  branches:
+    include:
+    - master
+
+resources:
+  repositories:
+  - repository: wikidocsgit
+    type: GitHub
+    name: open-watcom/open-watcom-v2-webdocs
+    endpoint: open-watcom-v2-wikidocs
+
+variables: 
+  owroot:           $(Build.SourcesDirectory)
+  owobjdir:         binbuild
+
+  owimage_lnx:      'ubuntu-latest'
+  owimage_nt:       'vs2017-win2016'
+  owimage_osx:      'macOS-latest'
+  owtools_lnx:      GCC
+  owtools_nt:       VISUALC
+  owtools_osx:      CLANG
+  owscript_lnx:     ci/buildx.sh
+  owscript_nt:      ci\buildx.cmd
+  owscript_osx:     ci/buildx.sh
+  owarch_lnx:       lnx
+  owarch_nt:        nt
+  owarch_osx:       osx
+  owartifactfile:   owartifact.tar.gz
+  owartifactfile7z: owartifact.tar
+  owcibin:          $(owroot)\ci\bin64
+
+stages:
+  - stage: wikiupd
+    displayName: "Wiki Docs Update"
+    jobs:
+      - job: wikiupd
+        displayName: "Wiki Documentation Update"
+        continueOnError: true
+        variables:
+          owarch:           ${{ variables.owarch_lnx }}
+          owimage:          ${{ variables.owimage_lnx }}
+          owtools:          ${{ variables.owtools_lnx }}
+          owscript:         ${{ variables.owscript_lnx }}
+          owwiki_depth:     10
+          owwikiproject:    open-watcom/open-watcom-v2-webdocs
+          owwikipath:       wiki
+          owwikiroot:       $(Pipeline.Workspace)/$(owwikipath)
+          owwikiartfpath:   $(owwikiroot)/docs
+        pool:
+          vmImage: $(owimage)
+        steps:
+        - template: ci/wikiupd.yml
+        - script: echo "Test"
