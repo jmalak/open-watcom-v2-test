@@ -22,7 +22,9 @@ jobs:
     - script: |
         set -x
         env | sort
-        git clone --depth=1 --branch=master https://$GITHUB_TOKEN@github.com/$(owwikiproject).git $(owwikiroot)
+        git clone --depth=1 --branch=master https://github.com/$(owwikiproject).git $(owwikiroot)
+        git config --get-all http.https://github.com/$(owwikiproject).extraheader
+        git config http.https://github.com/$(owwikiproject).extraheader "AUTHORIZATION: basic ***"
         pwd
     - script: |
         set -x
