@@ -11,10 +11,7 @@ jobs:
     - uses: actions/checkout@v1
     - name: mirror
       run: |
-          set -x
           cd $GITHUB_WORKSPACE
-          echo "GITHUB_REPOSITORY=$GITHUB_REPOSITORY"
-          #export DISPLAY=:0
           export GIT_ASKPASS=ci/askpass.sh
           export SSH_PASSWORD=$OW_SF_TOKEN2
           git checkout master
