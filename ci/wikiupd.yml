@@ -2,8 +2,8 @@ steps:
   - template: gituser.yml
   - checkout: wiki
     persistCredentials: true
-      path: wiki
-      displayName: "Wiki Docs clone"
+    path: wiki
+    #displayName: "Wiki Docs clone"
   - task: DownloadPipelineArtifact@2
     displayName: "Load Artifact wiki-dochtml"
     inputs: 
