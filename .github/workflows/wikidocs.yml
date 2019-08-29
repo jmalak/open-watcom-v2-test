@@ -6,7 +6,8 @@ jobs:
   boot:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - name: GitHub Repo clone
+      uses: actions/checkout@v1
     - name: Build Bootstrap Tools
       run: |
           export OWROOT=$GITHUB_WORKSPACE
@@ -46,6 +47,7 @@ jobs:
     steps:
     - name: Install DOSBOX
       run: |
+          pwd
           for i in {1..10}
           do
             sudo apt-get install -y dosbox
@@ -53,7 +55,8 @@ jobs:
               break
             fi
           done
-    - uses: actions/checkout@v1
+    - name: GitHub Repo clone
+      uses: actions/checkout@v1
     - run: mkdir build/binbuild
     - name: Load boot
       uses: actions/download-artifact@master
@@ -97,7 +100,8 @@ jobs:
               break
             fi
           done
-    - uses: actions/checkout@v1
+    - name: GitHub Repo clone
+      uses: actions/checkout@v1
     - run: mkdir build/binbuild
     - name: Load boot
       uses: actions/download-artifact@master

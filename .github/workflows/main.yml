@@ -6,17 +6,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: Repo clone
+    - run: pwd
+    - name: GitHub Repo clone
       uses: actions/checkout@v1
     - name: GitHub checkout master
-      run: |
-          pwd
-          git checkout master
+      run: git checkout master
     - name: Mirror to SourceForge
       run: |
-          pwd
-          cd $GITHUB_WORKSPACE
-          pwd
           git remote set-url --push origin $OWSFPROTO$OWSFUSER@$OWSFHOST/p/$OWSFREPO
           git push -v
       env:
