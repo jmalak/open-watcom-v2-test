@@ -38,4 +38,4 @@ jobs:
     - uses: actions/upload-artifact@master
       with:
         name: boot
-        path: $GITHUB_WORKSPACE/build/binbuild
+        path: build/binbuild
