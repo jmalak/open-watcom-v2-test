@@ -59,6 +59,7 @@ jobs:
       with:
         name: boot
         path: build/binbuild
+    - run: chmod +x build/binbuild/*
     - name: Build Wiki Documentation
       run: |
           export OWROOT=$GITHUB_WORKSPACE
@@ -102,6 +103,7 @@ jobs:
       with:
         name: boot
         path: build/binbuild
+    - run: chmod +x build/binbuild/*
     - name: Build Wiki Documentation
       run: |
           export OWROOT=$GITHUB_WORKSPACE
