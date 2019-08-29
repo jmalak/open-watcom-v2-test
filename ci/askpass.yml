@@ -1,0 +1,6 @@
+steps:
+  - bash: |
+      echo "#!/bin/sh" > $(owaskpass)
+      echo "echo \"$SSH_PASSWORD\"" >> $(owaskpass)
+      chmod +x $(owaskpass)
+    displayName: "Create askpass file"
