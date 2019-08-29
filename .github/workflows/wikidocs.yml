@@ -9,7 +9,7 @@ jobs:
     - uses: actions/checkout@v1
     - name: Build Bootstrap Tools
       run: |
-          OWROOT=$GITHUB_WORKSPACE
+          export OWROOT=$GITHUB_WORKSPACE
           . $OWROOT/cmnvars.sh
           cd $OWROOT
           mkdir $OWBINDIR
@@ -59,7 +59,7 @@ jobs:
         path: build/binbuild
     - name: Build Wiki Documentation
       run: |
-          OWROOT=$GITHUB_WORKSPACE
+          export OWROOT=$GITHUB_WORKSPACE
           . $OWROOT/cmnvars.sh
           # build WIKI documentation
           cd $OWSRCDIR
