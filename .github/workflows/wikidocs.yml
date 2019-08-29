@@ -130,39 +130,44 @@ jobs:
     needs: [wikihtml, wikipdf]
     runs-on: ubuntu-latest
     steps:
-    - name: prepare tools
-      run: |
-        echo "#!/bin/sh" >askpass.sh
-        echo "echo \"$SSH_PASSWORD\"" >>askpass.sh
-        chmod +x askpass.sh
-    - name: Load Wiki
+    - name: Setup Git User
       run: |
         git config --global user.email "openwatcomazure@gmail.com"
         git config --global user.name "Open Watcom Azure"
+    - name: Prepare askpass script
+      run: |
+        echo "#!/bin/sh" > $HOME/askpass.sh
+        echo "echo \"$SSH_PASSWORD\"" >> $HOME/askpass.sh
+        chmod +x $HOME/askpass.sh
+    - name: Load Wiki
+      run: |
         mkdir wiki
-        export SSH_PASSWORD=$OW_GH_TOKEN2
-        export SSH_ASKPASS=$GITHUB_WORKSPACE/askpass.sh
+        export SSH_ASKPASS=$HOME/askpass.sh
         git clone --depth=1 --branch=master https://$OWGHUSER@github.com/$OWWIKIPROJ.git wiki
       env:
         OWWIKIPROJ: jmalak/open-watcom-v2-webdocs
         OWGHUSER: ${{ secrets.OW_GH_TOKEN1 }}
-        OW_GH_TOKEN2: ${{ secrets.OW_GH_TOKEN2 }}
+        SSH_PASSWORD: ${{ secrets.OW_GH_TOKEN2 }}
     - run: mkdir docs
     - name: Load boot
       uses: actions/download-artifact@master
       with:
         name: wikihtml
-        path: docs
+        path: wiki/docs
     - name: Load boot
       uses: actions/download-artifact@master
       with:
         name: wikipdf
-        path: docs
+        path: wiki/docs
     - name: Update Wiki
       run: |
+        export SSH_ASKPASS=$HOME/askpass.sh
+        cd wiki
         git add -v -f .
         if [ -n "$(git status -uno --porcelain)" ]
         then
           git commit -v -m "Azure Pipelines build $(Build.BuildNumber)"
           git push -v
         fi
+      env:
+        SSH_PASSWORD: ${{ secrets.OW_GH_TOKEN2 }}
