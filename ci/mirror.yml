@@ -8,7 +8,6 @@ steps:
     export SSH_ASKPASS=ci/askpass.sh
     env | sort
     git remote set-url --push origin $(owsfproto)$OWSFUSER@$(owsfhost)/p/$(owsfproject)
-    git push -v
   displayName: "Mirror to SF"
   env:
     SSH_PASSWORD: $(owsftoken2)
