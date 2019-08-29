@@ -7,8 +7,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Environment setup
-      env:
-       OWROOT: $GITHUB_WORKSPACE
+      run: |
+        export OWROOT=$GITHUB_WORKSPACE
+        . $OWROOT/cmnvars.sh
     - uses: actions/checkout@v1
     - name: Build Bootstrap Tools
       run: |
