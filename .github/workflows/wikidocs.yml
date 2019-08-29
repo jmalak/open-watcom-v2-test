@@ -37,6 +37,13 @@ jobs:
         OWTOOLS: GCC
     - name: Build Wiki Documentation
       run: |
+          for i in {1..10}
+          do
+            sudo apt-get install -y dosbox
+            if [ $? = 0 ]; then
+              break
+            fi
+          done
           export OWROOT=$GITHUB_WORKSPACE
           . $OWROOT/cmnvars.sh
           # build WIKI documentation
