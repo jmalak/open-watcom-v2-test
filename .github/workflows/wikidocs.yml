@@ -10,7 +10,7 @@ jobs:
       run: |
         echo "owroot=$OWROOT"
         echo "github_workspace=$GITHUB_WORKSPACE"
-        export OWROOT=$GITHUB_WORKSPACE
+        OWROOT=$GITHUB_WORKSPACE
         . $OWROOT/cmnvars.sh
       env:
         GITHUB_WORKSPACE: $GITHUB_WORKSPACE
