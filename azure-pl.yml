@@ -1,5 +1,4 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Pipeline
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
 
@@ -60,7 +59,6 @@ stages:
           owarch:   ${{ variables.owarch_lnx }}
           owimage:  ${{ variables.owimage_lnx }}
           owsfproject: openwatcom/open-watcom-v2-test
-          ssh.password: $(owsftoken2)
         pool:
           vmImage:  $(owimage)
         steps:
@@ -472,7 +470,6 @@ stages:
           owwikipath:       wiki
           owwikiroot:       $(Pipeline.Workspace)/$(owwikipath)
           owwikiartfpath:   $(owwikiroot)/docs
-          ssh.password:     $(owghtoken2)
         pool:
           vmImage: $(owimage)
         steps:
