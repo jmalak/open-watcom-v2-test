@@ -6,7 +6,8 @@ jobs:
   boot:
     runs-on: ubuntu-latest
     steps:
-    - env:
+    - name: Environment setup
+      env:
        OWROOT: $GITHUB_WORKSPACE
     - uses: actions/checkout@v1
     - name: Build Bootstrap Tools
