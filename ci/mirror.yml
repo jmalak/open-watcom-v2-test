@@ -2,12 +2,12 @@ steps:
 - script: |
     git checkout master
     mkdir ~/.ssh
-    ssh-keyscan git.code.sf.net > ~/.ssh/known_hosts
+    ssh-keyscan $(owsfhost) > ~/.ssh/known_hosts
     export DISPLAY=:0
     export GIT_SSH_COMMAND="setsid ssh"
     export SSH_ASKPASS=ci/askpass.sh
     env | sort
-    git remote set-url --push origin ssh://$OWSFUSER@git.code.sf.net/p/$(owsfproject)
+    git remote set-url --push origin $(owsfproto)$OWSFUSER@$(owsfhost)/p/$(owsfproject)
     git push -v
   displayName: "Mirror to SF"
   env:

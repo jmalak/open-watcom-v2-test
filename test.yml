@@ -2,7 +2,7 @@ resources:
   repositories:
   - repository: wiki
     type: GitHub
-    name: open-watcom/open-watcom-v2-webdocs
+    name: $(owwikiproject)
     endpoint: open-watcom-v2-wikidocs
 
 jobs:
@@ -12,7 +12,6 @@ jobs:
     variables:
       owroot:        $(Build.SourcesDirectory)
       owwiki_depth:  10
-      owwikiproject: open-watcom/open-watcom-v2-webdocs
       owwikiroot:    $(Pipeline.Workspace)/wiki
     pool:
       vmImage: 'ubuntu-latest'
@@ -20,7 +19,7 @@ jobs:
     - template: ci/gituser.yml
     - script: |
         export SSH_ASKPASS=$(owroot)/ci/askpass.sh
-        git clone --depth=1 --branch=master https://$OWGHUSER@github.com/$(owwikiproject).git $(owwikiroot)
+        git clone --depth=1 --branch=master $(owwikiproto)$OWGHUSER@$(owwikihost)/$(owwikiproject).git $(owwikiroot)
         cd $(owwikiroot)
         git add -v -f .
         git status -uno --porcelain
@@ -32,5 +31,5 @@ jobs:
         pwd
       displayName: "Wiki Docs update"
       env:
-        SSH_PASSWORD: $(owsftoken2)
+        SSH_PASSWORD: $(owghtoken2)
         OWGHUSER:     $(owghtoken1)

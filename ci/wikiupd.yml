@@ -3,7 +3,7 @@ steps:
   - checkout: none
   - bash: |
       export SSH_ASKPASS=$(owroot)/ci/askpass.sh
-      git clone --depth=1 --branch=master https://$OWGHUSER@github.com/$(owwikiproject).git $(owwikiroot)
+      git clone --depth=1 --branch=master $(owwikiproto)$OWGHUSER@$(owwikihost)/$(owwikiproject).git $(owwikiroot)
     displayName: "Wiki Docs clone"
     env:
       SSH_PASSWORD: $(owghtoken2)
