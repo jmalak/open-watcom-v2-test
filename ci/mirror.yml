@@ -7,7 +7,7 @@ steps:
     mkdir ~/.ssh
     ssh-keyscan $(owsfhost) > ~/.ssh/known_hosts
     git remote set-url --push origin $(owsfproto)$OWSFUSER@$(owsfhost)/p/$(owsfproject)
-    git push -v -f
+    git push -v
   displayName: "Mirror to SF"
   env:
     SSH_PASSWORD:    $(owsftoken2)
