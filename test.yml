@@ -32,7 +32,7 @@ jobs:
     variables:
       owarch:   ${{ variables.owarch_lnx }}
       owimage:  ${{ variables.owimage_lnx }}
-      owsfproject: openwatcom/open-watcom-v2-test
+      owsfproject: openwatcom/open-watcom-v2-test-jm
     pool:
       vmImage:  $(owimage)
     steps:
