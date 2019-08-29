@@ -13,15 +13,15 @@ jobs:
           export OWROOT=$GITHUB_WORKSPACE
           . $OWROOT/cmnvars.sh
           cd $OWROOT
-          mkdir $OWBINDIR
+          mkdir -p $OWBINDIR
           # build OW wmake for host system
           cd $OWSRCDIR/wmake
-          mkdir $OWOBJDIR
+          mkdir -p $OWOBJDIR
           cd $OWOBJDIR
           make -f ../posmake TARGETDEF=-D__LINUX__
           # build OW builder for host system
           cd $OWSRCDIR/builder
-          mkdir $OWOBJDIR
+          mkdir -p $OWOBJDIR
           cd $OWOBJDIR
           $OWBINDIR/wmake -f ../binmake bootstrap=1 builder.exe
           # build OW tools for host system
@@ -57,7 +57,7 @@ jobs:
     - name: GitHub Repo clone
       uses: actions/checkout@v1
     - name: Create Build Tools subdirectory
-      run: mkdir build/binbuild
+      run: mkdir -p build/binbuild
     - name: Load Build Tools Artifact
       uses: actions/download-artifact@master
       with:
@@ -75,7 +75,7 @@ jobs:
           cd $OWSRCDIR
           builder -i docs wikihtml .and wikihtml .or -- -- docset=wikihtml -i
           cd $OWROOT
-          mkdir artifact
+          mkdir -p artifact
           cp docs/html/*.bmp artifact/
           cp docs/html/*.htm artifact/
       env:
@@ -105,7 +105,7 @@ jobs:
     - name: GitHub Repo clone
       uses: actions/checkout@v1
     - name: Create Build Tools subdirectory
-      run: mkdir build/binbuild
+      run: mkdir -p build/binbuild
     - name: Load Build Tools Artifact
       uses: actions/download-artifact@master
       with:
@@ -123,7 +123,7 @@ jobs:
           cd $OWSRCDIR
           builder -i docs wikipdf .and wikipdf .or -- -- docset=wikipdf -i
           cd $OWROOT
-          mkdir artifact
+          mkdir -p artifact
           cp docs/pdf/*.pdf artifact/
       env:
         OWTOOLS: GCC
@@ -158,12 +158,18 @@ jobs:
         OWGHUSER: ${{ secrets.OW_GH_TOKEN1 }}
         SSH_PASSWORD: ${{ secrets.OW_GH_TOKEN2 }}
     - name: Create docs subdirectory
-      run: mkdir wiki/docs
+      run: mkdir -p wiki/docs
     - name: Load Html Documentation Artifact
       uses: actions/download-artifact@master
       with:
         name: wikihtml
         path: wiki/docs
+    - name: Change files extension *.htm to *.html
+      run: |
+        for x in wiki/docs/*.htm
+        do 
+          mv "${x}" "${x}l" 
+        done
     - name: Load PDF Documentation Artifact
       uses: actions/download-artifact@master
       with:
