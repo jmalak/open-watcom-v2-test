@@ -51,7 +51,7 @@ stages:
     condition: >
       and(
         succeeded(), 
-        in( variables['Build.Reason'], 'IndividualCI', 'BatchedCI' )
+        in( variables['Build.Reason'], 'IndividualCI', 'BatchedCI', 'Manual' )
       )
     jobs:
       - job: mirror
@@ -229,7 +229,7 @@ stages:
     #condition: >
     #  and(
     #    succeeded(), 
-    #    in( variables['Build.Reason'], 'Schedule' )
+    #    in( variables['Build.Reason'], 'Schedule', 'Manual' )
     #  )
     jobs:
       - job: instal
@@ -313,7 +313,7 @@ stages:
     #condition: >
     #  and(
     #    succeeded(), 
-    #    in( variables['Build.Reason'], 'Schedule' )
+    #    in( variables['Build.Reason'], 'Schedule', 'Manual' )
     #  )
     jobs:
       - job: release
@@ -389,7 +389,7 @@ stages:
     #condition: >
     #  and(
     #    succeeded(), 
-    #    in( variables['Build.Reason'], 'Schedule') 
+    #    in( variables['Build.Reason'], 'Schedule', 'Manual') 
     #  )
     jobs:
       - job: scan
