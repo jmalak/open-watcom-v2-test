@@ -8,7 +8,7 @@ jobs:
     steps:
     - name: GitHub Repo clone
       uses: actions/checkout@v1
-    - name: GitHub checkout master
+    - name: Checkout master branch
       run: git checkout master
     - name: Mirror to SourceForge
       run: |

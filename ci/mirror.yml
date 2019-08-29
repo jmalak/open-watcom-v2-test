@@ -6,11 +6,12 @@ steps:
 - script: |
     mkdir ~/.ssh
     ssh-keyscan $(owsfhost) > ~/.ssh/known_hosts
-    export DISPLAY=:0
-    export GIT_SSH_COMMAND="setsid ssh"
     git remote set-url --push origin $(owsfproto)$OWSFUSER@$(owsfhost)/p/$(owsfproject)
+    git push -v
   displayName: "Mirror to SF"
   env:
-    SSH_PASSWORD: $(owsftoken2)
-    OWSFUSER:     $(owsftoken1)
-    SSH_ASKPASS:  $(owaskpass)
+    SSH_PASSWORD:    $(owsftoken2)
+    OWSFUSER:        $(owsftoken1)
+    SSH_ASKPASS:     $(owaskpass)
+    DISPLAY:         :0
+    GIT_SSH_COMMAND: "setsid ssh"

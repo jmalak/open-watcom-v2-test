@@ -63,7 +63,7 @@ jobs:
       with:
         name: boot
         path: build/binbuild
-    - name: Set Executable Flag
+    - name: Set Executable Flags
       run: chmod +x build/binbuild/*
     - name: Build Wiki Documentation
       run: |
@@ -111,7 +111,7 @@ jobs:
       with:
         name: boot
         path: build/binbuild
-    - name: Set Executable Flag
+    - name: Set Executable Flags
       run: chmod +x build/binbuild/*
     - name: Build Wiki Documentation
       run: |
