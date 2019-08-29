@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - env:
-       OWROOT=$GITHUB_WORKSPACE
+       OWROOT: $GITHUB_WORKSPACE
     - uses: actions/checkout@v1
     - name: Build Bootstrap Tools
       run: |
@@ -41,76 +41,8 @@ jobs:
       with:
         name: boot
         path: $OWBINDIR
-  wikihtml:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Install DOSBOX
-      run: |
-          for i in {1..10}
-          do
-            sudo apt-get install -y dosbox
-            if [ $? = 0 ]; then
-              break
-            fi
-          done
-    - uses: actions/checkout@v1
-    - uses: actions/download-artifact@master
-      with:
-        name: boot
-        path: $OWBINDIR
-    - name: Build Wiki Documentation
-      run: |
-          export OWROOT=$GITHUB_WORKSPACE
-          . $OWROOT/cmnvars.sh
-          # build WIKI documentation
-          cd $OWSRCDIR
-          builder -i docs wikihtml .and wikihtml .or -- -- docset=wikihtml -i
-          cd $OWROOT
-      env:
-        OWTOOLS: GCC
-        OWGHOSTSCRIPTPATH: $PATH
-        OWDOSBOXPATH: $PATH
-        OWDOSBOX: dosbox
-        SDL_VIDEODRIVER: dummy
-        SDL_AUDIODRIVER: disk
-        SDL_DISKAUDIOFILE: /dev/null
-    - uses: actions/upload-artifact@master
-      with:
-        name: wikihtml
-        path: $OWROOT/docs/html
-  wikipdf:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Install DOSBOX
-      run: |
-          for i in {1..10}
-          do
-            sudo apt-get install -y dosbox
-            if [ $? = 0 ]; then
-              break
-            fi
-          done
-    - uses: actions/checkout@v1
-    - name: Build Wiki Documentation
-      run: |
-          export OWROOT=$GITHUB_WORKSPACE
-          . $OWROOT/cmnvars.sh
-          # build WIKI documentation
-          cd $OWSRCDIR
-          builder -i docs wikipdf .and wikipdf .or -- -- docset=wikipdf -i
-          cd $OWROOT
-      env:
-        OWTOOLS: GCC
-        OWGHOSTSCRIPTPATH: $PATH
-        OWDOSBOXPATH: $PATH
-        OWDOSBOX: dosbox
-        SDL_VIDEODRIVER: dummy
-        SDL_AUDIODRIVER: disk
-        SDL_DISKAUDIOFILE: /dev/null
-    - uses: actions/upload-artifact@master
-      with:
-        name: wikipdf
-        path: $OWROOT/docs/pdf
   wikiupdate:
     runs-on: ubuntu-latest
     steps:
+    - run: echo "test"
+    
