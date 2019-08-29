@@ -9,7 +9,7 @@ jobs:
     - uses: actions/checkout@v1
     - name: Build Bootstrap Tools
       run: |
-          export OWROOT=$GITHUB_WORKSPACE
+          OWROOT=$GITHUB_WORKSPACE
           . $OWROOT/cmnvars.sh
           cd $OWROOT
           mkdir $OWBINDIR
@@ -39,3 +39,80 @@ jobs:
       with:
         name: boot
         path: build/binbuild
+  wikihtml:
+    needs: boot
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install DOSBOX
+      run: |
+          for i in {1..10}
+          do
+            sudo apt-get install -y dosbox
+            if [ $? = 0 ]; then
+              break
+            fi
+          done
+    - uses: actions/checkout@v1
+    - uses: actions/download-artifact@master
+      with:
+        name: boot
+        path: build/binbuild
+    - name: Build Wiki Documentation
+      run: |
+          OWROOT=$GITHUB_WORKSPACE
+          . $OWROOT/cmnvars.sh
+          # build WIKI documentation
+          cd $OWSRCDIR
+          builder -i docs wikihtml .and wikihtml .or -- -- docset=wikihtml -i
+          cd $OWROOT
+          mkdir artifact
+          cp docs/html/*.bmp artifact/
+          cp docs/html/*.htm artifact/
+      env:
+        OWTOOLS: GCC
+        OWGHOSTSCRIPTPATH: $PATH
+        OWDOSBOXPATH: $PATH
+        OWDOSBOX: dosbox
+        SDL_VIDEODRIVER: dummy
+        SDL_AUDIODRIVER: disk
+        SDL_DISKAUDIOFILE: /dev/null
+    - uses: actions/upload-artifact@master
+      with:
+        name: wikihtml
+        path: artifact
+  wikipdf:
+    needs: boot
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install DOSBOX
+      run: |
+          for i in {1..10}
+          do
+            sudo apt-get install -y dosbox
+            if [ $? = 0 ]; then
+              break
+            fi
+          done
+    - uses: actions/checkout@v1
+    - name: Build Wiki Documentation
+      run: |
+          export OWROOT=$GITHUB_WORKSPACE
+          . $OWROOT/cmnvars.sh
+          # build WIKI documentation
+          cd $OWSRCDIR
+          builder -i docs wikipdf .and wikipdf .or -- -- docset=wikipdf -i
+          cd $OWROOT
+          mkdir artifact
+          cp docs/pdf/*.pdf artifact/
+      env:
+        OWTOOLS: GCC
+        OWGHOSTSCRIPTPATH: $PATH
+        OWDOSBOXPATH: $PATH
+        OWDOSBOX: dosbox
+        SDL_VIDEODRIVER: dummy
+        SDL_AUDIODRIVER: disk
+        SDL_DISKAUDIOFILE: /dev/null
+    - uses: actions/upload-artifact@master
+      with:
+        name: wikipdf
+        path: artifact
