@@ -10,6 +10,8 @@ jobs:
       run: |
         export OWROOT=$GITHUB_WORKSPACE
         . $OWROOT/cmnvars.sh
+      env:
+        GITHUB_WORKSPACE: $GITHUB_WORKSPACE
     - uses: actions/checkout@v1
     - name: Build Bootstrap Tools
       run: |
