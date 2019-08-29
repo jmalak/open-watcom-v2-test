@@ -6,18 +6,10 @@ jobs:
   boot:
     runs-on: ubuntu-latest
     steps:
-    - name: Environment setup
-      run: |
-        echo "owroot=$OWROOT"
-        echo "github_workspace=$GITHUB_WORKSPACE"
-        OWROOT=$GITHUB_WORKSPACE
-        . $OWROOT/cmnvars.sh
-      env:
-        GITHUB_WORKSPACE: $GITHUB_WORKSPACE
     - uses: actions/checkout@v1
     - name: Build Bootstrap Tools
       run: |
-          echo "owroot=$OWROOT"
+          export OWROOT=$GITHUB_WORKSPACE
           . $OWROOT/cmnvars.sh
           cd $OWROOT
           mkdir $OWBINDIR
@@ -47,8 +39,3 @@ jobs:
       with:
         name: boot
         path: $OWBINDIR
-  wikiupdate:
-    runs-on: ubuntu-latest
-    steps:
-    - run: echo "test"
-    
