@@ -147,7 +147,7 @@ jobs:
     - name: Prepare askpass script
       run: |
         echo "#!/bin/sh" > $HOME/askpass.sh
-        echo "echo \"$SSH_PASSWORD\"" >> $HOME/askpass.sh
+        echo "echo \"\$SSH_PASSWORD\"" >> $HOME/askpass.sh
         chmod +x $HOME/askpass.sh
     - name: Load Wiki Repo
       run: |
