@@ -6,18 +6,23 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - name: mirror to SourceForge
+    - name: Repo clone
+      uses: actions/checkout@v1
+    - name: GitHub checkout master
       run: |
-          cd $GITHUB_WORKSPACE
-          export GIT_ASKPASS=ci/askpass.sh
-          export SSH_PASSWORD=$OW_SF_TOKEN2
+          pwd
           git checkout master
+    - name: Mirror to SourceForge
+      run: |
+          pwd
+          cd $GITHUB_WORKSPACE
+          pwd
           git remote set-url --push origin $OWSFPROTO$OWSFUSER@$OWSFHOST/p/$OWSFREPO
           git push -v
       env:
-        OW_SF_TOKEN2: ${{ secrets.OW_SF_TOKEN2 }}
-        OWSFUSER: ${{ secrets.OW_SF_TOKEN1 }}
-        OWSFPROTO: https://
-        OWSFHOST: git.code.sf.net
-        OWSFREPO: openwatcom/open-watcom-v2-test
+        SSH_PASSWORD: ${{ secrets.OW_SF_TOKEN2 }}
+        OWSFUSER:     ${{ secrets.OW_SF_TOKEN1 }}
+        OWSFPROTO:    https://
+        OWSFHOST:     git.code.sf.net
+        OWSFREPO:     openwatcom/open-watcom-v2-test
+        GIT_ASKPASS:  ci/askpass.sh

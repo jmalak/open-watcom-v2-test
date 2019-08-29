@@ -35,6 +35,7 @@ jobs:
           cd $OWROOT
       env:
         OWTOOLS: GCC
+        OWROOT: $GITHUB_WORKSPACE
     - uses: actions/upload-artifact@master
       with:
         name: boot
