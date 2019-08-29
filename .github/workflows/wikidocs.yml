@@ -9,6 +9,7 @@ jobs:
     - uses: actions/checkout@v1
     - name: Build Bootstrap Tools
       run: |
+          export OWROOT=$GITHUB_WORKSPACE
           . $OWROOT/cmnvars.sh
           cd $OWROOT
           mkdir $OWBINDIR
@@ -33,10 +34,10 @@ jobs:
           builder boot
           cd $OWROOT
       env:
-        OWROOT: $GITHUB_WORKSPACE
         OWTOOLS: GCC
     - name: Build Wiki Documentation
       run: |
+          export OWROOT=$GITHUB_WORKSPACE
           . $OWROOT/cmnvars.sh
           # build WIKI documentation
           cd $OWSRCDIR
@@ -44,7 +45,6 @@ jobs:
           builder -i docs wikipdf .and wikipdf .or -- -- docset=wikipdf -i
           cd $OWROOT
       env:
-        OWROOT: $GITHUB_WORKSPACE
         OWTOOLS: GCC
         OWGHOSTSCRIPTPATH: $PATH
         OWDOSBOXPATH: $PATH
