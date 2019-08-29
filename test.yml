@@ -19,13 +19,6 @@ variables:
   owartifactfile7z: owartifact.tar
   owcibin:          $(owroot)\ci\bin64
 
-resources:
-  repositories:
-  - repository: wiki
-    type: GitHub
-    name: $(owwikiproject)
-    endpoint: open-watcom-v2-wikidocs
-
 jobs:
   - job: mirror
     displayName: "Mirror to SF"
