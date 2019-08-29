@@ -126,3 +126,43 @@ jobs:
       with:
         name: wikipdf
         path: artifact
+  wikiupdate:
+    needs: [wikihtml, wikipdf]
+    runs-on: ubuntu-latest
+    steps:
+    - name: prepare tools
+      run: |
+        echo "#!/bin/sh" >askpass.sh
+        echo "echo \"$SSH_PASSWORD\"" >>askpass.sh
+        chmod +x askpass.sh
+    - name: Load Wiki
+      run: |
+        git config --global user.email "openwatcomazure@gmail.com"
+        git config --global user.name "Open Watcom Azure"
+        mkdir wiki
+        export SSH_PASSWORD=$OW_GH_TOKEN2
+        export SSH_ASKPASS=$GITHUB_WORKSPACE/askpass.sh
+        git clone --depth=1 --branch=master https://$OWGHUSER@github.com/$OWWIKIPROJ.git wiki
+      env:
+        OWWIKIPROJ: jmalak/open-watcom-v2-webdocs
+        OWGHUSER: ${{ secrets.OW_GH_TOKEN1 }}
+        OW_GH_TOKEN2: ${{ secrets.OW_GH_TOKEN2 }}
+    - run: mkdir docs
+    - name: Load boot
+      uses: actions/download-artifact@master
+      with:
+        name: wikihtml
+        path: docs
+    - name: Load boot
+      uses: actions/download-artifact@master
+      with:
+        name: wikipdf
+        path: docs
+    - name: Update Wiki
+      run: |
+        git add -v -f .
+        if [ -n "$(git status -uno --porcelain)" ]
+        then
+          git commit -v -m "Azure Pipelines build $(Build.BuildNumber)"
+          git push -v
+        fi
