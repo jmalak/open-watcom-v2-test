@@ -1,0 +1,54 @@
+name: WikiDocs
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build Bootstrap Tools
+      run: |
+          . $OWROOT/cmnvars.sh
+          cd $OWROOT
+          mkdir $OWBINDIR
+          # build OW wmake for host system
+          cd $OWSRCDIR/wmake
+          mkdir $OWOBJDIR
+          cd $OWOBJDIR
+          make -f ../posmake TARGETDEF=-D__LINUX__
+          # build OW builder for host system
+          cd $OWSRCDIR/builder
+          mkdir $OWOBJDIR
+          cd $OWOBJDIR
+          $OWBINDIR/wmake -f ../binmake bootstrap=1 builder.exe
+          # build OW tools for host system
+          cd $OWSRCDIR/watcom
+          builder boot
+          cd $OWSRCDIR/builder
+          builder boot
+          cd $OWSRCDIR/whpcvt
+          builder boot
+          cd $OWSRCDIR/bmp2eps
+          builder boot
+          cd $OWROOT
+      env:
+        OWROOT: $GITHUB_WORKSPACE
+        OWTOOLS: GCC
+    - name: Build Wiki Documentation
+      run: |
+          . $OWROOT/cmnvars.sh
+          # build WIKI documentation
+          cd $OWSRCDIR
+          builder -i docs wikihtml .and wikihtml .or -- -- docset=wikihtml -i
+          builder -i docs wikipdf .and wikipdf .or -- -- docset=wikipdf -i
+          cd $OWROOT
+      env:
+        OWROOT: $GITHUB_WORKSPACE
+        OWTOOLS: GCC
+        OWGHOSTSCRIPTPATH: $PATH
+        OWDOSBOXPATH: $PATH
+        OWDOSBOX: dosbox
+        SDL_VIDEODRIVER: dummy
+        SDL_AUDIODRIVER: disk
+        SDL_DISKAUDIOFILE: /dev/null
