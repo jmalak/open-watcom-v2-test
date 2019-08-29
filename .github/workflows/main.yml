@@ -6,7 +6,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - run: pwd
     - name: GitHub Repo clone
       uses: actions/checkout@v1
     - name: GitHub checkout master
