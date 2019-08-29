@@ -1,14 +1,16 @@
 steps:
+- template: gituser.yml
+- template: askpass.yml
+- script: git checkout master
+  displayName: "GitHub Checkout"
 - script: |
-    git checkout master
     mkdir ~/.ssh
     ssh-keyscan $(owsfhost) > ~/.ssh/known_hosts
     export DISPLAY=:0
     export GIT_SSH_COMMAND="setsid ssh"
-    export SSH_ASKPASS=ci/askpass.sh
-    env | sort
     git remote set-url --push origin $(owsfproto)$OWSFUSER@$(owsfhost)/p/$(owsfproject)
   displayName: "Mirror to SF"
   env:
     SSH_PASSWORD: $(owsftoken2)
     OWSFUSER:     $(owsftoken1)
+    SSH_ASKPASS:  $(owaskpass)

@@ -19,6 +19,7 @@ resources:
 variables: 
   owroot:           $(Build.SourcesDirectory)
   owobjdir:         binbuild
+  owaskpass:        $(Pipeline.Workspace)/askpass.sh
 
   owimage_lnx:      'ubuntu-latest'
   owimage_nt:       'vs2017-win2016'
