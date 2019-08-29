@@ -17,7 +17,7 @@ jobs:
       env:
         SSH_PASSWORD: ${{ secrets.OW_SF_TOKEN2 }}
         OWSFUSER:     ${{ secrets.OW_SF_TOKEN1 }}
+        GIT_ASKPASS:  ci/askpass.sh
         OWSFPROTO:    https://
         OWSFHOST:     git.code.sf.net
         OWSFREPO:     openwatcom/open-watcom-v2-test
-        GIT_ASKPASS:  ci/askpass.sh

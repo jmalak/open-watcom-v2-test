@@ -10,7 +10,6 @@ jobs:
       uses: actions/checkout@v1
     - name: Build Bootstrap Tools
       run: |
-          export OWROOT=$GITHUB_WORKSPACE
           . $OWROOT/cmnvars.sh
           cd $OWROOT
           mkdir $OWBINDIR
@@ -47,7 +46,6 @@ jobs:
     steps:
     - name: Install DOSBOX
       run: |
-          pwd
           for i in {1..10}
           do
             sudo apt-get install -y dosbox
@@ -66,7 +64,6 @@ jobs:
     - run: chmod +x build/binbuild/*
     - name: Build Wiki Documentation
       run: |
-          export OWROOT=$GITHUB_WORKSPACE
           . $OWROOT/cmnvars.sh
           # build WIKI documentation
           cd $OWSRCDIR
@@ -77,6 +74,7 @@ jobs:
           cp docs/html/*.htm artifact/
       env:
         OWTOOLS: GCC
+        OWROOT: $GITHUB_WORKSPACE
         OWGHOSTSCRIPTPATH: $PATH
         OWDOSBOXPATH: $PATH
         OWDOSBOX: dosbox
@@ -111,7 +109,6 @@ jobs:
     - run: chmod +x build/binbuild/*
     - name: Build Wiki Documentation
       run: |
-          export OWROOT=$GITHUB_WORKSPACE
           . $OWROOT/cmnvars.sh
           # build WIKI documentation
           cd $OWSRCDIR
@@ -121,6 +118,7 @@ jobs:
           cp docs/pdf/*.pdf artifact/
       env:
         OWTOOLS: GCC
+        OWROOT: $GITHUB_WORKSPACE
         OWGHOSTSCRIPTPATH: $PATH
         OWDOSBOXPATH: $PATH
         OWDOSBOX: dosbox
@@ -146,14 +144,13 @@ jobs:
         chmod +x $HOME/askpass.sh
     - name: Load Wiki
       run: |
-        mkdir wiki
-        export SSH_ASKPASS=$HOME/askpass.sh
         git clone --depth=1 --branch=master https://$OWGHUSER@github.com/$OWWIKIPROJ.git wiki
       env:
         OWWIKIPROJ: jmalak/open-watcom-v2-webdocs
         OWGHUSER: ${{ secrets.OW_GH_TOKEN1 }}
         SSH_PASSWORD: ${{ secrets.OW_GH_TOKEN2 }}
-    - run: mkdir docs
+        SSH_ASKPASS: $HOME/askpass.sh
+    - run: mkdir wiki/docs
     - name: Load boot
       uses: actions/download-artifact@master
       with:
@@ -166,13 +163,14 @@ jobs:
         path: wiki/docs
     - name: Update Wiki
       run: |
-        export SSH_ASKPASS=$HOME/askpass.sh
         cd wiki
         git add -v -f .
         if [ -n "$(git status -uno --porcelain)" ]
         then
-          git commit -v -m "Azure Pipelines build $(Build.BuildNumber)"
+          git commit -v -m "GitHub Workflow build"
           git push -v
+          env | sort
         fi
       env:
         SSH_PASSWORD: ${{ secrets.OW_GH_TOKEN2 }}
+        SSH_ASKPASS: $HOME/askpass.sh
