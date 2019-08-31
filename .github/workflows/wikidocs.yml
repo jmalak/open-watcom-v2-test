@@ -136,7 +136,7 @@ jobs:
         type %TEMP%\askpass.cmd
     - name: Load Wiki Repo
       run: |
-        set SSH_ASKPASS=%TEMP%\askpass.cmd
+        set SSH_ASKPASS=cmd /c "%TEMP%\askpass.cmd"
         git clone --depth=1 --branch=master https://%OWGHUSER%@github.com/%OWWIKIPROJ%.git .
       env:
         OWWIKIPROJ: jmalak/open-watcom-v2-webdocs
@@ -161,8 +161,8 @@ jobs:
         set GIT_TRACE_SETUP=2
         set GIT_TRACE_PACK_ACCESS=1
         echo on
-        set GIT_ASKPASS=%TEMP%\askpass.cmd
-        set SSH_ASKPASS=%TEMP%\askpass.cmd
+        set GIT_ASKPASS=cmd /c "%TEMP%\askpass.cmd"
+        set SSH_ASKPASS=cmd /c "%TEMP%\askpass.cmd"
         git add -v -f .
         git commit -v -v -m "GitHub Workflow build"
         git config --list
