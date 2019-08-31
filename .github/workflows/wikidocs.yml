@@ -141,7 +141,7 @@ jobs:
         OWGHUSER: ${{ secrets.OW_GH_TOKEN1 }}
         SSH_PASSWORD: ${{ secrets.OW_GH_TOKEN2 }}
     - name: Create docs subdirectory
-      run: mkdir docs
+      run: if not exists docs\* mkdir docs
     - name: Load Html Documentation Artifact
       uses: actions/download-artifact@master
       with:
