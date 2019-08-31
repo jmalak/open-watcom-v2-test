@@ -61,12 +61,13 @@ jobs:
           set OWGHOSTSCRIPTPATH=%OWCIBIN%
           set OWWIN95HC=%OWCIBIN%\hcrtf.exe
           set OWHHC=%OWCIBIN%\hhc.exe
-          call %OWROOT%\cmnvars.sh
+          call %OWROOT%\cmnvars.bat
+          set
           REM build WIKI documentation
           cd %OWSRCDIR%
           builder -i docs wikihtml .and wikihtml .or -- -- docset=wikihtml -i
           cd %OWROOT%
-          mkdir -p artifact
+          mkdir artifact
           copy docs\html\*.bmp artifact\
           copy docs\html\*.htm artifact\
       env:
@@ -102,11 +103,12 @@ jobs:
           set OWWIN95HC=%OWCIBIN%\hcrtf.exe
           set OWHHC=%OWCIBIN%\hhc.exe
           call %OWROOT%\cmnvars.bat
+          set
           REM build WIKI documentation
           cd %OWSRCDIR%
           builder -i docs wikipdf .and wikipdf .or -- -- docset=wikipdf -i
           cd %OWROOT%
-          mkdir -p artifact
+          mkdir artifact
           copy docs\pdf\*.pdf artifact\
       env:
         OWTOOLS: VISUALC
