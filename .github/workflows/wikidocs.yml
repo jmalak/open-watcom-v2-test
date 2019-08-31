@@ -153,8 +153,9 @@ jobs:
         path: docs
     - name: Update Wiki Repo
       run: |
+        echo on
         set SSH_ASKPASS=%HOME%\askpass.cmd
-        git add -v -f .
+        git add -v -f
         git commit -v -m "GitHub Workflow build"
         git push -v
       env:
