@@ -10,6 +10,7 @@ jobs:
       uses: actions/checkout@v1
     - name: Build Bootstrap Tools
       run: |
+          set
           call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" amd64
           set OWROOT=%GITHUB_WORKSPACE%
           call %OWROOT%\cmnvars.bat
@@ -155,9 +156,10 @@ jobs:
         path: docs
     - name: Update Wiki Repo
       run: |
+        set
         echo on
         set SSH_ASKPASS=%HOME%\askpass.cmd
-        git add -v -f
+        git add -v -f .
         git commit -v -m "GitHub Workflow build"
         git push -v
       env:
