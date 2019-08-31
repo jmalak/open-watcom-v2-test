@@ -165,6 +165,7 @@ jobs:
         set SSH_ASKPASS=%TEMP%\askpass.cmd
         git add -v -f .
         git commit -v -v -m "GitHub Workflow build"
+        git config --list
         git push -v -v -v
       env:
         SSH_PASSWORD: ${{ secrets.OW_GH_TOKEN2 }}
