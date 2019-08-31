@@ -15,15 +15,15 @@ jobs:
           call %OWROOT%\cmnvars.bat
           set
           mkdir %OWBINDIR%
-          # build OW wmake for host system
+          REM build OW wmake for host system
           mkdir %OWSRCDIR%\wmake\%OWOBJDIR%
           cd %OWSRCDIR%\wmake\%OWOBJDIR%
           nmake -f ..\nmake
-          # build OW builder for host system
+          REM build OW builder for host system
           mkdir %OWSRCDIR%\builder\%OWOBJDIR%
           cd %OWSRCDIR%\builder\%OWOBJDIR%
           %OWBINDIR%\wmake -f ..\binmake bootstrap=1 builder.exe
-          # build OW tools for host system
+          REM build OW tools for host system
           cd %OWSRCDIR%\watcom
           builder boot
           cd %OWSRCDIR%\builder
@@ -62,7 +62,7 @@ jobs:
           set OWWIN95HC=%OWCIBIN%\hcrtf.exe
           set OWHHC=%OWCIBIN%\hhc.exe
           call %OWROOT%\cmnvars.sh
-          # build WIKI documentation
+          REM build WIKI documentation
           cd %OWSRCDIR%
           builder -i docs wikihtml .and wikihtml .or -- -- docset=wikihtml -i
           cd %OWROOT%
@@ -102,7 +102,7 @@ jobs:
           set OWWIN95HC=%OWCIBIN%\hcrtf.exe
           set OWHHC=%OWCIBIN%\hhc.exe
           call %OWROOT%\cmnvars.bat
-          # build WIKI documentation
+          REM build WIKI documentation
           cd %OWSRCDIR%
           builder -i docs wikipdf .and wikipdf .or -- -- docset=wikipdf -i
           cd %OWROOT%
