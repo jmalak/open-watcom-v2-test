@@ -129,6 +129,8 @@ jobs:
         git config --global user.name "Open Watcom Azure"
     - name: Prepare askpass script
       run: |
+        set
+        echo home=%HOME%
         echo echo %%SSH_PASSWORD%% > %HOME%\askpass.cmd
         type %HOME%\askpass.cmd
     - name: Load Wiki Repo
