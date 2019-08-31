@@ -10,7 +10,7 @@ jobs:
       uses: actions/checkout@v1
     - name: Build Bootstrap Tools
       run: |
-          export OWROOT=%GITHUB_WORKSPACE%
+          set OWROOT=%GITHUB_WORKSPACE%
           call %OWROOT%\cmnvars.bat
           mkdir %OWBINDIR%
           # build OW wmake for host system
@@ -53,9 +53,9 @@ jobs:
         path: build\binbuild
     - name: Build Wiki Documentation
       run: |
-          export OWROOT=%GITHUB_WORKSPACE%
-          export OWGHOSTSCRIPTPATH=%PATH%
-          export OWDOSBOXPATH=%PATH%
+          set OWROOT=%GITHUB_WORKSPACE%
+          set OWGHOSTSCRIPTPATH=%PATH%
+          set OWDOSBOXPATH=%PATH%
           call %OWROOT%\cmnvars.sh
           # build WIKI documentation
           cd %OWSRCDIR%
@@ -90,9 +90,9 @@ jobs:
         path: build\binbuild
     - name: Build Wiki Documentation
       run: |
-          export OWROOT=%GITHUB_WORKSPACE%
-          export OWGHOSTSCRIPTPATH=%PATH%
-          export OWDOSBOXPATH=%PATH%
+          set OWROOT=%GITHUB_WORKSPACE%
+          set OWGHOSTSCRIPTPATH=%PATH%
+          set OWDOSBOXPATH=%PATH%
           call %OWROOT%\cmnvars.bat
           # build WIKI documentation
           cd %OWSRCDIR%
@@ -124,7 +124,7 @@ jobs:
         echo "echo \"\$SSH_PASSWORD\"" > %HOME%\askpass.cmd
     - name: Load Wiki Repo
       run: |
-        export SSH_ASKPASS=%HOME%\askpass.cmd
+        set SSH_ASKPASS=%HOME%\askpass.cmd
         git clone --depth=1 --branch=master https://%OWGHUSER%@github.com/%OWWIKIPROJ%.git .
       env:
         OWWIKIPROJ: jmalak/open-watcom-v2-webdocs
@@ -146,7 +146,7 @@ jobs:
         path: docs
     - name: Update Wiki Repo
       run: |
-        export SSH_ASKPASS=%HOME%\askpass.cmd
+        set SSH_ASKPASS=%HOME%\askpass.cmd
         git add -v -f .
         git commit -v -m "GitHub Workflow build"
         git push -v
