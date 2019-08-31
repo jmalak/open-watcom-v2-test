@@ -12,6 +12,7 @@ jobs:
       run: |
           set OWROOT=%GITHUB_WORKSPACE%
           call %OWROOT%\cmnvars.bat
+          set
           mkdir %OWBINDIR%
           # build OW wmake for host system
           mkdir %OWSRCDIR%\wmake\%OWOBJDIR%
