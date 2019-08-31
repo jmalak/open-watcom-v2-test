@@ -10,6 +10,7 @@ jobs:
       uses: actions/checkout@v1
     - name: Build Bootstrap Tools
       run: |
+          git config --list
           set
           call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" amd64
           set OWROOT=%GITHUB_WORKSPACE%
@@ -160,9 +161,10 @@ jobs:
         set GIT_TRACE_SETUP=2
         set GIT_TRACE_PACK_ACCESS=1
         echo on
+        set GIT_ASKPASS=%TEMP%\askpass.cmd
         set SSH_ASKPASS=%TEMP%\askpass.cmd
         git add -v -f .
         git commit -v -v -m "GitHub Workflow build"
-        git push -v -v
+        git push -v -v -v
       env:
         SSH_PASSWORD: ${{ secrets.OW_GH_TOKEN2 }}
