@@ -70,6 +70,7 @@ jobs:
           mkdir artifact
           copy docs\html\*.bmp artifact\
           copy docs\html\*.htm artifact\
+          ren artifact\*.htm *.html
       env:
         OWTOOLS: VISUALC
         OWDOSBOX: dosbox.exe
@@ -147,8 +148,6 @@ jobs:
       with:
         name: wikihtml
         path: docs
-    - name: Change files extension *.htm to *.html
-      run: ren docs\*.htm *.html
     - name: Load PDF Documentation Artifact
       uses: actions/download-artifact@master
       with:
