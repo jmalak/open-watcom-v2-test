@@ -4,86 +4,72 @@ on: [push]
 
 jobs:
   boot:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
     - name: GitHub Repo clone
       uses: actions/checkout@v1
     - name: Build Bootstrap Tools
       run: |
-          export OWROOT=$GITHUB_WORKSPACE
-          . $OWROOT/cmnvars.sh
-          cd $OWROOT
-          mkdir -p $OWBINDIR
+          export OWROOT=%GITHUB_WORKSPACE%
+          call %OWROOT%\cmnvars.bat
+          mkdir %OWBINDIR%
           # build OW wmake for host system
-          cd $OWSRCDIR/wmake
-          mkdir -p $OWOBJDIR
-          cd $OWOBJDIR
-          make -f ../posmake TARGETDEF=-D__LINUX__
+          mkdir %OWSRCDIR%\wmake\%OWOBJDIR%
+          cd %OWSRCDIR%\wmake\%OWOBJDIR%
+          nmake -f ..\nmake
           # build OW builder for host system
-          cd $OWSRCDIR/builder
-          mkdir -p $OWOBJDIR
-          cd $OWOBJDIR
-          $OWBINDIR/wmake -f ../binmake bootstrap=1 builder.exe
+          mkdir %OWSRCDIR%\builder\%OWOBJDIR%
+          cd %OWSRCDIR%\builder\%OWOBJDIR%
+          %OWBINDIR%\wmake -f ..\binmake bootstrap=1 builder.exe
           # build OW tools for host system
-          cd $OWSRCDIR/watcom
+          cd %OWSRCDIR%\watcom
           builder boot
-          cd $OWSRCDIR/builder
+          cd %OWSRCDIR%\builder
           builder boot
-          cd $OWSRCDIR/whpcvt
+          cd %OWSRCDIR%\whpcvt
           builder boot
-          cd $OWSRCDIR/bmp2eps
+          cd %OWSRCDIR%\bmp2eps
           builder boot
-          cd $OWROOT
+          cd %OWROOT%
       env:
-        OWTOOLS: GCC
+        OWTOOLS: VISUALC
     - name: Save Build Tools Artifact
       uses: actions/upload-artifact@master
       with:
         name: boot
-        path: build/binbuild
+        path: build\binbuild
   wikihtml:
     needs: boot
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
-    - name: Install DOSBOX
-      run: |
-          for i in {1..10}
-          do
-            sudo apt-get install -y dosbox
-            if [ $? = 0 ]; then
-              break
-            fi
-          done
     - name: GitHub Repo clone
       uses: actions/checkout@v1
     - name: Create Build Tools subdirectory
-      run: mkdir -p build/binbuild
+      run: mkdir build\binbuild
     - name: Load Build Tools Artifact
       uses: actions/download-artifact@master
       with:
         name: boot
-        path: build/binbuild
-    - name: Set Executable Flags
-      run: chmod +x build/binbuild/*
+        path: build\binbuild
     - name: Build Wiki Documentation
       run: |
-          export OWROOT=$GITHUB_WORKSPACE
-          export OWGHOSTSCRIPTPATH=$PATH
-          export OWDOSBOXPATH=$PATH
-          . $OWROOT/cmnvars.sh
+          export OWROOT=%GITHUB_WORKSPACE%
+          export OWGHOSTSCRIPTPATH=%PATH%
+          export OWDOSBOXPATH=%PATH%
+          call %OWROOT%\cmnvars.sh
           # build WIKI documentation
-          cd $OWSRCDIR
+          cd %OWSRCDIR%
           builder -i docs wikihtml .and wikihtml .or -- -- docset=wikihtml -i
-          cd $OWROOT
+          cd %OWROOT%
           mkdir -p artifact
-          cp docs/html/*.bmp artifact/
-          cp docs/html/*.htm artifact/
+          copy docs\html\*.bmp artifact\
+          copy docs\html\*.htm artifact\
       env:
-        OWTOOLS: GCC
+        OWTOOLS: VISUALC
         OWDOSBOX: dosbox
         SDL_VIDEODRIVER: dummy
         SDL_AUDIODRIVER: disk
-        SDL_DISKAUDIOFILE: /dev/null
+        SDL_DISKAUDIOFILE: NUL
     - name: Save Html Documentation Artifact
       uses: actions/upload-artifact@master
       with:
@@ -91,46 +77,35 @@ jobs:
         path: artifact
   wikipdf:
     needs: boot
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
-    - name: Install DOSBOX
-      run: |
-          for i in {1..10}
-          do
-            sudo apt-get install -y dosbox
-            if [ $? = 0 ]; then
-              break
-            fi
-          done
     - name: GitHub Repo clone
       uses: actions/checkout@v1
     - name: Create Build Tools subdirectory
-      run: mkdir -p build/binbuild
+      run: mkdir build\binbuild
     - name: Load Build Tools Artifact
       uses: actions/download-artifact@master
       with:
         name: boot
-        path: build/binbuild
-    - name: Set Executable Flags
-      run: chmod +x build/binbuild/*
+        path: build\binbuild
     - name: Build Wiki Documentation
       run: |
-          export OWROOT=$GITHUB_WORKSPACE
-          export OWGHOSTSCRIPTPATH=$PATH
-          export OWDOSBOXPATH=$PATH
-          . $OWROOT/cmnvars.sh
+          export OWROOT=%GITHUB_WORKSPACE%
+          export OWGHOSTSCRIPTPATH=%PATH%
+          export OWDOSBOXPATH=%PATH%
+          call %OWROOT%\cmnvars.bat
           # build WIKI documentation
-          cd $OWSRCDIR
+          cd %OWSRCDIR%
           builder -i docs wikipdf .and wikipdf .or -- -- docset=wikipdf -i
-          cd $OWROOT
+          cd %OWROOT%
           mkdir -p artifact
-          cp docs/pdf/*.pdf artifact/
+          copy docs\pdf\*.pdf artifact\
       env:
-        OWTOOLS: GCC
+        OWTOOLS: VISUALC
         OWDOSBOX: dosbox
         SDL_VIDEODRIVER: dummy
         SDL_AUDIODRIVER: disk
-        SDL_DISKAUDIOFILE: /dev/null
+        SDL_DISKAUDIOFILE: NUL
     - name: Save PDF Documentation Artifact
       uses: actions/upload-artifact@master
       with:
@@ -138,7 +113,7 @@ jobs:
         path: artifact
   wikiupdate:
     needs: [wikihtml, wikipdf]
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
     - name: Setup Git User
       run: |
@@ -146,45 +121,34 @@ jobs:
         git config --global user.name "Open Watcom Azure"
     - name: Prepare askpass script
       run: |
-        echo "#!/bin/sh" > $HOME/askpass.sh
-        echo "echo \"\$SSH_PASSWORD\"" >> $HOME/askpass.sh
-        chmod +x $HOME/askpass.sh
+        echo "echo \"\$SSH_PASSWORD\"" > %HOME%\askpass.cmd
     - name: Load Wiki Repo
       run: |
-        export SSH_ASKPASS=$HOME/askpass.sh
-        git clone --depth=1 --branch=master https://$OWGHUSER@github.com/$OWWIKIPROJ.git wiki
+        export SSH_ASKPASS=%HOME%\askpass.cmd
+        git clone --depth=1 --branch=master https://%OWGHUSER%@github.com/%OWWIKIPROJ%.git .
       env:
         OWWIKIPROJ: jmalak/open-watcom-v2-webdocs
         OWGHUSER: ${{ secrets.OW_GH_TOKEN1 }}
         SSH_PASSWORD: ${{ secrets.OW_GH_TOKEN2 }}
     - name: Create docs subdirectory
-      run: mkdir -p wiki/docs
+      run: mkdir docs
     - name: Load Html Documentation Artifact
       uses: actions/download-artifact@master
       with:
         name: wikihtml
-        path: wiki/docs
+        path: docs
     - name: Change files extension *.htm to *.html
-      run: |
-        for x in wiki/docs/*.htm
-        do 
-          mv "${x}" "${x}l" 
-        done
+      run: ren docs\*.htm *.html
     - name: Load PDF Documentation Artifact
       uses: actions/download-artifact@master
       with:
         name: wikipdf
-        path: wiki/docs
+        path: docs
     - name: Update Wiki Repo
       run: |
-        export SSH_ASKPASS=$HOME/askpass.sh
-        cd wiki
+        export SSH_ASKPASS=%HOME%\askpass.cmd
         git add -v -f .
-        if [ -n "$(git status -uno --porcelain)" ]
-        then
-          git commit -v -m "GitHub Workflow build"
-          git push -v
-          env | sort
-        fi
+        git commit -v -m "GitHub Workflow build"
+        git push -v
       env:
         SSH_PASSWORD: ${{ secrets.OW_GH_TOKEN2 }}
