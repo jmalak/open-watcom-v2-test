@@ -129,6 +129,7 @@ jobs:
       run: |
         git config --global user.email "openwatcomazure@gmail.com"
         git config --global user.name "Open Watcom Azure"
+        git config --system --unset credential.helper
     - name: Prepare askpass script
       run: |
         set
