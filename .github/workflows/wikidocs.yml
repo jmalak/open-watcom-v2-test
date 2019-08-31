@@ -131,12 +131,11 @@ jobs:
     - name: Prepare askpass script
       run: |
         set
-        echo home=%HOME%
-        echo echo %%SSH_PASSWORD%% > %HOME%\askpass.cmd
-        type %HOME%\askpass.cmd
+        echo echo %%SSH_PASSWORD%% > %TEMP%\askpass.cmd
+        type %TEMP%\askpass.cmd
     - name: Load Wiki Repo
       run: |
-        set SSH_ASKPASS=%HOME%\askpass.cmd
+        set SSH_ASKPASS=%TEMP%\askpass.cmd
         git clone --depth=1 --branch=master https://%OWGHUSER%@github.com/%OWWIKIPROJ%.git .
       env:
         OWWIKIPROJ: jmalak/open-watcom-v2-webdocs
@@ -158,7 +157,7 @@ jobs:
       run: |
         set
         echo on
-        set SSH_ASKPASS=%HOME%\askpass.cmd
+        set SSH_ASKPASS=%TEMP%\askpass.cmd
         git add -v -f .
         git commit -v -m "GitHub Workflow build"
         git push -v
