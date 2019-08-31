@@ -156,10 +156,13 @@ jobs:
     - name: Update Wiki Repo
       run: |
         set
+        set GIT_TRACE=2
+        set GIT_TRACE_SETUP=2
+        set GIT_TRACE_PACK_ACCESS=1
         echo on
         set SSH_ASKPASS=%TEMP%\askpass.cmd
         git add -v -f .
-        git commit -v -m "GitHub Workflow build"
-        git push -v
+        git commit -v -v -m "GitHub Workflow build"
+        git push -v -v
       env:
         SSH_PASSWORD: ${{ secrets.OW_GH_TOKEN2 }}
