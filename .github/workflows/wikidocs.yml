@@ -11,7 +11,7 @@ jobs:
     - name: Build Bootstrap Tools
       run: |
           set OWROOT=%GITHUB_WORKSPACE%
-          call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\vcvarsall.bat" amd64
+          call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" amd64
           call %OWROOT%\cmnvars.bat
           set
           mkdir %OWBINDIR%
