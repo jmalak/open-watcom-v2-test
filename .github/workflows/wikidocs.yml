@@ -132,6 +132,7 @@ jobs:
         git config --global user.name "Open Watcom Azure"
     - name: Load Wiki Repo
       run: |
+        git remote -v
         git clone %OWGITVERBOSE% --depth=1 --branch=master https://%GITHUB_ACTOR%:%GITHUB_TOKEN%@github.com/%OWWIKIPROJ%.git .
       env:
         OWGITVERBOSE: -v -v -v
@@ -156,6 +157,7 @@ jobs:
         git add %OWGITVERBOSE% -f .
         git commit %OWGITVERBOSE% -m "GitHub Workflow build"
         git config --list
+        git remote -v
         git push %OWGITVERBOSE%
         type %TEMP%\git.log
       env:
