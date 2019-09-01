@@ -10,7 +10,6 @@ jobs:
       uses: actions/checkout@v1
     - name: Build Bootstrap Tools
       run: |
-          git config --list
           set
           call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" amd64
           set OWROOT=%GITHUB_WORKSPACE%
@@ -129,6 +128,8 @@ jobs:
       run: |
         git config --global user.email "openwatcomazure@gmail.com"
         git config --global user.name "Open Watcom Azure"
+    - name: "Remove git credential manager"
+      run: |
         git config --system --unset credential.helper
     - name: Prepare askpass script
       run: |
@@ -141,9 +142,9 @@ jobs:
         set SSH_ASKPASS=%TEMP%\askpass.cmd
         git clone --depth=1 --branch=master https://%OWGHUSER%@github.com/%OWWIKIPROJ%.git .
       env:
-        OWWIKIPROJ: jmalak/open-watcom-v2-webdocs
         OWGHUSER: ${{ secrets.OW_GH_TOKEN1 }}
         SSH_PASSWORD: ${{ secrets.OW_GH_TOKEN2 }}
+        OWWIKIPROJ: jmalak/open-watcom-v2-webdocs
     - name: Create docs subdirectory
       run: if not exist docs\* mkdir docs
     - name: Load Html Documentation Artifact
@@ -170,4 +171,5 @@ jobs:
         git config --list
         git push -v -v -v
       env:
+        OWGHUSER: ${{ secrets.OW_GH_TOKEN1 }}
         SSH_PASSWORD: ${{ secrets.OW_GH_TOKEN2 }}
