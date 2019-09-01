@@ -147,12 +147,20 @@ jobs:
       uses: actions/download-artifact@master
       with:
         name: wikihtml
-        path: docs
+        path: artifact
+    - name: Copy artifact to docs subdirectory
+      run: xcopy artifact/*.* docs/
     - name: Load PDF Documentation Artifact
       uses: actions/download-artifact@master
       with:
         name: wikipdf
-        path: docs
+        path: artifact
+    - name: Copy artifact to docs subdirectory
+      run: xcopy artifact/*.* docs/
+    - name: Delete artifact subdirectory
+      run: |
+        del /Q artifact/*.*
+        rmdir artifact
     - name: Update Wiki Repo
       run: |
         git add -v -f .
