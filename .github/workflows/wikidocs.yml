@@ -169,7 +169,7 @@ jobs:
         git push %OWGITVERBOSE%
       env:
         OWGHUSER: jmalak
-        SSH_PASSWORD: ${{ secrets.OW_GH_TOKEN2 }}
+        SSH_PASSWORD: Jirkami1github$
         OWGITVERBOSE:           -v -v -v
         GIT_TRACE:              2
         GIT_TRACE_SETUP:        2
