@@ -4,6 +4,7 @@ on: [push]
 
 jobs:
   boot:
+    name: Build Tools
     runs-on: windows-latest
     steps:
     - name: GitHub Repo clone
@@ -40,6 +41,7 @@ jobs:
         name: boot
         path: build\binbuild
   wikihtml:
+    name: Wiki Html Documentation
     needs: boot
     runs-on: windows-latest
     steps:
@@ -82,6 +84,7 @@ jobs:
         name: wikihtml
         path: artifact
   wikipdf:
+    name: Wiki PDF Documentation
     needs: boot
     runs-on: windows-latest
     steps:
@@ -122,6 +125,7 @@ jobs:
         name: wikipdf
         path: artifact
   wikiupdate:
+    name: Wiki Documentation Update
     needs: [wikihtml, wikipdf]
     runs-on: windows-latest
     steps:
