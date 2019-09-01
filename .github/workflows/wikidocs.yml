@@ -132,13 +132,12 @@ jobs:
         git config --global user.name "Open Watcom Azure"
     - name: Load Wiki Repo
       run: |
-        git clone %OWGITVERBOSE% --depth=1 --branch=master https://jmalak:%OWGHPASSWORD%@github.com/%OWWIKIPROJ%.git .
-        git remote -v
+        git clone %OWGITVERBOSE% --depth=1 --branch=master https://%OWGHUSER%:%OWGHPASSWORD%@github.com/%OWWIKIPROJ%.git .
       env:
-        OWGITVERBOSE: -v -v -v
-        OWWIKIPROJ: jmalak/open-watcom-v2-webdocs
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        OWGHUSER: ${{ secrets.OW_GH_TOKEN1 }}
         OWGHPASSWORD: ${{ secrets.OW_GH_TOKEN2 }}
+        OWWIKIPROJ: jmalak/open-watcom-v2-webdocs
+        OWGITVERBOSE: -v -v -v
     - name: Create docs subdirectory
       run: if not exist docs\* mkdir docs
     - name: Load Html Documentation Artifact
@@ -157,10 +156,8 @@ jobs:
         set GIT_TRACE=%TEMP%\git.log
         git add %OWGITVERBOSE% -f .
         git commit %OWGITVERBOSE% -m "GitHub Workflow build"
-        git config --list
-        git remote -v
         git push %OWGITVERBOSE%
         type %TEMP%\git.log
       env:
-        OWGITVERBOSE: -v -v -v
         GIT_TRACE_SETUP: 2
+        OWGITVERBOSE: -v -v -v
