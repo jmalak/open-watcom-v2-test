@@ -132,10 +132,12 @@ jobs:
         git config --global user.name "Open Watcom Azure"
     - name: Load Wiki Repo
       run: |
-        git clone -v --depth=1 --branch=master https://%OWGHUSER%:%OWGHPASSWORD%@github.com/%OWWIKIPROJ%.git .
+        git clone -v --depth=1 --branch=master %OWWIKIPROTO%%OWWIKIUSER%:%OWWIKIPASSWORD%@%OWWIKIHOST%/%OWWIKIPROJ%.git .
       env:
-        OWGHUSER: ${{ secrets.OW_GH_TOKEN1 }}
-        OWGHPASSWORD: ${{ secrets.OW_GH_TOKEN2 }}
+        OWWIKIUSER: ${{ secrets.OW_GH_TOKEN1 }}
+        OWWIKIPASSWORD: ${{ secrets.OW_GH_TOKEN2 }}
+        OWWIKIPROTO: https://
+        OWWIKIHOST: github.com
         OWWIKIPROJ: jmalak/open-watcom-v2-webdocs
     - name: Create docs subdirectory
       run: if not exist docs\* mkdir docs
@@ -154,5 +156,3 @@ jobs:
         git add -v -f .
         git commit -v -m "GitHub Workflow build"
         git push -v
-      env:
-        GIT_TRACE_SETUP: 2
