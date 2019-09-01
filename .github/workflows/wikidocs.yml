@@ -139,6 +139,7 @@ jobs:
         echo @echo off > %TEMP%\askpass.cmd
         echo type %TEMP%\passwd.txt >> %TEMP%\askpass.cmd
         type %TEMP%\askpass.cmd
+        type %TEMP%\passwd.txt
       env:
         SSH_PASSWORD: ${{ secrets.OW_GH_TOKEN2 }}
     - name: Load Wiki Repo
