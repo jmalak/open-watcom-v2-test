@@ -135,12 +135,12 @@ jobs:
         git config --system --unset credential.helper
     - name: Prepare askpass script
       run: |
-        echo echo %%SSH_PASSWORD%% > %TEMP%\askpass.cmd
-        type %TEMP%\askpass.cmd
+        echo echo "$SSH_PASSWORD" > %TEMP%\askpass.sh
+        type %TEMP%\askpass.sh
     - name: Load Wiki Repo
       run: |
-        set GIT_ASKPASS=cmd /c "%TEMP%\askpass.cmd"
-        set SSH_ASKPASS=cmd /c "%TEMP%\askpass.cmd"
+        set GIT_ASKPASS=%TEMP%\askpass.sh
+        set SSH_ASKPASS=%TEMP%\askpass.sh
         git clone --depth=1 --branch=master https://%OWGHUSER%@github.com/%OWWIKIPROJ%.git .
       env:
         OWGHUSER: ${{ secrets.OW_GH_TOKEN1 }}
@@ -161,8 +161,8 @@ jobs:
     - name: Update Wiki Repo
       run: |
         echo on
-        set GIT_ASKPASS=cmd /c "%TEMP%\askpass.cmd"
-        set SSH_ASKPASS=cmd /c "%TEMP%\askpass.cmd"
+        set GIT_ASKPASS=%TEMP%\askpass.sh
+        set SSH_ASKPASS=%TEMP%\askpass.sh
         git add %OWGITVERBOSE% -f .
         git commit %OWGITVERBOSE% -m "GitHub Workflow build"
         git config --list
