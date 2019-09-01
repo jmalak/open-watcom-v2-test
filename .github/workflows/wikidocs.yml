@@ -130,9 +130,6 @@ jobs:
       run: |
         git config --global user.email "openwatcomazure@gmail.com"
         git config --global user.name "Open Watcom Azure"
-    - name: "Remove git credential manager"
-      run: |
-        git config --system --unset credential.helper
     - name: Prepare askpass script
       run: |
         echo %SSH_PASSWORD% > %TEMP%\passwd.txt
@@ -149,6 +146,8 @@ jobs:
       env:
         OWGHUSER: ${{ secrets.OW_GH_TOKEN1 }}
         OWWIKIPROJ: jmalak/open-watcom-v2-webdocs
+        GIT_TERMINAL_PROMPT:    false
+        GCM_INTERACTIVE:        false
     - name: Create docs subdirectory
       run: if not exist docs\* mkdir docs
     - name: Load Html Documentation Artifact
@@ -175,3 +174,5 @@ jobs:
         GIT_TRACE:              2
         GIT_TRACE_SETUP:        2
         GIT_TRACE_PACK_ACCESS:  1
+        GIT_TERMINAL_PROMPT:    false
+        GCM_INTERACTIVE:        false
