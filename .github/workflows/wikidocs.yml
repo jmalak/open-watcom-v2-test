@@ -63,9 +63,9 @@ jobs:
           call %OWROOT%\cmnvars.bat
           REM build WIKI documentation
           cd %OWSRCDIR%
-          rem builder -i docs wikihtml .and wikihtml .or -- -- docset=wikihtml -i
-          echo test >%OWROOT%\docs\html\test.bmp
-          echo test >%OWROOT%\docs\html\test.htm
+          builder -i docs wikihtml .and wikihtml .or -- -- docset=wikihtml -i
+          rem echo test >%OWROOT%\docs\html\test.bmp
+          rem echo test >%OWROOT%\docs\html\test.htm
           cd %OWROOT%
           mkdir artifact
           copy docs\html\*.bmp artifact\
@@ -106,8 +106,8 @@ jobs:
           call %OWROOT%\cmnvars.bat
           REM build WIKI documentation
           cd %OWSRCDIR%
-          rem builder -i docs wikipdf .and wikipdf .or -- -- docset=wikipdf -i
-          echo test >%OWROOT%\docs\pdf\test.pdf
+          builder -i docs wikipdf .and wikipdf .or -- -- docset=wikipdf -i
+          rem echo test >%OWROOT%\docs\pdf\test.pdf
           cd %OWROOT%
           mkdir artifact
           copy docs\pdf\*.pdf artifact\
