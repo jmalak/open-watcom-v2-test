@@ -141,6 +141,7 @@ jobs:
         SSH_PASSWORD: ${{ secrets.OW_GH_TOKEN2 }}
     - name: Load Wiki Repo
       run: |
+        set GIT_ASKPASS=%TEMP%\askpass.cmd
         set SSH_ASKPASS=%TEMP%\askpass.cmd
         git clone --depth=1 --branch=master https://%OWGHUSER%@github.com/%OWWIKIPROJ%.git .
       env:
@@ -163,6 +164,7 @@ jobs:
     - name: Update Wiki Repo
       run: |
         echo on
+        set GIT_ASKPASS=%TEMP%\askpass.cmd
         set SSH_ASKPASS=%TEMP%\askpass.cmd
         git add %OWGITVERBOSE% -f .
         git commit %OWGITVERBOSE% -m "GitHub Workflow build"
