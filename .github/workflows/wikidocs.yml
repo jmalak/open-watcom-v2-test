@@ -54,6 +54,7 @@ jobs:
         path: build\binbuild
     - name: Build Wiki Documentation
       run: |
+          call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" amd64
           set OWROOT=%GITHUB_WORKSPACE%
           set OWCIBIN=%OWROOT%\ci\bin64
           set OWDOSBOXPATH=%OWCIBIN%
@@ -97,6 +98,7 @@ jobs:
         path: build\binbuild
     - name: Build Wiki Documentation
       run: |
+          call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" amd64
           set OWROOT=%GITHUB_WORKSPACE%
           set OWCIBIN=%OWROOT%\ci\bin64
           set OWDOSBOXPATH=%OWCIBIN%
