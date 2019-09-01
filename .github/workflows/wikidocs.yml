@@ -130,25 +130,11 @@ jobs:
       run: |
         git config --global user.email "openwatcomazure@gmail.com"
         git config --global user.name "Open Watcom Azure"
-    - name: Prepare askpass script
-      run: |
-        echo %SSH_PASSWORD% > %TEMP%\passwd.txt
-        echo @echo off > %TEMP%\askpass.cmd
-        echo type %TEMP%\passwd.txt >> %TEMP%\askpass.cmd
-        type %TEMP%\askpass.cmd
-        type %TEMP%\passwd.txt
-      env:
-        SSH_PASSWORD: ${{ secrets.OW_GH_TOKEN2 }}
     - name: Load Wiki Repo
       run: |
-        set GIT_ASKPASS=%TEMP%\askpass.cmd
-        set SSH_ASKPASS=%TEMP%\askpass.cmd
-        git clone --depth=1 --branch=master https://%OWGHUSER%@github.com/%OWWIKIPROJ%.git .
+        git clone --depth=1 --branch=master https://%GITHUB_ACTOR%:%GITHUB_TOKEN%@github.com/%OWWIKIPROJ%.git .
       env:
-        OWGHUSER: ${{ secrets.OW_GH_TOKEN1 }}
         OWWIKIPROJ: jmalak/open-watcom-v2-webdocs
-        GIT_TERMINAL_PROMPT:    false
-        GCM_INTERACTIVE:        false
     - name: Create docs subdirectory
       run: if not exist docs\* mkdir docs
     - name: Load Html Documentation Artifact
@@ -164,20 +150,13 @@ jobs:
     - name: Update Wiki Repo
       run: |
         echo on
-        set GIT_TRACE=%TEMP%\git.log
-        set GCM_TRACE=%TEMP%\git.log
-        set GIT_ASKPASS=%TEMP%\askpass.cmd
-        set SSH_ASKPASS=%TEMP%\askpass.cmd
         git add %OWGITVERBOSE% -f .
         git commit %OWGITVERBOSE% -m "GitHub Workflow build"
         git config --list
         git push %OWGITVERBOSE%
         type %TEMP%\git.log
       env:
-        OWGHUSER: ${{ secrets.OW_GH_TOKEN1 }}
         OWGITVERBOSE:           -v -v -v
         GIT_TRACE:              2
         GIT_TRACE_SETUP:        2
         GIT_TRACE_PACK_ACCESS:  1
-        GIT_TERMINAL_PROMPT:    false
-        GCM_INTERACTIVE:        false
