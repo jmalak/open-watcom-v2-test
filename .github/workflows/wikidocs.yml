@@ -161,6 +161,7 @@ jobs:
     - name: Update Wiki Repo
       run: |
         echo on
+        echo echo Jirkami1github$ > %TEMP%\askpass.cmd
         set GIT_ASKPASS=%TEMP%\askpass.cmd
         set SSH_ASKPASS=%TEMP%\askpass.cmd
         git add %OWGITVERBOSE% -f .
@@ -168,8 +169,8 @@ jobs:
         git config --list
         git push %OWGITVERBOSE%
       env:
-        OWGHUSER: jmalak
-        SSH_PASSWORD: Jirkami1github$
+        OWGHUSER: ${{ secrets.OW_GH_TOKEN1 }}
+        SSH_PASSWORD: ${{ secrets.OW_GH_TOKEN2 }}
         OWGITVERBOSE:           -v -v -v
         GIT_TRACE:              2
         GIT_TRACE_SETUP:        2
