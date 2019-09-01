@@ -164,15 +164,15 @@ jobs:
     - name: Update Wiki Repo
       run: |
         echo on
-        set GIT_TRACE %UserProfile%\git.log
-        set GCM_TRACE %UserProfile%\git.log
+        set GIT_TRACE %TEMP%\git.log
+        set GCM_TRACE %TEMP%\git.log
         set GIT_ASKPASS=%TEMP%\askpass.cmd
         set SSH_ASKPASS=%TEMP%\askpass.cmd
         git add %OWGITVERBOSE% -f .
         git commit %OWGITVERBOSE% -m "GitHub Workflow build"
         git config --list
         git push %OWGITVERBOSE%
-        type %UserProfile%\git.log
+        type %TEMP%\git.log
       env:
         OWGHUSER: ${{ secrets.OW_GH_TOKEN1 }}
         OWGITVERBOSE:           -v -v -v
