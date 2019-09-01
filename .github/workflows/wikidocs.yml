@@ -135,17 +135,18 @@ jobs:
         git config --system --unset credential.helper
     - name: Prepare askpass script
       run: |
-        echo echo off > %TEMP%\askpass.cmd
-        echo echo %%SSH_PASSWORD%% >> %TEMP%\askpass.cmd
+        echo %SSH_PASSWORD% > %TEMP%\passwd.txt
+        echo @echo off > %TEMP%\askpass.cmd
+        echo type %TEMP%\passwd.txt >> %TEMP%\askpass.cmd
         type %TEMP%\askpass.cmd
+      env:
+        SSH_PASSWORD: ${{ secrets.OW_GH_TOKEN2 }}
     - name: Load Wiki Repo
       run: |
-        set GIT_ASKPASS=%TEMP%\askpass.cmd
         set SSH_ASKPASS=%TEMP%\askpass.cmd
         git clone --depth=1 --branch=master https://%OWGHUSER%@github.com/%OWWIKIPROJ%.git .
       env:
         OWGHUSER: ${{ secrets.OW_GH_TOKEN1 }}
-        SSH_PASSWORD: ${{ secrets.OW_GH_TOKEN2 }}
         OWWIKIPROJ: jmalak/open-watcom-v2-webdocs
     - name: Create docs subdirectory
       run: if not exist docs\* mkdir docs
@@ -162,7 +163,6 @@ jobs:
     - name: Update Wiki Repo
       run: |
         echo on
-        set GIT_ASKPASS=%TEMP%\askpass.cmd
         set SSH_ASKPASS=%TEMP%\askpass.cmd
         git add %OWGITVERBOSE% -f .
         git commit %OWGITVERBOSE% -m "GitHub Workflow build"
@@ -170,7 +170,6 @@ jobs:
         git push %OWGITVERBOSE%
       env:
         OWGHUSER: ${{ secrets.OW_GH_TOKEN1 }}
-        SSH_PASSWORD: ${{ secrets.OW_GH_TOKEN2 }}
         OWGITVERBOSE:           -v -v -v
         GIT_TRACE:              2
         GIT_TRACE_SETUP:        2
