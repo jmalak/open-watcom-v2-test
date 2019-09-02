@@ -135,10 +135,9 @@ jobs:
         git config --global user.name "Open Watcom Azure"
     - name: Load Wiki Repo
       run: |
-        git clone -v --depth=1 --branch=master %OWWIKIPROTO%%OWWIKIUSER%:%OWWIKIPASSWORD%@%OWWIKIHOST%/%OWWIKIPROJ%.git .
+        git clone -v --depth=1 --branch=master %OWWIKIPROTO%%OWGHTOKEN%@%OWWIKIHOST%/%OWWIKIPROJ%.git .
       env:
-        OWWIKIUSER: ${{ secrets.OW_GH_TOKEN1 }}
-        OWWIKIPASSWORD: ${{ secrets.OW_GH_TOKEN2 }}
+        OWGHTOKEN: ${{ secrets.OWGHTOKEN }}
         OWWIKIPROTO: https://
         OWWIKIHOST: github.com
         OWWIKIPROJ: jmalak/open-watcom-v2-webdocs
