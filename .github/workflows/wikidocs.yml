@@ -7,7 +7,7 @@ jobs:
     name: Build Tools
     runs-on: windows-latest
     steps:
-    - name: GitHub Repo clone
+    - name: OW Repo clone
       uses: actions/checkout@v1
     - name: Build Bootstrap Tools
       run: |
@@ -45,7 +45,7 @@ jobs:
     needs: boot
     runs-on: windows-latest
     steps:
-    - name: GitHub Repo clone
+    - name: OW Repo clone
       uses: actions/checkout@v1
     - name: Create Build Tools subdirectory
       run: mkdir build\binbuild
@@ -88,7 +88,7 @@ jobs:
     needs: boot
     runs-on: windows-latest
     steps:
-    - name: GitHub Repo clone
+    - name: OW Repo clone
       uses: actions/checkout@v1
     - name: Create Build Tools subdirectory
       run: mkdir build\binbuild
@@ -133,7 +133,7 @@ jobs:
       run: |
         git config --global user.email "openwatcomazure@gmail.com"
         git config --global user.name "Open Watcom Azure"
-    - name: Load Wiki Repo
+    - name: Wiki Repo clone
       run: |
         git clone -v --depth=1 --branch=master %OWWIKIPROTO%%OWGHTOKEN%@%OWWIKIHOST%/%OWWIKIPROJ%.git .
       env:
@@ -161,7 +161,7 @@ jobs:
       run: |
         del /F /Q artifact\*.*
         rmdir artifact
-    - name: Update Wiki Repo
+    - name: Wiki Repo Update
       run: |
         git add -v -f .
         git commit -v -m "GitHub Workflow build"
