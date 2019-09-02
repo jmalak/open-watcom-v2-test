@@ -26,3 +26,5 @@ jobs:
         OWSFPROTO:    ssh://
         OWSFHOST:     git.code.sf.net
         OWSFREPO:     openwatcom/open-watcom-v2-test-jm
+        DISPLAY:         :0
+        GIT_SSH_COMMAND: "setsid ssh"
