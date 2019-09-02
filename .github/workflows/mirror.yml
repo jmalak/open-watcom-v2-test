@@ -17,6 +17,8 @@ jobs:
         chmod +x $HOME/askpass.sh
     - name: Mirror to SourceForge
       run: |
+          mkdir ~/.ssh
+          ssh-keyscan $OWSFHOST > ~/.ssh/known_hosts
           export SSH_ASKPASS=$HOME/askpass.sh
           git remote set-url --push origin $OWSFPROTO$OWSFUSER@$OWSFHOST/p/$OWSFREPO
           git push -v
