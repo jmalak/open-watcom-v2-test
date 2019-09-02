@@ -20,8 +20,8 @@ jobs:
           mkdir ~/.ssh
           ssh-keyscan $OWSFHOST > ~/.ssh/known_hosts
           export SSH_ASKPASS=$HOME/askpass.sh
-          git remote set-url --push origin $OWSFPROTO$OWSFUSER@$OWSFHOST/p/$OWSFREPO
-          git push -v
+          #git remote set-url --push origin $OWSFPROTO$OWSFUSER@$OWSFHOST/p/$OWSFREPO
+          git push -v $OWSFPROTO$OWSFUSER:$SSH_PASSWORD@$OWSFHOST/p/$OWSFREPO
       env:
         SSH_PASSWORD: ${{ secrets.OW_SF_TOKEN2 }}
         OWSFUSER:     ${{ secrets.OW_SF_TOKEN1 }}
