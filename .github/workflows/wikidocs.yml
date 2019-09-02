@@ -64,7 +64,7 @@ jobs:
           set OWWIN95HC=%OWCIBIN%\hcrtf.exe
           set OWHHC=%OWCIBIN%\hhc.exe
           call %OWROOT%\cmnvars.bat
-          REM build WIKI documentation
+          REM Build Wiki Documentation
           cd %OWSRCDIR%
           builder -i docs wikihtml .and wikihtml .or -- -- docset=wikihtml -i
           cd %OWROOT%
@@ -107,7 +107,7 @@ jobs:
           set OWWIN95HC=%OWCIBIN%\hcrtf.exe
           set OWHHC=%OWCIBIN%\hhc.exe
           call %OWROOT%\cmnvars.bat
-          REM build WIKI documentation
+          REM Build Wiki Documentation
           cd %OWSRCDIR%
           builder -i docs wikipdf .and wikipdf .or -- -- docset=wikipdf -i
           cd %OWROOT%
